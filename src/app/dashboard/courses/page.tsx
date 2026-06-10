@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
@@ -98,9 +98,9 @@ export default function DashboardCoursesPage() {
                     <h3 className="font-bold text-slate-900">{course.title}</h3>
                     <p className="text-sm text-slate-500 mt-1 line-clamp-1">{course.description}</p>
                   </div>
-                  <Button variant="outline" size="sm" asChild>
-                    <Link href={`/dashboard/courses/${course.id}`}>Manage Modules</Link>
-                  </Button>
+                  <Link href={`/dashboard/courses/${course.id}`} className={buttonVariants({ variant: "outline", size: "sm" })}>
+                    Manage Modules
+                  </Link>
                 </div>
               ))
             )}
