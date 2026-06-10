@@ -26,7 +26,7 @@ const formSchema = z.object({
   phone: z.string().min(10, "Required"),
   email: z.string().email("Valid email required"),
   programType: z.string().min(1, "Required"),
-  subjects: z.array(z.string()).default([]),
+  subjects: z.array(z.string()),
   // Files are normally handled via FormData and Supabase Storage
   birthCertificate: z.any().optional(),
   studentPhoto: z.any().optional(),

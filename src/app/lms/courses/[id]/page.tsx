@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { PlayCircle, FileText, CheckCircle2, Lock, ChevronDown, Loader2 } from "lucide-react"
+import { PlayCircle, FileText, CheckCircle2, Lock, ChevronDown, Loader2, BookOpen } from "lucide-react"
 
 export default function LMSCoursePage({ params }: { params: { id: string } }) {
   const supabase = createClient()
