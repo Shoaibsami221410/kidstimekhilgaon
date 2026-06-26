@@ -25,9 +25,12 @@ export default function Home() {
   return (
     <div className="flex flex-col w-full">
       {/* Hero Section */}
-      <section className="relative w-full min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-orange-50">
-        <div className="absolute inset-0 z-0 opacity-30 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-orange-200 via-transparent to-transparent" />
-        <div className="container relative z-10 mx-auto px-4 md:px-6 flex flex-col items-center text-center">
+      <section className="relative w-full min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-yellow-300 via-orange-200 to-rose-300">
+        <div className="absolute inset-0 z-0 opacity-50 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white via-transparent to-transparent" />
+        <div className="absolute -top-20 -left-20 w-64 h-64 bg-sky-400 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob" />
+        <div className="absolute top-40 -right-20 w-72 h-72 bg-yellow-400 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000" />
+        <div className="absolute -bottom-32 left-1/2 w-80 h-80 bg-rose-400 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-4000" />
+        <div className="container relative z-10 mx-auto px-4 md:px-6 flex flex-col items-center text-center mt-10">
           <motion.div
             initial="hidden"
             animate="visible"
