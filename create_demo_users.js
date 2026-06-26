@@ -8,7 +8,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 async function createUsers() {
   console.log('Creating Admin Account...');
   const { data: adminData, error: adminErr } = await supabase.auth.signUp({
-    email: 'admin@kidstime.com',
+    email: 'admin2@kidstime.com',
     password: 'Admin@123',
     options: { data: { role: 'admin', first_name: 'Super', last_name: 'Admin' } }
   });
@@ -21,7 +21,7 @@ async function createUsers() {
 
   console.log('Creating Parent Account...');
   const { data: parentData, error: parentErr } = await supabase.auth.signUp({
-    email: 'parent@kidstime.com',
+    email: 'parent2@kidstime.com',
     password: 'Parent@123',
     options: { data: { role: 'parent', first_name: 'Demo', last_name: 'Parent' } }
   });
