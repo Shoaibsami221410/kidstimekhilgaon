@@ -114,14 +114,7 @@ export function Navbar() {
         </nav>
         
         <div className="flex items-center gap-2 sm:gap-4">
-          <Link href="/demo-classes" className="hidden lg:block">
-            <Button variant="outline">Demo Classes</Button>
-          </Link>
 
-          {/* Enroll Now button is ALWAYS visible, even when logged in */}
-          <Link href="/admissions" className="hidden sm:block">
-            <Button className="bg-orange-500 hover:bg-orange-600 text-white">Enroll Now</Button>
-          </Link>
 
           {user ? (
             <>
@@ -229,12 +222,7 @@ export function Navbar() {
                   ))}
                   
                   <div className="flex flex-col gap-4 mt-6 border-t pt-6">
-                    <Link href="/admissions" className="w-full">
-                      <Button className="w-full bg-orange-500 hover:bg-orange-600 text-white justify-start">Enroll Now</Button>
-                    </Link>
-                    <Link href="/demo-classes" className="w-full">
-                      <Button variant="outline" className="w-full justify-start">Demo Classes</Button>
-                    </Link>
+
                     
                     {user ? (
                       <Button onClick={handleLogout} variant="outline" className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50 mt-4">

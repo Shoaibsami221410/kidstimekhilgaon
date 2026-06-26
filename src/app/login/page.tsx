@@ -97,13 +97,17 @@ export default function LoginPage() {
             </Button>
           </form>
         </CardContent>
-        <CardFooter className="flex flex-col border-t p-6">
-          <p className="text-sm text-slate-500 text-center w-full mt-4">
-            Don't have an account?{' '}
-            <Link href="/signup" className="text-orange-600 font-semibold hover:text-orange-500">
-              Sign up
-            </Link>
-          </p>
+        <CardFooter className="flex flex-col border-t p-6 bg-slate-50/50 rounded-b-xl">
+          <div className="text-sm text-slate-600 text-center space-y-2">
+            <p className="font-medium text-slate-900">Only enrolled parents can log in.</p>
+            <p>
+              To get access to the dashboard, please{' '}
+              <Link href="/programs" className="text-orange-600 font-semibold hover:text-orange-500 underline underline-offset-2">
+                book a Free Demo Class
+              </Link>
+              {' '}or enroll your child in a program first.
+            </p>
+          </div>
         </CardFooter>
       </Card>
     </div>
