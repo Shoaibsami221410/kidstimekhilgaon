@@ -58,13 +58,8 @@ export default function Home() {
             variants={fadeInUp}
             className="flex flex-col sm:flex-row gap-4 w-full justify-center"
           >
-            <Link href="/admissions">
-              <Button size="lg" className="w-full sm:w-auto h-14 px-8 text-lg bg-orange-500 hover:bg-orange-600 rounded-full shadow-lg shadow-orange-500/30">
-                Enroll Your Child <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-            </Link>
-            <Link href="/demo-classes">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto h-14 px-8 text-lg rounded-full border-2">
+            <Link href="/programs">
+              <Button size="lg" className="w-full sm:w-auto h-14 px-8 text-lg bg-orange-500 hover:bg-orange-600 rounded-full shadow-lg shadow-orange-500/30 text-white border-0">
                 Watch Demo Classes
               </Button>
             </Link>
