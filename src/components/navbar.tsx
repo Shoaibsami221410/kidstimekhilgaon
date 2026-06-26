@@ -163,10 +163,9 @@ export function Navbar() {
               </div>
             </>
           ) : (
-            <Link href="/login" className="hidden sm:block">
-              <Button variant="ghost" className="flex items-center gap-2">
-                <UserIcon className="w-4 h-4" />
-                Log in
+            <Link href="/programs" className="hidden sm:block">
+              <Button variant="outline" className="flex items-center gap-2 border-orange-200 text-orange-600 hover:bg-orange-50">
+                Trial Class
               </Button>
             </Link>
           )}
@@ -229,9 +228,9 @@ export function Navbar() {
                         <LogOut className="w-4 h-4 mr-2" /> Log out
                       </Button>
                     ) : (
-                      <Link href="/login" className="w-full">
-                        <Button variant="outline" className="w-full justify-start flex items-center gap-2">
-                          <UserIcon className="w-4 h-4" /> Log in
+                      <Link href="/programs" className="w-full">
+                        <Button variant="outline" className="w-full justify-start border-orange-200 text-orange-600 hover:bg-orange-50">
+                          Trial Class
                         </Button>
                       </Link>
                     )}
