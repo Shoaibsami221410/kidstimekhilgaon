@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Nunito, Fredoka } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 
-const inter = Inter({
+const nunito = Nunito({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-nunito",
+});
+
+const fredoka = Fredoka({
+  subsets: ["latin"],
+  variable: "--font-fredoka",
 });
 
 export const metadata: Metadata = {
@@ -20,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} font-sans h-full antialiased`}>
+    <html lang="en" className={`${nunito.variable} ${fredoka.variable} font-sans h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <Navbar />
         <main className="flex-1">
