@@ -1,13 +1,18 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-// We need the service role key to bypass RLS, or anon key if RLS is not enabled on these tables
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!; // using anon key since RLS isn't fully locked down on courses yet
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
   try {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    
+    if (!supabaseUrl || !supabaseKey) {
+      throw new Error("Supabase environment variables are missing");
+    }
+    
+    const supabase = createClient(supabaseUrl, supabaseKey);
     const demoCourses = [
       { id: 'c1111111-1111-1111-1111-111111111111', title: 'Art & Craft Masterclass', description: 'Unleash your child\'s creativity with hands-on art and craft sessions. Learn origami, painting, and sculpting.', thumbnail_url: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=800&auto=format&fit=crop' },
       { id: 'c2222222-2222-2222-2222-222222222222', title: 'Spoken English for Kids', description: 'Build confidence and fluency in English through fun interactive storytelling, debates, and group discussions.', thumbnail_url: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=800&auto=format&fit=crop' },
