@@ -5,20 +5,10 @@ import { motion } from "framer-motion"
 import Link from "next/link"
 import { Play, Users } from "lucide-react"
 
-export function HomeClient({ content }: { content: any }) {
+export function HomeClient({ content, courses }: { content: any, courses?: any[] }) {
   const fadeInUp = {
     hidden: { opacity: 0, y: 40 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } }
-  }
-
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
   }
 
   // Safely extract content with deep fallbacks so it never renders blank
@@ -49,26 +39,14 @@ export function HomeClient({ content }: { content: any }) {
     subtitle: 'Our Services',
     title: 'Kids Time After-School Program',
     description: 'We offer amazing courses in our after-school program, including Crafting, Drawing, Singapore Math, and Spoken English. Your child can join these courses online from anywhere in the country or abroad, right from home. Additionally, these courses are available at our Dhanmondi and Khilgaon centers.',
-    items: [
-      {
-        title: 'Drawing Course',
-        desc: 'Best Drawing Course for 5-12 Years Old Childrens',
-        image_url: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=1000&auto=format&fit=crop'
-      },
-      {
-        title: 'Singapore Math Course',
-        desc: 'World\'s Best Math Course for 5-8 Years Old Bangladesh Childrens',
-        image_url: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1000&auto=format&fit=crop'
-      },
-      {
-        title: 'Spoken English Course',
-        desc: 'International Spoken English Course for 5-8 Years Old Childrens',
-        image_url: 'https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=1000&auto=format&fit=crop'
-      }
-    ],
+    items: [],
     explore_btn_text: 'Explore Courses',
     explore_btn_link: '/programs'
   }
+  
+  // Use courses from DB if available, fallback to content items
+  const displayCourses = courses && courses.length > 0 ? courses : servicesAfterSchool.items;
+
   const community = content.find((c: any) => c.id === 'home_community')?.content || {
     title: 'Kids Time Parent Community',
     description: 'Parents are regularly sharing their thoughts, child\'s activity, their creative task etc. in the Facebook community group.',
@@ -219,10 +197,15 @@ export function HomeClient({ content }: { content: any }) {
           </div>
           
           <motion.div 
-            initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer}
+            initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto gap-8 mb-12"
           >
-            {servicesAfterSchool.items?.map((course: any, i: number) => (
+            {displayCourses?.map((course: any, i: number) => {
+              const cTitle = course.title || "";
+              const cDesc = course.desc || course.description || "";
+              const cImage = course.image_url || course.thumbnail_url || "";
+              
+              return (
               <motion.div key={i} variants={fadeInUp} className="flex flex-col items-center text-center bg-white border rounded-3xl p-6 shadow-sm hover:shadow-xl transition-shadow duration-300">
                 {/* Blob Image Mask */}
                 <div 
@@ -230,16 +213,16 @@ export function HomeClient({ content }: { content: any }) {
                   style={{ borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%' }}
                 >
                   <div className="absolute inset-0 bg-orange-500 opacity-90 mix-blend-multiply" />
-                  <img src={course.image_url} alt={course.title} className="w-full h-full object-cover" />
+                  {cImage && <img src={cImage} alt={cTitle} className="w-full h-full object-cover" />}
                 </div>
                 
                 <h3 className="text-xl font-bold mb-3 text-slate-900">
-                  {course.title.replace('Course', '')} <span className="text-red-500">Course</span>
+                  {cTitle.replace('Course', '')} <span className="text-red-500">Course</span>
                 </h3>
-                <p className="text-slate-500 font-medium text-sm leading-relaxed mb-4">{course.desc}</p>
-                <div className="w-12 h-1 bg-sky-500 rounded-full mx-auto" />
+                <p className="text-slate-500 font-medium text-sm leading-relaxed mb-4 line-clamp-3">{cDesc}</p>
+                <div className="w-12 h-1 bg-sky-500 rounded-full mx-auto mt-auto" />
               </motion.div>
-            ))}
+            )})}
           </motion.div>
 
           {servicesAfterSchool.explore_btn_text && (

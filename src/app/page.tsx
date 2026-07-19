@@ -13,5 +13,11 @@ export default async function Home() {
     .select("*")
     .eq("page", "home")
 
-  return <HomeClient content={content || []} />
+  // Fetch real courses from the DB
+  const { data: courses } = await supabase
+    .from("courses")
+    .select("*")
+    .limit(3) // Fetch top 3 courses for the home page
+
+  return <HomeClient content={content || []} courses={courses || []} />
 }
