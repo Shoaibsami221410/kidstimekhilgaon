@@ -20,6 +20,7 @@ export function DashboardSidebar() {
     { href: "/dashboard/events", icon: Calendar, label: "Events" },
     { href: "/dashboard/gallery", icon: ImageIcon, label: "Gallery" },
     { href: "/dashboard/finance", icon: CreditCard, label: "Finance" },
+    { href: "/dashboard/content", icon: LayoutDashboard, label: "Website Content" },
   ]
 
   return (

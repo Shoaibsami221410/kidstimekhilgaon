@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Kids Time Preschool ERP - Architecture</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; max-width: 1000px; margin: 0 auto; padding: 40px; color: #333; }
+    h1 { color: #1a56db; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; }
+    h2 { color: #1f2937; margin-top: 30px; border-bottom: 1px solid #e5e7eb; padding-bottom: 5px; }
+    h3 { color: #374151; margin-top: 20px; }
+    p, ul { margin-bottom: 15px; }
+    li { margin-bottom: 5px; }
+    .mermaid { display: flex; justify-content: center; margin: 20px 0; background-color: #f9fafb; padding: 20px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>Kids Time Preschool ERP - Architecture Overview</h1>
+  <p>This document outlines the high-level architecture, technology stack, and database schema for the Kids Time Preschool ERP application.</p>
+
+  <h2>1. High-Level System Architecture</h2>
+  <p>The application follows a modern serverless architecture utilizing Next.js for the frontend and backend API layers, heavily integrated with Supabase for authentication and database services.</p>
+
+  <div class="mermaid">
+graph TD
+    PublicUser([Public User])
+    ParentUser([Parent])
+    StaffUser([Admin / Teacher])
+    StudentUser([Student])
+
+    subgraph "Next.js Application"
+        UI[Frontend UI Components]
+        
+        subgraph "App Router"
+            PublicRoutes[Public Site<br/>/about, /admissions]
+            ParentApp[Parent Portal<br/>/parent]
+            AdminApp[ERP Dashboard<br/>/dashboard]
+            LMSApp[LMS Portal<br/>/lms]
+        end
+        
+        ServerComponents[React Server Components]
+        Middleware[Auth Middleware]
+    end
+
+    subgraph "Supabase Backend (BaaS)"
+        Auth[Supabase Auth]
+        Postgres[(PostgreSQL Database)]
+        Storage[Supabase Storage]
+    end
+
+    PublicUser --> PublicRoutes
+    ParentUser --> ParentApp
+    StaffUser --> AdminApp
+    StudentUser --> LMSApp
+
+    PublicRoutes --> UI
+    ParentApp --> UI
+    AdminApp --> UI
+    LMSApp --> UI
+
+    PublicRoutes --> Middleware
+    ParentApp --> Middleware
+    AdminApp --> Middleware
+    LMSApp --> Middleware
+
+    Middleware <--> Auth
+    ServerComponents <--> Postgres
+    ServerComponents <--> Storage
+  </div>
+
+  <h2>2. Technology Stack</h2>
+  <ul>
+    <li><strong>Framework:</strong> Next.js 16 (App Router)</li>
+    <li><strong>Language:</strong> TypeScript</li>
+    <li><strong>UI/Styling:</strong> Tailwind CSS v4, Shadcn UI (Radix UI), Framer Motion</li>
+    <li><strong>State Management:</strong> Zustand, React Hook Form (with Zod)</li>
+    <li><strong>Backend/Database:</strong> Supabase (PostgreSQL)</li>
+    <li><strong>Authentication:</strong> @supabase/ssr for secure Server-Side Rendering integration</li>
+  </ul>
+
+  <h2>3. Database Entity-Relationship Diagram</h2>
+
+  <div class="mermaid">
+erDiagram
+    USERS ||--o| PARENTS : "is a"
+    USERS ||--o| TEACHERS : "is a"
+    USERS ||--o{ STUDENTS : "logs in as"
+    PARENTS ||--o{ STUDENTS : "manages"
+    
+    STUDENTS ||--o{ ENROLLMENTS : "has"
+    COURSES ||--o{ ENROLLMENTS : "has"
+    
+    COURSES ||--o{ MODULES : "contains"
+    MODULES ||--o{ LESSONS : "contains"
+    
+    STUDENTS ||--o{ ATTENDANCE : "recorded in"
+    TEACHERS ||--o{ ATTENDANCE : "records"
+    
+    STUDENTS ||--o{ INVOICES : "billed for"
+    INVOICES ||--o{ PAYMENTS : "paid via"
+    
+    COURSES ||--o{ ASSIGNMENTS : "has"
+    STUDENTS ||--o{ SUBMISSIONS : "makes"
+    ASSIGNMENTS ||--o{ SUBMISSIONS : "receives"
+  </div>
+
+  <h2>4. Application Domains</h2>
+  
+  <h3>4.1. Core Access & Identity</h3>
+  <p>Managed via <strong>Supabase Auth</strong>. Users are assigned roles (super_admin, admin, teacher, parent, student) upon registration.</p>
+
+  <h3>4.2. Academics & LMS</h3>
+  <p>A robust system for course delivery. Teachers create Courses, divided into Modules and Lessons. Students interact with this via the /lms routes.</p>
+
+  <h3>4.3. Administration & Finance</h3>
+  <ul>
+    <li><strong>Admissions:</strong> Digital forms mapped to the admissions table.</li>
+    <li><strong>Finance:</strong> Automated fee tracking through invoices and payments.</li>
+    <li><strong>Attendance:</strong> Daily logging by teachers mapped to individual students.</li>
+  </ul>
+
+  <h3>4.4. Communications</h3>
+  <ul>
+    <li><strong>Events & RSVPs:</strong> School-wide event scheduling.</li>
+    <li><strong>Messaging:</strong> Direct internal messaging between parents and staff.</li>
+    <li><strong>Marketing:</strong> Prospective parents can view "Demo Classes".</li>
+  </ul>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true });
+    // Tell Edge that the page is done loading so it can print
+    setTimeout(() => {
+        const span = document.createElement("span");
+        span.id = "done-rendering";
+        document.body.appendChild(span);
+    }, 2000);
+  </script>
+</body>
+</html>
