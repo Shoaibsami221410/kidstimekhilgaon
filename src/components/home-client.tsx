@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
 import Link from "next/link"
-import { Play } from "lucide-react"
+import { Play, Users } from "lucide-react"
 
 export function HomeClient({ content }: { content: any }) {
   const fadeInUp = {
