@@ -21,12 +21,66 @@ export function HomeClient({ content }: { content: any }) {
     }
   }
 
-  // Safely extract content with fallbacks
-  const hero = content.find((c: any) => c.id === 'home_hero')?.content || {}
-  const about = content.find((c: any) => c.id === 'home_about')?.content || {}
-  const servicesMontessori = content.find((c: any) => c.id === 'home_services_montessori')?.content || {}
-  const servicesAfterSchool = content.find((c: any) => c.id === 'home_services_afterschool')?.content || {}
-  const community = content.find((c: any) => c.id === 'home_community')?.content || {}
+  // Safely extract content with deep fallbacks so it never renders blank
+  const hero = content.find((c: any) => c.id === 'home_hero')?.content || {
+    title_black: "Nurturing Children's Creativity & Creating",
+    title_gradient: "Future Leaders",
+    button_text: "Learn More",
+    button_link: "/programs"
+  }
+  const about = content.find((c: any) => c.id === 'home_about')?.content || {
+    subtitle: 'Our Story',
+    title: 'About Kids Time',
+    description: 'Kids Time, launched in 2017 by Light of Hope Ltd., aims to boost children\'s creativity and prepare them as future leaders through engaging courses. We offer an after-school program that includes Crafting, Drawing, Spoken English, and Singapore Math. Additionally, we have a pre-school program titled Kids Time Montessori School. With over 4000 graduates, Kids Time focuses on nurturing young minds and fostering their creativity and leadership skills.',
+    video_url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    thumbnail_url: 'https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=2040&auto=format&fit=crop'
+  }
+  const servicesMontessori = content.find((c: any) => c.id === 'home_services_montessori')?.content || {
+    subtitle: 'Our Services',
+    title: 'Kids Time Montessori Pre-School',
+    description: 'At Kids Time, we believe in nurturing young minds and fostering creativity and leadership among children. Kids Time is pioneering the Montessori method in Bangladesh\'s pre-school with its first campus in Dhanmondi. Our Montessori-inspired curriculum is designed to spark curiosity, ignite creativity, and empower children to become confident, independent learners.',
+    btn1_text: 'Learn More',
+    btn1_link: '/montessori',
+    btn2_text: 'WhatsApp',
+    btn2_link: 'https://wa.me/123456789',
+    image_url: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2020&auto=format&fit=crop'
+  }
+  const servicesAfterSchool = content.find((c: any) => c.id === 'home_services_afterschool')?.content || {
+    subtitle: 'Our Services',
+    title: 'Kids Time After-School Program',
+    description: 'We offer amazing courses in our after-school program, including Crafting, Drawing, Singapore Math, and Spoken English. Your child can join these courses online from anywhere in the country or abroad, right from home. Additionally, these courses are available at our Dhanmondi and Khilgaon centers.',
+    items: [
+      {
+        title: 'Drawing Course',
+        desc: 'Best Drawing Course for 5-12 Years Old Childrens',
+        image_url: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=1000&auto=format&fit=crop'
+      },
+      {
+        title: 'Singapore Math Course',
+        desc: 'World\'s Best Math Course for 5-8 Years Old Bangladesh Childrens',
+        image_url: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1000&auto=format&fit=crop'
+      },
+      {
+        title: 'Spoken English Course',
+        desc: 'International Spoken English Course for 5-8 Years Old Childrens',
+        image_url: 'https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=1000&auto=format&fit=crop'
+      }
+    ],
+    explore_btn_text: 'Explore Courses',
+    explore_btn_link: '/programs'
+  }
+  const community = content.find((c: any) => c.id === 'home_community')?.content || {
+    title: 'Kids Time Parent Community',
+    description: 'Parents are regularly sharing their thoughts, child\'s activity, their creative task etc. in the Facebook community group.',
+    btn_text: 'Explore',
+    btn_link: 'https://facebook.com/groups/kidstime',
+    testimonial: {
+      text: 'Kids Time কে অনেক ধন্যবাদ অনলাইন ক্লাসের এই উদ্যোগের জন্য। ক্লাসগুলো করার পর থেকে ফারহানের ইলেক্ট্রিক ডিভাইসের প্রতি আগ্রহ একদমই নেই! ফারহান এখন প্রতি সপ্তাহে অপেক্ষা করে Kids Time এর ক্লাসগুলোর জন্য!',
+      author: 'Kazi Iffat Ara',
+      role: 'Parent',
+      avatar_url: 'https://ui-avatars.com/api/?name=Kazi+Iffat+Ara&background=random'
+    }
+  }
 
   // Hero Background (fallback if no image provided)
   const heroBg = hero.image_url || 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2020&auto=format&fit=crop'
