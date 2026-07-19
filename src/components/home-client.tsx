@@ -212,7 +212,6 @@ export function HomeClient({ content, courses }: { content: any, courses?: any[]
                   className="w-full aspect-[4/3] mb-6 overflow-hidden relative"
                   style={{ borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%' }}
                 >
-                  <div className="absolute inset-0 bg-orange-500 opacity-90 mix-blend-multiply" />
                   {cImage && <img src={cImage} alt={cTitle} className="w-full h-full object-cover" />}
                 </div>
                 
