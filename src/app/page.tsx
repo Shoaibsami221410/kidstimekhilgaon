@@ -17,7 +17,7 @@ export default async function Home() {
   const { data: courses } = await supabase
     .from("courses")
     .select("*")
-    .limit(3) // Fetch top 3 courses for the home page
+    .order('created_at', { ascending: false })
 
   return <HomeClient content={content || []} courses={courses || []} />
 }

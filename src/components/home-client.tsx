@@ -196,33 +196,36 @@ export function HomeClient({ content, courses }: { content: any, courses?: any[]
             </p>
           </div>
           
-          <motion.div 
-            initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto gap-8 mb-12"
-          >
-            {displayCourses?.map((course: any, i: number) => {
-              const cTitle = course.title || "";
-              const cDesc = course.desc || course.description || "";
-              const cImage = course.image_url || course.thumbnail_url || "";
-              
-              return (
-              <motion.div key={i} variants={fadeInUp} className="flex flex-col items-center text-center bg-white border rounded-3xl p-6 shadow-sm hover:shadow-xl transition-shadow duration-300">
-                {/* Blob Image Mask */}
-                <div 
-                  className="w-full aspect-[4/3] mb-6 overflow-hidden relative"
-                  style={{ borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%' }}
-                >
-                  {cImage && <img src={cImage} alt={cTitle} className="w-full h-full object-cover" />}
-                </div>
+          <div className="w-full relative">
+            <motion.div 
+              initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }}
+              className="flex overflow-x-auto snap-x snap-mandatory gap-8 pb-8 pt-4 px-4 w-full"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            >
+              {displayCourses?.map((course: any, i: number) => {
+                const cTitle = course.title || "";
+                const cDesc = course.desc || course.description || "";
+                const cImage = course.image_url || course.thumbnail_url || "";
                 
-                <h3 className="text-xl font-bold mb-3 text-slate-900">
-                  {cTitle.replace('Course', '')} <span className="text-red-500">Course</span>
-                </h3>
-                <p className="text-slate-500 font-medium text-sm leading-relaxed mb-4 line-clamp-3">{cDesc}</p>
-                <div className="w-12 h-1 bg-sky-500 rounded-full mx-auto mt-auto" />
-              </motion.div>
-            )})}
-          </motion.div>
+                return (
+                <motion.div key={i} variants={fadeInUp} className="flex-none w-full sm:w-[350px] md:w-[400px] snap-center flex flex-col items-center text-center bg-white border rounded-3xl p-6 shadow-sm hover:shadow-xl transition-shadow duration-300">
+                  {/* Blob Image Mask */}
+                  <div 
+                    className="w-full aspect-[4/3] mb-6 overflow-hidden relative"
+                    style={{ borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%' }}
+                  >
+                    {cImage && <img src={cImage} alt={cTitle} className="w-full h-full object-cover" />}
+                  </div>
+                  
+                  <h3 className="text-xl font-bold mb-3 text-slate-900">
+                    {cTitle.replace('Course', '')} <span className="text-red-500">Course</span>
+                  </h3>
+                  <p className="text-slate-500 font-medium text-sm leading-relaxed mb-4 line-clamp-3">{cDesc}</p>
+                  <div className="w-12 h-1 bg-sky-500 rounded-full mx-auto mt-auto" />
+                </motion.div>
+              )})}
+            </motion.div>
+          </div>
 
           {servicesAfterSchool.explore_btn_text && (
             <div className="flex justify-center">
