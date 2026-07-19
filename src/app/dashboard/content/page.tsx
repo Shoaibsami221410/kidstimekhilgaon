@@ -84,6 +84,11 @@ function ContentEditorCard({ item, onSave, saving }: { item: any, onSave: any, s
       <CardHeader>
         <CardTitle className="capitalize">{item.section} Section</CardTitle>
         <CardDescription>ID: {item.id}</CardDescription>
+        {item.id === 'home_hero' && (
+          <div className="mt-2 p-3 bg-blue-50 text-blue-800 rounded-md text-sm">
+            <strong>Tip for Hero Image:</strong> To add an image, include <code>"image_url": "https://..."</code> in the JSON. The recommended image size is <strong>800x600 pixels (4:3 ratio)</strong> for the best display.
+          </div>
+        )}
       </CardHeader>
       <CardContent className="space-y-4">
         <textarea

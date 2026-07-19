@@ -122,11 +122,9 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
-    /* Fun dotted background for the whole site */
-    background-image: radial-gradient(circle, #cbd5e1 2px, transparent 2px);
-    background-size: 24px 24px;
-    background-position: 0 0, 12px 12px;
+    @apply text-foreground;
+    background: linear-gradient(135deg, #fdf4ff 0%, #fff7ed 50%, #f0f9ff 100%);
+    background-attachment: fixed;
   }
   html {
     @apply font-sans;

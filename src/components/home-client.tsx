@@ -38,16 +38,17 @@ export function HomeClient({ content }: { content: any }) {
   const cta = content.find((c: any) => c.id === 'home_cta')?.content || {}
 
   return (
-    <div className="flex flex-col w-full bg-slate-50 selection:bg-orange-200 selection:text-orange-900">
+    <div className="flex flex-col w-full bg-transparent selection:bg-orange-200 selection:text-orange-900">
       {/* Hero Section */}
       <section className="relative w-full min-h-[90vh] flex items-center justify-center overflow-hidden">
         {/* Soft, unified background elements */}
-        <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-orange-100/50 via-slate-50 to-slate-50" />
-        <div className="absolute top-20 -left-20 w-72 h-72 bg-sky-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob" />
-        <div className="absolute top-40 right-10 w-72 h-72 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000" />
-        <div className="absolute -bottom-10 left-1/2 w-80 h-80 bg-rose-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-4000" />
+        <div className="absolute inset-0 z-0 bg-transparent" />
+        <div className="absolute top-20 -left-20 w-72 h-72 bg-sky-300/40 rounded-full mix-blend-multiply filter blur-3xl animate-blob" />
+        <div className="absolute top-40 right-10 w-72 h-72 bg-orange-300/40 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000" />
+        <div className="absolute -bottom-10 left-1/2 w-80 h-80 bg-rose-300/40 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000" />
         
-        <div className="container relative z-10 mx-auto px-4 md:px-6 flex flex-col items-center text-center mt-10">
+        <div className="container relative z-10 mx-auto px-4 md:px-6 flex flex-col lg:flex-row items-center justify-between mt-10 gap-12">
+          <div className={`flex flex-col items-center lg:items-start text-center lg:text-left ${hero.image_url ? 'lg:w-1/2' : 'w-full items-center text-center'}`}>
           {hero.badge && (
             <motion.div
               initial="hidden"
@@ -62,7 +63,7 @@ export function HomeClient({ content }: { content: any }) {
             initial="hidden"
             animate="visible"
             variants={fadeInUp}
-            className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 max-w-4xl leading-tight"
+            className={`text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 leading-tight ${hero.image_url ? 'max-w-2xl' : 'max-w-4xl'}`}
           >
             {hero.title_black} <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-rose-500">{hero.title_gradient}</span>
           </motion.h1>
@@ -79,13 +80,33 @@ export function HomeClient({ content }: { content: any }) {
               initial="hidden"
               animate="visible"
               variants={fadeInUp}
-              className="flex flex-col sm:flex-row gap-4 w-full justify-center"
+              className={`flex flex-col sm:flex-row gap-4 w-full ${hero.image_url ? 'justify-center lg:justify-start' : 'justify-center'}`}
             >
               <Link href={hero.button_link || "#"}>
                 <Button size="lg" className="w-full sm:w-auto h-14 px-8 text-lg bg-orange-500 hover:bg-orange-600 rounded-full text-white shadow-xl shadow-orange-500/20">
                   {hero.button_text}
                 </Button>
               </Link>
+            </motion.div>
+          )}
+          </div>
+
+          {hero.image_url && (
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="lg:w-1/2 w-full max-w-lg relative"
+            >
+              <div className="relative w-full aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white transform rotate-2 hover:rotate-0 transition-transform duration-300">
+                <img 
+                  src={hero.image_url} 
+                  alt="Kids Time Hero" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-yellow-400 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse" />
+              <div className="absolute -top-6 -right-6 w-32 h-32 bg-sky-400 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse animation-delay-2000" />
             </motion.div>
           )}
         </div>
