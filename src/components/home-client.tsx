@@ -38,20 +38,22 @@ export function HomeClient({ content }: { content: any }) {
   const cta = content.find((c: any) => c.id === 'home_cta')?.content || {}
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full bg-slate-50 selection:bg-orange-200 selection:text-orange-900">
       {/* Hero Section */}
-      <section className="relative w-full min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-yellow-300 via-orange-200 to-rose-300">
-        <div className="absolute inset-0 z-0 opacity-50 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white via-transparent to-transparent" />
-        <div className="absolute -top-20 -left-20 w-64 h-64 bg-sky-400 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob" />
-        <div className="absolute top-40 -right-20 w-72 h-72 bg-yellow-400 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000" />
-        <div className="absolute -bottom-32 left-1/2 w-80 h-80 bg-rose-400 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-4000" />
+      <section className="relative w-full min-h-[90vh] flex items-center justify-center overflow-hidden">
+        {/* Soft, unified background elements */}
+        <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-orange-100/50 via-slate-50 to-slate-50" />
+        <div className="absolute top-20 -left-20 w-72 h-72 bg-sky-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob" />
+        <div className="absolute top-40 right-10 w-72 h-72 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000" />
+        <div className="absolute -bottom-10 left-1/2 w-80 h-80 bg-rose-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-4000" />
+        
         <div className="container relative z-10 mx-auto px-4 md:px-6 flex flex-col items-center text-center mt-10">
           {hero.badge && (
             <motion.div
               initial="hidden"
               animate="visible"
               variants={fadeInUp}
-              className="inline-block rounded-full bg-orange-100 px-3 py-1 text-sm font-semibold text-orange-600 mb-6 shadow-sm"
+              className="inline-block rounded-full bg-white px-4 py-1.5 text-sm font-semibold text-orange-600 mb-6 shadow-sm border border-orange-100"
             >
               {hero.badge}
             </motion.div>
@@ -60,7 +62,7 @@ export function HomeClient({ content }: { content: any }) {
             initial="hidden"
             animate="visible"
             variants={fadeInUp}
-            className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 max-w-4xl"
+            className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 max-w-4xl leading-tight"
           >
             {hero.title_black} <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-rose-500">{hero.title_gradient}</span>
           </motion.h1>
@@ -68,7 +70,7 @@ export function HomeClient({ content }: { content: any }) {
             initial="hidden"
             animate="visible"
             variants={fadeInUp}
-            className="text-lg md:text-xl text-slate-700 mb-10 max-w-2xl font-medium"
+            className="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl font-medium"
           >
             {hero.description}
           </motion.p>
@@ -80,7 +82,7 @@ export function HomeClient({ content }: { content: any }) {
               className="flex flex-col sm:flex-row gap-4 w-full justify-center"
             >
               <Link href={hero.button_link || "#"}>
-                <Button size="lg" className="w-full sm:w-auto h-14 px-8 text-lg bg-orange-500 hover:bg-orange-600 rounded-full text-white shadow-lg shadow-orange-500/30">
+                <Button size="lg" className="w-full sm:w-auto h-14 px-8 text-lg bg-orange-500 hover:bg-orange-600 rounded-full text-white shadow-xl shadow-orange-500/20">
                   {hero.button_text}
                 </Button>
               </Link>
@@ -90,12 +92,8 @@ export function HomeClient({ content }: { content: any }) {
       </section>
 
       {/* Programs Overview */}
-      <section className="w-full py-24 bg-gradient-to-b from-white to-slate-50 relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute top-20 left-10 w-32 h-32 bg-yellow-200 rounded-full mix-blend-multiply filter blur-2xl opacity-40 animate-pulse" />
-        <div className="absolute bottom-20 right-10 w-40 h-40 bg-pink-200 rounded-full mix-blend-multiply filter blur-2xl opacity-40 animate-pulse animation-delay-2000" />
-        
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
+      <section className="w-full py-24 relative z-10">
+        <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">{programs.title}</h2>
             <p className="text-slate-600 max-w-2xl mx-auto text-lg font-medium">{programs.description}</p>
@@ -106,17 +104,17 @@ export function HomeClient({ content }: { content: any }) {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto gap-10"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto gap-8"
           >
             {programs.items?.map((program: any, i: number) => {
               const Icon = iconMap[program.icon] || BookOpen
               return (
                 <motion.div key={i} variants={fadeInUp}>
-                  <Card className="border border-slate-100 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-2 hover:shadow-[0_20px_40px_rgb(249,115,22,0.1)] transition-all duration-300 h-full bg-white/80 backdrop-blur-sm group overflow-hidden relative">
-                    <div className={`absolute top-0 left-0 w-full h-2 ${program.color?.replace('bg-', 'bg-gradient-to-r from-').replace('-50', '-400') || 'bg-gradient-to-r from-amber-400'} to-transparent opacity-70`} />
+                  <Card className="border border-white shadow-lg shadow-slate-200/50 hover:-translate-y-2 hover:shadow-xl transition-all duration-300 h-full bg-white/60 backdrop-blur-md group overflow-hidden relative rounded-3xl">
+                    <div className={`absolute top-0 left-0 w-full h-1.5 ${program.color?.replace('bg-', 'bg-gradient-to-r from-').replace('-50', '-400') || 'bg-gradient-to-r from-amber-400'} to-transparent opacity-70`} />
                     <CardContent className="p-8 text-center flex flex-col items-center relative z-10">
-                      <div className={`w-24 h-24 rounded-full flex items-center justify-center mb-8 shadow-sm group-hover:scale-110 transition-transform duration-300 ${program.color || 'bg-amber-50'}`}>
-                        <Icon className="w-12 h-12 text-slate-700 opacity-80" />
+                      <div className={`w-20 h-20 rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform duration-300 ${program.color || 'bg-amber-50'}`}>
+                        <Icon className="w-10 h-10 text-slate-700 opacity-80" />
                       </div>
                       <h3 className="text-2xl font-bold mb-3 text-slate-800">{program.title}</h3>
                       <p className="text-slate-500 font-medium leading-relaxed">{program.desc}</p>
@@ -130,16 +128,16 @@ export function HomeClient({ content }: { content: any }) {
       </section>
 
       {/* Call to Action */}
-      <section className="w-full py-24 bg-sky-200 text-slate-900 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white to-transparent" />
-        <div className="container mx-auto px-4 relative z-10 text-center">
-          <h2 className="text-4xl md:text-6xl font-bold mb-6">{cta.title}</h2>
-          <p className="text-xl text-slate-700 mb-10 max-w-2xl mx-auto font-medium">
+      <section className="w-full py-24 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-orange-100 via-transparent to-transparent" />
+        <div className="container mx-auto px-4 relative z-10 text-center bg-white/40 backdrop-blur-sm rounded-3xl p-12 max-w-5xl border border-white shadow-xl shadow-slate-200/50">
+          <h2 className="text-4xl md:text-5xl font-extrabold mb-6 text-slate-900">{cta.title}</h2>
+          <p className="text-xl text-slate-600 mb-10 max-w-2xl mx-auto font-medium leading-relaxed">
             {cta.description}
           </p>
           {cta.button_text && (
             <Link href={cta.button_link || "#"}>
-              <Button size="lg" className="bg-rose-500 hover:bg-rose-600 text-white h-16 px-10 text-xl rounded-full shadow-xl shadow-rose-500/30">
+              <Button size="lg" className="bg-rose-500 hover:bg-rose-600 text-white h-14 px-10 text-lg rounded-full shadow-xl shadow-rose-500/20">
                 {cta.button_text}
               </Button>
             </Link>
