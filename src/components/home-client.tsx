@@ -51,7 +51,7 @@ export function HomeClient({ content }: { content: any }) {
               initial="hidden"
               animate="visible"
               variants={fadeInUp}
-              className="inline-block rounded-full bg-orange-100 px-3 py-1 text-sm font-semibold text-orange-600 mb-6 border-2 border-black"
+              className="inline-block rounded-full bg-orange-100 px-3 py-1 text-sm font-semibold text-orange-600 mb-6 shadow-sm"
             >
               {hero.badge}
             </motion.div>
@@ -80,7 +80,7 @@ export function HomeClient({ content }: { content: any }) {
               className="flex flex-col sm:flex-row gap-4 w-full justify-center"
             >
               <Link href={hero.button_link || "#"}>
-                <Button size="lg" className="w-full sm:w-auto h-14 px-8 text-lg bg-orange-500 hover:bg-orange-600 rounded-full text-white border-2 border-black shadow-[4px_4px_0px_#000]">
+                <Button size="lg" className="w-full sm:w-auto h-14 px-8 text-lg bg-orange-500 hover:bg-orange-600 rounded-full text-white shadow-lg shadow-orange-500/30">
                   {hero.button_text}
                 </Button>
               </Link>
@@ -108,9 +108,9 @@ export function HomeClient({ content }: { content: any }) {
               const Icon = iconMap[program.icon] || BookOpen
               return (
                 <motion.div key={i} variants={fadeInUp}>
-                  <Card className="border-4 border-slate-900 shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:-translate-y-2 hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] transition-all duration-300 h-full bg-white">
+                  <Card className="border-0 shadow-xl shadow-slate-200/50 hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 h-full bg-white">
                     <CardContent className="p-8 text-center flex flex-col items-center">
-                      <div className={`w-20 h-20 rounded-full border-4 border-black flex items-center justify-center mb-6 shadow-[4px_4px_0px_rgba(0,0,0,1)] ${program.color || 'bg-amber-100'}`}>
+                      <div className={`w-20 h-20 rounded-full flex items-center justify-center mb-6 shadow-md ${program.color || 'bg-amber-100'}`}>
                         <Icon className="w-10 h-10 text-slate-900" />
                       </div>
                       <h3 className="text-2xl font-bold mb-3 text-slate-900">{program.title}</h3>
@@ -125,7 +125,7 @@ export function HomeClient({ content }: { content: any }) {
       </section>
 
       {/* Call to Action */}
-      <section className="w-full py-24 bg-sky-200 text-slate-900 relative overflow-hidden border-t-4 border-black">
+      <section className="w-full py-24 bg-sky-200 text-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white to-transparent" />
         <div className="container mx-auto px-4 relative z-10 text-center">
           <h2 className="text-4xl md:text-6xl font-bold mb-6">{cta.title}</h2>
@@ -134,7 +134,7 @@ export function HomeClient({ content }: { content: any }) {
           </p>
           {cta.button_text && (
             <Link href={cta.button_link || "#"}>
-              <Button size="lg" className="bg-rose-500 hover:bg-rose-600 text-white h-16 px-10 text-xl rounded-full border-4 border-black shadow-[6px_6px_0px_rgba(0,0,0,1)]">
+              <Button size="lg" className="bg-rose-500 hover:bg-rose-600 text-white h-16 px-10 text-xl rounded-full shadow-xl shadow-rose-500/30">
                 {cta.button_text}
               </Button>
             </Link>

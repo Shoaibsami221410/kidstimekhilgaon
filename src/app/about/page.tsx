@@ -72,7 +72,7 @@ export default async function AboutPage() {
                 {missionVision.vision_desc}
               </p>
             </div>
-            <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-[6px_6px_0px_#000] border-4 border-slate-900">
+            <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-2xl">
               <img 
                 src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=2040&auto=format&fit=crop"
                 alt="Children painting"
@@ -84,7 +84,7 @@ export default async function AboutPage() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-20 bg-rose-50 border-t-4 border-slate-900">
+      <section className="py-20 bg-rose-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4">{features.title}</h2>
@@ -93,7 +93,7 @@ export default async function AboutPage() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {features.items?.map((feature: any, i: number) => (
-              <div key={i} className="bg-white p-8 rounded-2xl shadow-[4px_4px_0px_#000] border-4 border-slate-900 hover:shadow-[6px_6px_0px_#000] hover:-translate-y-1 transition-all duration-300 group">
+              <div key={i} className="bg-white p-8 rounded-2xl shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group border border-slate-100">
                 <CheckCircle2 className="w-10 h-10 text-orange-500 mb-4 group-hover:scale-110 transition-transform" />
                 <h3 className="text-xl font-bold text-slate-900 mb-3">{feature.title}</h3>
                 <p className="text-slate-600 leading-relaxed font-medium">{feature.desc}</p>
