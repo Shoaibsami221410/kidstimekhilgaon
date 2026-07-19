@@ -19,5 +19,14 @@ export default async function Home() {
     .select("*")
     .order('created_at', { ascending: false })
 
-  return <HomeClient content={content || []} courses={courses || []} />
+  // Fetch testimonials
+  const { data: testimonialsData } = await supabase
+    .from("page_content")
+    .select("content")
+    .eq("id", "testimonials")
+    .single()
+
+  const testimonials = testimonialsData?.content?.items || []
+
+  return <HomeClient content={content || []} courses={courses || []} testimonials={testimonials} />
 }

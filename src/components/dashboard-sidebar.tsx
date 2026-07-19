@@ -21,6 +21,7 @@ export function DashboardSidebar() {
     { href: "/dashboard/gallery", icon: ImageIcon, label: "Gallery" },
     { href: "/dashboard/finance", icon: CreditCard, label: "Finance" },
     { href: "/dashboard/content", icon: LayoutDashboard, label: "Website Content" },
+    { href: "/dashboard/testimonials", icon: MessageSquare, label: "Testimonials" },
   ]
 
   return (

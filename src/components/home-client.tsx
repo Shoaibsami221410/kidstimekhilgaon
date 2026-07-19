@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 import Link from "next/link"
 import { Play, Users } from "lucide-react"
 
-export function HomeClient({ content, courses }: { content: any, courses?: any[] }) {
+export function HomeClient({ content, courses, testimonials }: { content: any, courses?: any[], testimonials?: any[] }) {
   const fadeInUp = {
     hidden: { opacity: 0, y: 40 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } }
@@ -52,13 +52,18 @@ export function HomeClient({ content, courses }: { content: any, courses?: any[]
     description: 'Parents are regularly sharing their thoughts, child\'s activity, their creative task etc. in the Facebook community group.',
     btn_text: 'Explore',
     btn_link: 'https://facebook.com/groups/kidstime',
-    testimonial: {
+  }
+  
+  // Fallback testimonial if none provided in DB
+  const displayTestimonials = testimonials && testimonials.length > 0 ? testimonials : [
+    {
+      id: "fallback1",
       text: 'Kids Time কে অনেক ধন্যবাদ অনলাইন ক্লাসের এই উদ্যোগের জন্য। ক্লাসগুলো করার পর থেকে ফারহানের ইলেক্ট্রিক ডিভাইসের প্রতি আগ্রহ একদমই নেই! ফারহান এখন প্রতি সপ্তাহে অপেক্ষা করে Kids Time এর ক্লাসগুলোর জন্য!',
       author: 'Kazi Iffat Ara',
       role: 'Parent',
       avatar_url: 'https://ui-avatars.com/api/?name=Kazi+Iffat+Ara&background=random'
     }
-  }
+  ]
 
   // Hero Background (fallback if no image provided)
   const heroBg = hero.image_url || 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2020&auto=format&fit=crop'
@@ -251,24 +256,36 @@ export function HomeClient({ content, courses }: { content: any, courses?: any[]
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
-            {/* Testimonial Side */}
-            {community.testimonial && (
-              <motion.div 
-                initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}
-                className="text-center"
+            {/* Testimonials Slider Side */}
+            <motion.div 
+              initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}
+              className="w-full overflow-hidden"
+            >
+              <div 
+                className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-4 w-full"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
-                <p className="text-xl text-slate-800 font-medium leading-relaxed italic mb-8">
-                  "{community.testimonial.text}"
-                </p>
-                <div className="flex items-center justify-center gap-4">
-                  <img src={community.testimonial.avatar_url} alt={community.testimonial.author} className="w-12 h-12 rounded-full shadow-md" />
-                  <div className="text-left">
-                    <h4 className="font-bold text-slate-900 text-sm">{community.testimonial.author}</h4>
-                    <p className="text-slate-500 text-xs">{community.testimonial.role}</p>
+                {displayTestimonials.map((testimonial: any, i: number) => (
+                  <div key={i} className="flex-none w-full snap-center text-center p-4">
+                    <p className="text-xl text-slate-800 font-medium leading-relaxed italic mb-8">
+                      "{testimonial.text}"
+                    </p>
+                    <div className="flex items-center justify-center gap-4">
+                      <img src={testimonial.avatar_url} alt={testimonial.author} className="w-12 h-12 rounded-full shadow-md object-cover" />
+                      <div className="text-left">
+                        <h4 className="font-bold text-slate-900 text-sm">{testimonial.author}</h4>
+                        <p className="text-slate-500 text-xs">{testimonial.role}</p>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            )}
+                ))}
+              </div>
+              <div className="flex justify-center gap-2 mt-4 opacity-50">
+                {displayTestimonials.length > 1 && displayTestimonials.map((_, i) => (
+                  <div key={i} className="w-2 h-2 rounded-full bg-slate-400" />
+                ))}
+              </div>
+            </motion.div>
 
             {/* Community Side */}
             <motion.div 
