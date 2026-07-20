@@ -1,5 +1,13 @@
 "use client"
 
+/**
+ * Main Home Page Client Component
+ * Features:
+ * - Dynamic Hero Section with Watch Demo Class button support
+ * - Animated interactions and fluid layouts
+ * - Parent Community and Testimonials showcase
+ */
+
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
 import Link from "next/link"
