@@ -1,6 +1,6 @@
 /**
  * Global Footer Component
- * Renders the main site footer including social links,
+ * Renders the main site footer including social links (Facebook, Instagram, Youtube),
  * branch locations, and company information.
  */
 import Link from "next/link"
