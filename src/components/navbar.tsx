@@ -8,6 +8,10 @@ import { Menu, User as UserIcon, Search, Bell, LogOut, ChevronDown, LayoutDashbo
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet"
 import { createClient } from "@/lib/supabase/client"
 
+/**
+ * Navigation Bar Component
+ * Includes public links, user dashboard dropdown, and Trial Class call-to-action
+ */
 export function Navbar() {
   const pathname = usePathname()
   const [user, setUser] = useState<any>(null)
