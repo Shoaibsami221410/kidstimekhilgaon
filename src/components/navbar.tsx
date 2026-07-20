@@ -10,7 +10,7 @@ import { createClient } from "@/lib/supabase/client"
 
 /**
  * Navigation Bar Component
- * Includes public links, user dashboard dropdown, and Trial Class call-to-action
+ * Includes public links, user dashboard dropdown, and mobile-responsive Trial Class call-to-action
  */
 export function Navbar() {
   const pathname = usePathname()
