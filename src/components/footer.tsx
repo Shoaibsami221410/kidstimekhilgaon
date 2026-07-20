@@ -1,3 +1,8 @@
+/**
+ * Global Footer Component
+ * Renders the main site footer including social links,
+ * branch locations, and company information.
+ */
 import Link from "next/link"
 import { createClient } from "@/lib/supabase/server"
 import { MapPin } from "lucide-react"
