@@ -1,3 +1,5 @@
+-- Database Initialization Script
+-- Sets up the main content tables and applies Row Level Security policies
 -- Create the page_content table
 CREATE TABLE IF NOT EXISTS public.page_content (
     id TEXT PRIMARY KEY,
