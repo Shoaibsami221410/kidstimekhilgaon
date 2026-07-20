@@ -1,4 +1,5 @@
 -- DEMO DATA SEED SCRIPT FOR KIDS TIME KHILGAON
+-- Populates the database with initial demo courses, assignments, and curriculum data
 -- Run this script in your Supabase SQL Editor to populate demo courses and assignments.
 
 -- 1. Insert Demo Courses
