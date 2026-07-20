@@ -3,6 +3,10 @@ import { createClient } from "@/lib/supabase/server"
 
 export const revalidate = 3600
 
+/**
+ * About Page Component
+ * Displays the mission, vision, and core features of Kids Time Khilgaon
+ */
 export default async function AboutPage() {
   const supabase = await createClient()
   
