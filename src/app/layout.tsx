@@ -19,6 +19,10 @@ export const metadata: Metadata = {
   description: "Complete Preschool Management System for Kids Time Khilgaon",
 };
 
+/**
+ * Global Root Layout
+ * Wraps all pages with the Navigation Header and Footer sections
+ */
 export default function RootLayout({
   children,
 }: Readonly<{
