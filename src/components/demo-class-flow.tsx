@@ -37,6 +37,10 @@ const demoClasses: DemoClass[] = [
   { id: "4", title: "Finger Painting Basics", type: "Art Activity", duration: "20 mins", thumbnail: "bg-amber-100" },
 ]
 
+/**
+ * Demo Class Flow Component
+ * Handles the parent registration form and granting access to demo videos
+ */
 export function DemoClassFlow() {
   const [isRegistered, setIsRegistered] = useState(false)
   const [completedClasses, setCompletedClasses] = useState<string[]>([])
