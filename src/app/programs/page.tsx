@@ -16,14 +16,31 @@ export default async function ProgramsPage() {
     .select('*')
     .order('created_at', { ascending: true })
 
+  // Fetch page content
+  const { data: pageData } = await supabase
+    .from('page_content')
+    .select('*')
+    .eq('page', 'programs')
+  
+  const hero = pageData?.find((c) => c.id === 'programs_hero')?.content || {
+    title_cyan: "Live",
+    title_red: "Online Course For Kids",
+    subtitle: "Creativity has no bound! Unleash your child's creativity with the ultimate online course for kids from anywhere.",
+    description: "We are offering the Best Online Drawing Courses, Crafting Classes, Spoken English For Kids & Singapore Math Online. Your child now can join these courses through online from anywhere in the country or abroad while sitting at home."
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Hero Section */}
       <section className="bg-white pt-20 pb-12 border-b relative overflow-hidden">
-        {/* Decorative subtle patterns could go here */}
+        {hero.image_url && (
+          <div className="absolute inset-0 z-0 opacity-10">
+            <img src={hero.image_url} alt="Programs" className="w-full h-full object-cover" />
+          </div>
+        )}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            <span className="text-[#00b4ff]">Live</span> <span className="text-red-500">Online Course For Kids</span>
+            <span className="text-[#00b4ff]">{hero.title_cyan}</span> <span className="text-red-500">{hero.title_red}</span>
           </h1>
           
           <div className="flex items-center gap-2 mb-8">
@@ -34,12 +51,12 @@ export default async function ProgramsPage() {
             <div className="w-24 h-0.5 bg-slate-200 ml-2 rounded-full"></div>
           </div>
           
-          <h2 className="text-2xl md:text-3xl text-[#00b4ff] font-bold mb-8 max-w-4xl leading-tight">
-            Creativity has no bound! Unleash your child's creativity with the ultimate online course for kids from anywhere.
+          <h2 className="text-2xl md:text-3xl text-[#00b4ff] font-bold mb-8 max-w-4xl leading-tight whitespace-pre-line">
+            {hero.subtitle}
           </h2>
           
-          <p className="text-lg md:text-xl text-slate-700 leading-relaxed max-w-5xl">
-            We are offering the Best <span className="text-red-500 font-bold">Online Drawing Courses</span>, <span className="text-red-500 font-bold">Crafting Classes</span>, <span className="text-red-500 font-bold">Spoken English For Kids</span> & <span className="text-red-500 font-bold">Singapore Math Online</span>. Your child now can join these courses through online from anywhere in the country or abroad while sitting at home.
+          <p className="text-lg md:text-xl text-slate-700 leading-relaxed max-w-5xl whitespace-pre-line">
+            {hero.description}
           </p>
         </div>
       </section>

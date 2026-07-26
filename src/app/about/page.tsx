@@ -17,14 +17,16 @@ export default async function AboutPage() {
 
   const hero = content?.find((c) => c.id === 'about_hero')?.content || {
     title: "Nurturing Creativity in Every Child",
-    description: "At Kids Time Khilgaon, we believe every child is an artist, a storyteller, and an innovator waiting to be discovered."
+    description: "At Kids Time Khilgaon, we believe every child is an artist, a storyteller, and an innovator waiting to be discovered.",
+    image_url: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022&auto=format&fit=crop"
   }
   
   const missionVision = content?.find((c) => c.id === 'about_mission_vision')?.content || {
     mission_title: "Our Mission",
     mission_desc: "To provide a safe, engaging, and highly creative environment where children can explore their imaginations. We focus on developing core skills through art, craft, and storytelling, building confidence that lasts a lifetime.",
     vision_title: "Our Vision",
-    vision_desc: "To be the leading creative development center in Bangladesh, where every child's unique talent is recognized, nurtured, and celebrated."
+    vision_desc: "To be the leading creative development center in Bangladesh, where every child's unique talent is recognized, nurtured, and celebrated.",
+    image_url: "https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=2040&auto=format&fit=crop"
   }
   
   const features = content?.find((c) => c.id === 'about_features')?.content || {
@@ -46,7 +48,7 @@ export default async function AboutPage() {
       <section className="relative py-24 bg-slate-900 text-white overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-20">
           <img 
-            src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022&auto=format&fit=crop"
+            src={hero.image_url || "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022&auto=format&fit=crop"}
             alt="Kids learning"
             className="w-full h-full object-cover"
           />
@@ -78,7 +80,7 @@ export default async function AboutPage() {
             </div>
             <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-2xl">
               <img 
-                src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=2040&auto=format&fit=crop"
+                src={missionVision.image_url || "https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=2040&auto=format&fit=crop"}
                 alt="Children painting"
                 className="w-full h-full object-cover"
               />

@@ -8,14 +8,13 @@ const supabase = createClient()
 
 export default function TeachersPage() {
   const [teachers, setTeachers] = useState<any[]>([])
+  const [content, setContent] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function fetchTeachers() {
-      // Fetch teachers and join with users to get full_name
-      const { data, error } = await supabase
-        .from('teachers')
-        .select(`
+      const [teachersRes, contentRes] = await Promise.all([
+        supabase.from('teachers').select(`
           id,
           qualifications,
           experience,
@@ -24,26 +23,36 @@ export default function TeachersPage() {
             full_name,
             email
           )
-        `)
+        `),
+        supabase.from('page_content').select('*').eq('page', 'teachers')
+      ])
       
-      if (data) {
-        setTeachers(data)
-      } else if (error) {
-        console.error(error)
-      }
+      if (teachersRes.data) setTeachers(teachersRes.data)
+      if (contentRes.data) setContent(contentRes.data)
+      
       setLoading(false)
     }
     
     fetchTeachers()
   }, [])
 
+  const hero = content?.find((c) => c.id === 'teachers_hero')?.content || {
+    title: "Our Expert Teachers",
+    description: "Meet the passionate educators dedicated to nurturing your child's creativity."
+  }
+
   return (
     <div className="flex flex-col min-h-screen animate-in fade-in duration-700">
-      <section className="bg-orange-50 py-20 border-b border-orange-100">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">Our Expert Teachers</h1>
-          <p className="text-lg text-slate-600 mb-8">
-            Meet the passionate educators dedicated to nurturing your child's creativity.
+      <section className="bg-orange-50 py-20 border-b border-orange-100 relative">
+        {hero.image_url && (
+          <div className="absolute inset-0 z-0 opacity-20">
+            <img src={hero.image_url} alt="Teachers" className="w-full h-full object-cover" />
+          </div>
+        )}
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">{hero.title}</h1>
+          <p className="text-lg text-slate-600 mb-8 whitespace-pre-line">
+            {hero.description}
           </p>
         </div>
       </section>

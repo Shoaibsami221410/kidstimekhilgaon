@@ -8,25 +8,29 @@ const supabase = createClient()
 
 export default function EventsPage() {
   const [events, setEvents] = useState<any[]>([])
+  const [content, setContent] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function fetchEvents() {
-      const { data, error } = await supabase
-        .from('events')
-        .select('*')
-        .order('event_date', { ascending: true })
+      const [eventsRes, contentRes] = await Promise.all([
+        supabase.from('events').select('*').order('event_date', { ascending: true }),
+        supabase.from('page_content').select('*').eq('page', 'events')
+      ])
       
-      if (data) {
-        setEvents(data)
-      } else if (error) {
-        console.error(error)
-      }
+      if (eventsRes.data) setEvents(eventsRes.data)
+      if (contentRes.data) setContent(contentRes.data)
+      
       setLoading(false)
     }
     
     fetchEvents()
   }, [])
+
+  const hero = content?.find((c) => c.id === 'events_hero')?.content || {
+    title: "Upcoming Events",
+    description: "Join us for exciting activities, workshops, and celebrations at Kids Time Khilgaon."
+  }
 
   const formatDate = (isoString: string) => {
     const date = new Date(isoString)
@@ -39,11 +43,16 @@ export default function EventsPage() {
 
   return (
     <div className="flex flex-col min-h-screen animate-in fade-in duration-700">
-      <section className="bg-slate-900 text-white py-20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Upcoming Events</h1>
-          <p className="text-lg text-slate-300 mb-8">
-            Join us for exciting activities, workshops, and celebrations at Kids Time Khilgaon.
+      <section className="bg-slate-900 text-white py-20 relative">
+        {hero.image_url && (
+          <div className="absolute inset-0 z-0 opacity-30">
+            <img src={hero.image_url} alt="Events" className="w-full h-full object-cover" />
+          </div>
+        )}
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">{hero.title}</h1>
+          <p className="text-lg text-slate-300 mb-8 whitespace-pre-line">
+            {hero.description}
           </p>
         </div>
       </section>

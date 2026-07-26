@@ -29,8 +29,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${nunito.variable} ${fredoka.variable} font-sans h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+    <html lang="en" suppressHydrationWarning className={`${nunito.variable} ${fredoka.variable} font-sans h-full antialiased`}>
+      <body suppressHydrationWarning className="min-h-full flex flex-col bg-background text-foreground">
         <Navbar />
         <main className="flex-1">
           {children}

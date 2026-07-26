@@ -8,6 +8,7 @@ const supabase = createClient()
 
 export default function GalleryPage() {
   const [images, setImages] = useState<any[]>([])
+  const [content, setContent] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [activeCategory, setActiveCategory] = useState<string>("All")
 
@@ -15,21 +16,24 @@ export default function GalleryPage() {
 
   useEffect(() => {
     async function fetchGallery() {
-      const { data, error } = await supabase
-        .from('galleries')
-        .select('*')
-        .order('created_at', { ascending: false })
+      const [galleryRes, contentRes] = await Promise.all([
+        supabase.from('galleries').select('*').order('created_at', { ascending: false }),
+        supabase.from('page_content').select('*').eq('page', 'gallery')
+      ])
       
-      if (data) {
-        setImages(data)
-      } else if (error) {
-        console.error(error)
-      }
+      if (galleryRes.data) setImages(galleryRes.data)
+      if (contentRes.data) setContent(contentRes.data)
+      
       setLoading(false)
     }
     
     fetchGallery()
   }, [])
+
+  const hero = content?.find((c) => c.id === 'gallery_hero')?.content || {
+    title: "Moments of Joy",
+    description: "Take a look at the beautiful moments captured inside our classrooms and events."
+  }
 
   const filteredImages = activeCategory === "All" 
     ? images 
@@ -37,11 +41,16 @@ export default function GalleryPage() {
 
   return (
     <div className="flex flex-col min-h-screen animate-in fade-in duration-700">
-      <section className="bg-slate-900 text-white py-20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Moments of Joy</h1>
-          <p className="text-lg text-slate-300 mb-8">
-            Take a look at the beautiful moments captured inside our classrooms and events.
+      <section className="bg-slate-900 text-white py-20 relative">
+        {hero.image_url && (
+          <div className="absolute inset-0 z-0 opacity-30">
+            <img src={hero.image_url} alt="Gallery" className="w-full h-full object-cover" />
+          </div>
+        )}
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">{hero.title}</h1>
+          <p className="text-lg text-slate-300 mb-8 whitespace-pre-line">
+            {hero.description}
           </p>
         </div>
       </section>
