@@ -1,15 +1,46 @@
 "use client"
 
-import { useState } from "react"
-import { MapPin, Phone, Mail, Clock, Send } from "lucide-react"
+import { useState, useEffect } from "react"
+import { MapPin, Phone, Mail, Clock, Send, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
+import { createClient } from "@/lib/supabase/client"
+
+const supabase = createClient()
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const [content, setContent] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchContent() {
+      const { data, error } = await supabase
+        .from('page_content')
+        .select('*')
+        .eq('page', 'contact')
+      
+      if (data) setContent(data)
+      setLoading(false)
+    }
+    fetchContent()
+  }, [])
+
+  const hero = content?.find((c) => c.id === 'contact_hero')?.content || {
+    title: "Get in Touch",
+    description: "Have questions about our programs, admissions, or anything else? We'd love to hear from you."
+  }
+
+  const info = content?.find((c) => c.id === 'contact_info')?.content || {
+    title: "Contact Information",
+    description: "Our friendly team is always here to help. Reach out to us through any of the following methods or drop by our center.",
+    address: "Block C, Road 12, House 45\nKhilgaon, Dhaka 1219\nBangladesh",
+    phone: "Franchisee Owner - Jiaul Haque\n+880 1685-729549\n\nCoordinator - Junaida Islam\n+880 1625-626227",
+    hours: "Friday - Saturday: 9:00 AM - 6:00 PM"
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -26,13 +57,22 @@ export default function ContactPage() {
 
   return (
     <div className="flex flex-col min-h-screen animate-in fade-in duration-700">
+      {loading ? (
+        <div className="flex-1 flex justify-center items-center h-[50vh]">
+          <Loader2 className="w-12 h-12 animate-spin text-orange-500" />
+        </div>
+      ) : (
+        <>
       {/* Hero */}
-      <section className="bg-slate-900 text-white py-20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Get in Touch</h1>
-          <p className="text-lg text-slate-300 mb-8">
-            Have questions about our programs, admissions, or anything else? We'd love to hear from you.
-          </p>
+      <section className="bg-slate-900 text-white py-20 relative">
+        {hero.image_url && (
+          <div className="absolute inset-0 z-0 opacity-30">
+            <img src={hero.image_url} alt="Contact" className="w-full h-full object-cover" />
+          </div>
+        )}
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">{hero.title}</h1>
+          <p className="text-lg text-slate-300 mb-8 whitespace-pre-line">{hero.description}</p>
         </div>
       </section>
 
@@ -43,9 +83,9 @@ export default function ContactPage() {
             {/* Contact Info */}
             <div className="space-y-12">
               <div>
-                <h2 className="text-3xl font-bold text-slate-900 mb-6">Contact Information</h2>
-                <p className="text-slate-600 mb-8">
-                  Our friendly team is always here to help. Reach out to us through any of the following methods or drop by our center.
+                <h2 className="text-3xl font-bold text-slate-900 mb-6">{info.title}</h2>
+                <p className="text-slate-600 mb-8 whitespace-pre-line">
+                  {info.description}
                 </p>
               </div>
 
@@ -56,7 +96,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900 text-lg mb-1">Visit Us</h3>
-                    <p className="text-slate-600">Block C, Road 12, House 45<br/>Khilgaon, Dhaka 1219<br/>Bangladesh</p>
+                    <p className="text-slate-600 whitespace-pre-line">{info.address}</p>
                   </div>
                 </div>
 
@@ -66,7 +106,9 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900 text-lg mb-1">Call Us</h3>
-                    <p className="text-slate-600">+880 1712-345678<br/>+880 1987-654321</p>
+                    <p className="text-slate-600 whitespace-pre-line">
+                      {info.phone}
+                    </p>
                   </div>
                 </div>
 
@@ -76,7 +118,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900 text-lg mb-1">Opening Hours</h3>
-                    <p className="text-slate-600">Friday - Saturday: 9:00 AM - 6:00 PM<br/>Sunday - Thursday: 3:00 PM - 8:00 PM</p>
+                    <p className="text-slate-600 whitespace-pre-line">{info.hours}</p>
                   </div>
                 </div>
               </div>
@@ -141,6 +183,8 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+      </>
+      )}
     </div>
   )
 }
