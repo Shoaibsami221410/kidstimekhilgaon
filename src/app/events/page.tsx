@@ -44,7 +44,7 @@ export default function EventsPage() {
     const date = new Date(isoString)
     return {
       month: date.toLocaleString('en-US', { month: 'short' }),
-      day: date.getDate(),
+      day: date.getDate().toString(),
       time: date.toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })
     }
   }
