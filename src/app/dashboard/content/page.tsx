@@ -14,6 +14,23 @@ export default function ContentManagementPage() {
 
   const requiredSections = [
     {
+<<<<<<< Updated upstream
+=======
+      id: 'home_hero',
+      page: 'home',
+      section: 'hero',
+      content: {
+        title_black: "Nurturing Brilliant Minds for a",
+        title_gradient: "Brighter Future",
+        description: "Kids Time Khilgaon offers a world-class early childhood education with a holistic approach to learning, creativity, and personal development.",
+        badge: "Admissions Open for 2026!",
+        button_text: "Book a Trial Class",
+        button_link: "/programs",
+        image_url: ""
+      }
+    },
+    {
+>>>>>>> Stashed changes
       id: 'home_about',
       page: 'home',
       section: 'about',

@@ -103,8 +103,8 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
               variants={fadeInUp}
             >
               <Link href={hero.button_link || "#"}>
-                <Button size="lg" variant="outline" className="h-12 px-8 text-lg rounded-full text-white border-white bg-transparent hover:bg-white hover:text-black transition-all">
-                  {hero.button_text}
+                <Button size="lg" className="h-12 px-8 text-lg rounded-full text-white bg-orange-500 border border-orange-500 hover:bg-orange-600 hover:border-orange-600 hover:shadow-[0_0_30px_rgba(249,115,22,0.8)] hover:-translate-y-1 transition-all duration-300">
+                  {hero.button_text === "Watch Demo Classes" ? "Book a Trial Class" : hero.button_text}
                 </Button>
               </Link>
             </motion.div>

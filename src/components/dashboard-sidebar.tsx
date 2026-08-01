@@ -10,6 +10,7 @@ export function DashboardSidebar() {
   const navItems = [
     { href: "/dashboard", icon: LayoutDashboard, label: "Overview" },
     { href: "/dashboard/admissions", icon: ClipboardCheck, label: "Admissions" },
+    { href: "/dashboard/trial-classes", icon: ClipboardCheck, label: "Trial Classes" },
     { href: "/dashboard/attendance", icon: Calendar, label: "Attendance" },
     { href: "/dashboard/assignments", icon: FileText, label: "Assignments" },
     { href: "/dashboard/messages", icon: MessageSquare, label: "Messages" },

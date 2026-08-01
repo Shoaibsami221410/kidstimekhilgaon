@@ -38,7 +38,7 @@ export default function CourseList({ courses }: { courses: any[] }) {
     },
   })
 
-  function openDemoModal(course: any) {
+  function openTrialModal(course: any) {
     setSelectedCourse(course)
     setIsModalOpen(true)
     setIsSuccess(false)
@@ -49,10 +49,10 @@ export default function CourseList({ courses }: { courses: any[] }) {
     setIsSubmitting(true)
     const supabase = createClient()
     
-    // Attempt to save to demo_requests table (will work if table exists and has RLS policies allowing inserts, 
+    // Attempt to save to trial_class_requests table (will work if table exists and has RLS policies allowing inserts, 
     // or if we rely on a future backend fix. For now, we simulate success since they just requested the UI)
     try {
-      const { error } = await supabase.from('demo_requests').insert({
+      const { error } = await supabase.from('trial_class_requests').insert({
         course_id: selectedCourse.id,
         parent_name: values.parentName,
         parent_phone: values.parentPhone,
@@ -63,7 +63,7 @@ export default function CourseList({ courses }: { courses: any[] }) {
       
       // Even if the table doesn't exist yet, we show success to the user for the UI flow
       if (error) {
-        console.warn('Demo request not saved (Table might not exist yet):', error)
+        console.warn('Trial request not saved (Table might not exist yet):', error)
       }
       
       setIsSuccess(true)
@@ -126,10 +126,10 @@ export default function CourseList({ courses }: { courses: any[] }) {
                 </div>
                 
                 <button 
-                  onClick={() => openDemoModal(course)}
+                  onClick={() => openTrialModal(course)}
                   className="bg-[#00b4ff] hover:bg-blue-500 text-white font-bold py-3.5 px-8 rounded-full shadow-lg transition-transform hover:-translate-y-1 flex items-center justify-center gap-2 w-full sm:w-auto text-lg z-0"
                 >
-                  <UserPlus className="w-5 h-5" /> Demo Class
+                  <UserPlus className="w-5 h-5" /> Trial Class
                 </button>
               </div>
             </div>
@@ -137,13 +137,13 @@ export default function CourseList({ courses }: { courses: any[] }) {
         )
       })}
 
-      {/* Demo Booking Dialog */}
+      {/* Trial Booking Dialog */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="sm:max-w-[500px]">
           {!isSuccess ? (
             <>
               <DialogHeader>
-                <DialogTitle className="text-2xl text-slate-900">Book Demo Class</DialogTitle>
+                <DialogTitle className="text-2xl text-slate-900">Book Trial Class</DialogTitle>
                 <DialogDescription>
                   Register your child for a free trial class of <span className="font-semibold text-blue-600">{selectedCourse?.title}</span>.
                 </DialogDescription>
@@ -236,7 +236,7 @@ export default function CourseList({ courses }: { courses: any[] }) {
               </div>
               <h3 className="text-2xl font-bold text-slate-900">Registration Successful!</h3>
               <p className="text-slate-500 text-lg">
-                Thank you for booking a demo class for {selectedCourse?.title}. Our team will contact you shortly to schedule the session.
+                Thank you for booking a trial class for {selectedCourse?.title}. Our team will contact you shortly to schedule the session.
               </p>
               <Button onClick={() => setIsModalOpen(false)} className="mt-6 bg-slate-900 hover:bg-slate-800">
                 Close
