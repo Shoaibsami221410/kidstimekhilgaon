@@ -8,8 +8,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Trash2, Plus, Calendar as CalendarIcon, MapPin, UploadCloud, Loader2, Download, Edit } from "lucide-react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog"
+import { Trash2, Plus, Calendar as CalendarIcon, MapPin, UploadCloud, Loader2, Download, Edit, Eye } from "lucide-react"
 
 export default function EventsAdminPage() {
   const supabase = createClient()
@@ -18,6 +18,12 @@ export default function EventsAdminPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [editingEventId, setEditingEventId] = useState<string | null>(null)
+
+  // RSVPs Viewer State
+  const [isRsvpsDialogOpen, setIsRsvpsDialogOpen] = useState(false)
+  const [rsvpsData, setRsvpsData] = useState<any[]>([])
+  const [rsvpsLoading, setRsvpsLoading] = useState(false)
+  const [viewRsvpsEventTitle, setViewRsvpsEventTitle] = useState("")
 
   // Form State
   const [title, setTitle] = useState("")
@@ -93,43 +99,24 @@ export default function EventsAdminPage() {
     }
   }
 
-  async function handleExportCSV(eventId: string, eventTitle: string) {
+  async function handleViewRSVPs(eventId: string, eventTitle: string) {
+    setViewRsvpsEventTitle(eventTitle)
+    setIsRsvpsDialogOpen(true)
+    setRsvpsLoading(true)
+    setRsvpsData([])
+    
     const { data, error } = await supabase
       .from('event_rsvps')
       .select('*')
       .eq('event_id', eventId)
+      .order('created_at', { ascending: false })
       
     if (error) {
       alert("Error fetching RSVPs: " + error.message)
-      return
+    } else {
+      setRsvpsData(data || [])
     }
-    if (!data || data.length === 0) {
-      alert("No registrations found for this event yet.")
-      return
-    }
-    
-    const headers = ["ID", "Parent Name", "Phone", "Email", "Student Name", "Student Age", "Registered At"]
-    const csvContent = [
-      headers.join(","),
-      ...data.map(row => [
-        row.id, 
-        `"${row.parent_name || ''}"`, 
-        `"=""${row.phone || ''}"""`, 
-        `"${row.email || ''}"`, 
-        `"${row.student_name || ''}"`, 
-        row.student_age || '', 
-        `"${new Date(row.created_at).toLocaleString()}"`
-      ].join(","))
-    ].join("\n")
-    
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
-    const url = URL.createObjectURL(blob)
-    const link = document.createElement("a")
-    link.setAttribute("href", url)
-    link.setAttribute("download", `RSVPs_${eventTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.csv`)
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+    setRsvpsLoading(false)
   }
 
   async function handleSave(e: React.FormEvent) {
@@ -257,6 +244,90 @@ export default function EventsAdminPage() {
             </form>
           </DialogContent>
         </Dialog>
+
+        <Dialog open={isRsvpsDialogOpen} onOpenChange={setIsRsvpsDialogOpen}>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+            <DialogHeader className="flex flex-row items-center justify-between">
+              <div>
+                <DialogTitle>RSVPs: {viewRsvpsEventTitle}</DialogTitle>
+                <DialogDescription>List of all registrations for this event.</DialogDescription>
+              </div>
+              <Button 
+                onClick={() => {
+                  if (rsvpsData.length === 0) {
+                    alert("No data to export")
+                    return
+                  }
+                  const headers = ["Parent Name", "Phone", "Email", "Student Name", "Student Age", "Registered At"]
+                  const csvContent = [
+                    headers.join(","),
+                    ...rsvpsData.map(row => [
+                      `"${row.parent_name || ''}"`, 
+                      `"=""${row.phone || ''}"""`, 
+                      `"${row.email || ''}"`, 
+                      `"${row.student_name || ''}"`, 
+                      row.student_age || '', 
+                      `"${new Date(row.created_at).toLocaleString()}"`
+                    ].join(","))
+                  ].join("\n")
+                  
+                  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+                  const url = URL.createObjectURL(blob)
+                  const link = document.createElement("a")
+                  link.setAttribute("href", url)
+                  link.setAttribute("download", `RSVPs_${viewRsvpsEventTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.csv`)
+                  document.body.appendChild(link)
+                  link.click()
+                  document.body.removeChild(link)
+                }}
+                variant="outline"
+                className="mr-6 text-emerald-600 border-emerald-200 hover:bg-emerald-50"
+              >
+                <Download className="w-4 h-4 mr-2" /> Download Excel CSV
+              </Button>
+            </DialogHeader>
+            <div className="flex-1 overflow-auto border rounded-md mt-4">
+              <Table>
+                <TableHeader className="bg-slate-50 sticky top-0">
+                  <TableRow>
+                    <TableHead>Parent Name</TableHead>
+                    <TableHead>Phone</TableHead>
+                    <TableHead>Email</TableHead>
+                    <TableHead>Child Name</TableHead>
+                    <TableHead>Age</TableHead>
+                    <TableHead>Date</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {rsvpsLoading ? (
+                    <TableRow>
+                      <TableCell colSpan={6} className="text-center py-8">
+                        <Loader2 className="w-6 h-6 animate-spin mx-auto text-orange-500" />
+                      </TableCell>
+                    </TableRow>
+                  ) : rsvpsData.length === 0 ? (
+                    <TableRow>
+                      <TableCell colSpan={6} className="text-center py-8 text-slate-500">
+                        No registrations yet.
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    rsvpsData.map((rsvp) => (
+                      <TableRow key={rsvp.id}>
+                        <TableCell className="font-medium">{rsvp.parent_name}</TableCell>
+                        <TableCell>{rsvp.phone}</TableCell>
+                        <TableCell>{rsvp.email}</TableCell>
+                        <TableCell>{rsvp.student_name || "-"}</TableCell>
+                        <TableCell>{rsvp.student_age || "-"}</TableCell>
+                        <TableCell className="text-xs text-slate-500">{new Date(rsvp.created_at).toLocaleString()}</TableCell>
+                      </TableRow>
+                    ))
+                  )}
+                </TableBody>
+              </Table>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
 
       <Card className="shadow-sm border-0 ring-1 ring-slate-200">
@@ -333,13 +404,13 @@ export default function EventsAdminPage() {
                       <TableCell className="text-right">
                         <div className="flex justify-end items-center gap-2">
                           <Button 
-                            onClick={() => handleExportCSV(evt.id, evt.title)}
+                            onClick={() => handleViewRSVPs(evt.id, evt.title)}
                             variant="outline" 
                             size="sm" 
                             className="text-emerald-600 border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700"
-                            title="Export RSVPs to Excel"
+                            title="View RSVPs"
                           >
-                            <Download className="w-4 h-4 mr-1.5" /> RSVPs
+                            <Eye className="w-4 h-4 mr-1.5" /> RSVPs
                           </Button>
                           <Button 
                             onClick={() => openEdit(evt)}
