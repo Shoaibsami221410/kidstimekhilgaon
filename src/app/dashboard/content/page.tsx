@@ -425,7 +425,7 @@ Coordinator - Junaida Islam
             setContent(finalMerged)
           }
         } else {
-          console.error("Error seeding content:", insertError)
+          console.warn("Could not auto-seed database. RLS policies might be blocking insert:", insertError)
           setContent(mergedContent)
         }
       } else {
