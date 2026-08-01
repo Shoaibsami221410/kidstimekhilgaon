@@ -54,10 +54,10 @@ export default async function AboutPage() {
           />
         </div>
         <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6" style={{ color: hero.title_color, fontFamily: hero.title_font }}>
             {hero.title}
           </h1>
-          <p className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto font-medium">
+          <p className="text-lg md:text-xl max-w-3xl mx-auto font-medium" style={{ color: hero.description_color, fontFamily: hero.description_font }}>
             {hero.description}
           </p>
         </div>
@@ -68,13 +68,13 @@ export default async function AboutPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-slate-900 mb-6">{missionVision.mission_title}</h2>
-              <p className="text-slate-600 text-lg leading-relaxed mb-8 font-medium">
+              <h2 className="text-3xl font-bold mb-6" style={{ color: missionVision.mission_title_color, fontFamily: missionVision.mission_title_font }}>{missionVision.mission_title}</h2>
+              <p className="text-lg leading-relaxed mb-8 font-medium" style={{ color: missionVision.mission_desc_color, fontFamily: missionVision.mission_desc_font }}>
                 {missionVision.mission_desc}
               </p>
               
-              <h2 className="text-3xl font-bold text-slate-900 mb-6">{missionVision.vision_title}</h2>
-              <p className="text-slate-600 text-lg leading-relaxed font-medium">
+              <h2 className="text-3xl font-bold mb-6" style={{ color: missionVision.vision_title_color, fontFamily: missionVision.vision_title_font }}>{missionVision.vision_title}</h2>
+              <p className="text-lg leading-relaxed font-medium" style={{ color: missionVision.vision_desc_color, fontFamily: missionVision.vision_desc_font }}>
                 {missionVision.vision_desc}
               </p>
             </div>
@@ -93,8 +93,8 @@ export default async function AboutPage() {
       <section className="py-20 bg-rose-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4">{features.title}</h2>
-            <p className="text-slate-600 text-lg font-medium">{features.description}</p>
+            <h2 className="text-3xl md:text-5xl font-bold mb-4" style={{ color: features.title_color, fontFamily: features.title_font }}>{features.title}</h2>
+            <p className="text-lg font-medium" style={{ color: features.description_color, fontFamily: features.description_font }}>{features.description}</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">

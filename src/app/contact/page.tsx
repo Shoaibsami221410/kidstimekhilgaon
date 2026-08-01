@@ -71,8 +71,12 @@ export default function ContactPage() {
           </div>
         )}
         <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">{hero.title}</h1>
-          <p className="text-lg text-slate-300 mb-8 whitespace-pre-line">{hero.description}</p>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6" style={{ color: hero.title_color, fontFamily: hero.title_font }}>
+            {hero.title}
+          </h1>
+          <p className="text-lg md:text-xl max-w-3xl mx-auto" style={{ color: hero.description_color, fontFamily: hero.description_font }}>
+            {hero.description}
+          </p>
         </div>
       </section>
 
@@ -82,9 +86,9 @@ export default function ContactPage() {
             
             {/* Contact Info */}
             <div className="space-y-12">
-              <div>
-                <h2 className="text-3xl font-bold text-slate-900 mb-6">{info.title}</h2>
-                <p className="text-slate-600 mb-8 whitespace-pre-line">
+              <div className="bg-orange-50 p-8 rounded-3xl h-full border border-orange-100">
+                <h2 className="text-3xl font-bold mb-6" style={{ color: info.title_color, fontFamily: info.title_font }}>{info.title}</h2>
+                <p className="text-lg mb-10 font-medium leading-relaxed" style={{ color: info.description_color, fontFamily: info.description_font }}>
                   {info.description}
                 </p>
               </div>

@@ -91,9 +91,10 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
             initial="hidden"
             animate="visible"
             variants={fadeInUp}
-            className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-8 max-w-4xl leading-tight"
+            className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-8 max-w-4xl leading-tight"
           >
-            {hero.title_black} <br /> {hero.title_gradient}
+            <span style={{ color: hero.title_black_color, fontFamily: hero.title_black_font }}>{hero.title_black}</span> <br /> 
+            <span style={{ color: hero.title_gradient_color, fontFamily: hero.title_gradient_font }}>{hero.title_gradient}</span>
           </motion.h1>
           
           {hero.button_text && (
@@ -103,7 +104,14 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
               variants={fadeInUp}
             >
               <Link href={hero.button_link || "#"}>
-                <Button size="lg" className="h-12 px-8 text-lg rounded-full text-white bg-orange-500 border border-orange-500 hover:bg-orange-600 hover:border-orange-600 hover:shadow-[0_0_30px_rgba(249,115,22,0.8)] hover:-translate-y-1 transition-all duration-300">
+                <Button size="lg" className="h-12 px-8 text-lg rounded-full hover:shadow-[0_0_30px_rgba(0,0,0,0.3)] hover:-translate-y-1 transition-all duration-300"
+                  style={{
+                    backgroundColor: hero.button_bg_color,
+                    color: hero.button_text_color,
+                    fontFamily: hero.button_font,
+                    borderColor: hero.button_bg_color
+                  }}
+                >
                   {hero.button_text === "Watch Demo Classes" ? "Book a Trial Class" : hero.button_text}
                 </Button>
               </Link>
@@ -121,9 +129,9 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
               initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}
               className="flex flex-col items-start"
             >
-              <span className="text-sky-500 font-bold mb-2 uppercase tracking-wide text-sm">{about.subtitle}</span>
-              <h2 className="text-4xl md:text-5xl font-extrabold text-red-600 mb-6">{about.title}</h2>
-              <p className="text-slate-600 text-lg leading-relaxed font-medium">
+              <span className="font-bold mb-2 uppercase tracking-wide text-sm" style={{ color: about.subtitle_color, fontFamily: about.subtitle_font }}>{about.subtitle}</span>
+              <h2 className="text-4xl md:text-5xl font-extrabold mb-6" style={{ color: about.title_color, fontFamily: about.title_font }}>{about.title}</h2>
+              <p className="text-lg leading-relaxed font-medium" style={{ color: about.description_color, fontFamily: about.description_font }}>
                 {about.description}
               </p>
             </motion.div>
@@ -158,23 +166,27 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
               initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}
               className="flex flex-col items-center lg:items-start text-center lg:text-left"
             >
-              <span className="text-sky-500 font-bold mb-2 uppercase tracking-wide text-sm">{servicesMontessori.subtitle}</span>
-              <h2 className="text-4xl md:text-5xl font-extrabold text-red-600 mb-6 leading-tight">{servicesMontessori.title}</h2>
-              <p className="text-slate-600 text-lg leading-relaxed font-medium mb-10">
+              <span className="font-bold mb-2 uppercase tracking-wide text-sm" style={{ color: servicesMontessori.subtitle_color, fontFamily: servicesMontessori.subtitle_font }}>{servicesMontessori.subtitle}</span>
+              <h2 className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight" style={{ color: servicesMontessori.title_color, fontFamily: servicesMontessori.title_font }}>{servicesMontessori.title}</h2>
+              <p className="text-lg leading-relaxed font-medium mb-10" style={{ color: servicesMontessori.description_color, fontFamily: servicesMontessori.description_font }}>
                 {servicesMontessori.description}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 w-full justify-center lg:justify-start">
                 {servicesMontessori.btn1_text && (
                   <Link href={servicesMontessori.btn1_link || "#"}>
-                    <Button size="lg" className="w-full sm:w-auto h-14 px-8 text-lg bg-red-600 hover:bg-red-700 rounded-full text-white shadow-xl shadow-red-600/20">
+                    <Button size="lg" className="w-full sm:w-auto h-14 px-8 text-lg rounded-full shadow-xl"
+                      style={{ backgroundColor: servicesMontessori.btn1_bg_color, color: servicesMontessori.btn1_text_color, fontFamily: servicesMontessori.btn1_font }}
+                    >
                       {servicesMontessori.btn1_text}
                     </Button>
                   </Link>
                 )}
                 {servicesMontessori.btn2_text && (
                   <Link href={servicesMontessori.btn2_link || "#"}>
-                    <Button size="lg" className="w-full sm:w-auto h-14 px-8 text-lg bg-sky-500 hover:bg-sky-600 rounded-full text-white shadow-xl shadow-sky-500/20">
+                    <Button size="lg" className="w-full sm:w-auto h-14 px-8 text-lg rounded-full shadow-xl"
+                      style={{ backgroundColor: servicesMontessori.btn2_bg_color, color: servicesMontessori.btn2_text_color, fontFamily: servicesMontessori.btn2_font }}
+                    >
                       {servicesMontessori.btn2_text}
                     </Button>
                   </Link>
@@ -202,9 +214,9 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
       <section className="w-full py-24 bg-white relative">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-16 max-w-3xl mx-auto">
-            <span className="text-sky-500 font-bold mb-2 block uppercase tracking-wide text-sm">{servicesAfterSchool.subtitle}</span>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-red-600 mb-6">{servicesAfterSchool.title}</h2>
-            <p className="text-slate-600 text-lg font-medium leading-relaxed">
+            <span className="font-bold mb-2 block uppercase tracking-wide text-sm" style={{ color: servicesAfterSchool.subtitle_color, fontFamily: servicesAfterSchool.subtitle_font }}>{servicesAfterSchool.subtitle}</span>
+            <h2 className="text-4xl md:text-5xl font-extrabold mb-6" style={{ color: servicesAfterSchool.title_color, fontFamily: servicesAfterSchool.title_font }}>{servicesAfterSchool.title}</h2>
+            <p className="text-lg font-medium leading-relaxed" style={{ color: servicesAfterSchool.description_color, fontFamily: servicesAfterSchool.description_font }}>
               {servicesAfterSchool.description}
             </p>
           </div>
@@ -241,9 +253,11 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
           </div>
 
           {servicesAfterSchool.explore_btn_text && (
-            <div className="flex justify-center">
+            <div className="flex justify-center mt-12">
                <Link href={servicesAfterSchool.explore_btn_link || "#"}>
-                <Button className="bg-slate-700 hover:bg-slate-800 text-white rounded px-8 h-12 shadow-md">
+                <Button className="rounded px-8 h-12 shadow-md hover:shadow-lg transition-shadow"
+                  style={{ backgroundColor: servicesAfterSchool.explore_btn_bg_color, color: servicesAfterSchool.explore_btn_text_color, fontFamily: servicesAfterSchool.explore_btn_font }}
+                >
                   {servicesAfterSchool.explore_btn_text}
                 </Button>
               </Link>
@@ -303,13 +317,15 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm mb-6 border">
                 <Users className="w-8 h-8 text-slate-700" />
               </div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-4">{community.title}</h3>
-              <p className="text-slate-600 leading-relaxed font-medium mb-8 max-w-md">
+              <h3 className="text-2xl font-bold mb-4" style={{ color: community.title_color, fontFamily: community.title_font }}>{community.title}</h3>
+              <p className="leading-relaxed font-medium mb-8 max-w-md" style={{ color: community.description_color, fontFamily: community.description_font }}>
                 {community.description}
               </p>
               {community.btn_text && (
                 <Link href={community.btn_link || "#"}>
-                  <Button size="lg" className="h-12 px-10 text-lg bg-red-600 hover:bg-red-700 rounded-full text-white shadow-lg shadow-red-600/20">
+                  <Button size="lg" className="h-12 px-10 text-lg rounded-full shadow-lg"
+                    style={{ backgroundColor: community.btn_bg_color, color: community.btn_text_color, fontFamily: community.btn_font }}
+                  >
                     {community.btn_text}
                   </Button>
                 </Link>

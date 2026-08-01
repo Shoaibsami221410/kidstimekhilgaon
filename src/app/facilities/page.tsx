@@ -72,10 +72,10 @@ export default async function FacilitiesPage() {
           </div>
         )}
         <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6" style={{ color: facilitiesHero.title_color, fontFamily: facilitiesHero.title_font }}>
             {facilitiesHero.title}
           </h1>
-          <p className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto">
+          <p className="text-lg md:text-xl max-w-3xl mx-auto" style={{ color: facilitiesHero.description_color, fontFamily: facilitiesHero.description_font }}>
             {facilitiesHero.description}
           </p>
         </div>

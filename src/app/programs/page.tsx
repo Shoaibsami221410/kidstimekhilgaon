@@ -40,7 +40,7 @@ export default async function ProgramsPage() {
         )}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            <span className="text-[#00b4ff]">{hero.title_cyan}</span> <span className="text-red-500">{hero.title_red}</span>
+            <span style={{ color: hero.title_cyan_color, fontFamily: hero.title_cyan_font }}>{hero.title_cyan}</span> <span style={{ color: hero.title_red_color, fontFamily: hero.title_red_font }}>{hero.title_red}</span>
           </h1>
           
           <div className="flex items-center gap-2 mb-8">
@@ -51,11 +51,11 @@ export default async function ProgramsPage() {
             <div className="w-24 h-0.5 bg-slate-200 ml-2 rounded-full"></div>
           </div>
           
-          <h2 className="text-2xl md:text-3xl text-[#00b4ff] font-bold mb-8 max-w-4xl leading-tight whitespace-pre-line">
+          <h2 className="text-2xl md:text-3xl font-bold mb-8 max-w-4xl leading-tight whitespace-pre-line" style={{ color: hero.subtitle_color, fontFamily: hero.subtitle_font }}>
             {hero.subtitle}
           </h2>
           
-          <p className="text-lg md:text-xl text-slate-700 leading-relaxed max-w-5xl whitespace-pre-line">
+          <p className="text-lg md:text-xl leading-relaxed max-w-5xl whitespace-pre-line" style={{ color: hero.description_color, fontFamily: hero.description_font }}>
             {hero.description}
           </p>
         </div>

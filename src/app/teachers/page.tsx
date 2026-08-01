@@ -13,23 +13,13 @@ export default function TeachersPage() {
 
   useEffect(() => {
     async function fetchTeachers() {
-      const [teachersRes, contentRes] = await Promise.all([
-        supabase.from('teachers').select(`
-          id,
-          qualifications,
-          experience,
-          certifications,
-          users (
-            full_name,
-            email
-          )
-        `),
-        supabase.from('page_content').select('*').eq('page', 'teachers')
-      ])
+      const { data } = await supabase.from('page_content').select('*').eq('page', 'teachers')
       
-      if (teachersRes.data) setTeachers(teachersRes.data)
-      if (contentRes.data) setContent(contentRes.data)
-      
+      if (data) {
+        setContent(data)
+        const teachersListData = data.find((c: any) => c.id === 'teachers_list')?.content?.teachers || []
+        setTeachers(teachersListData)
+      }
       setLoading(false)
     }
     
@@ -50,8 +40,8 @@ export default function TeachersPage() {
           </div>
         )}
         <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">{hero.title}</h1>
-          <p className="text-lg text-slate-600 mb-8 whitespace-pre-line">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6" style={{ color: hero.title_color, fontFamily: hero.title_font }}>{hero.title}</h1>
+          <p className="text-lg mb-8 whitespace-pre-line" style={{ color: hero.description_color, fontFamily: hero.description_font }}>
             {hero.description}
           </p>
         </div>
@@ -70,15 +60,19 @@ export default function TeachersPage() {
              </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {teachers.map((teacher) => (
-                <div key={teacher.id} className="bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 border border-slate-100 hover:-translate-y-2 transition-transform duration-300">
-                  <div className="w-24 h-24 bg-orange-100 rounded-full flex items-center justify-center mb-6 mx-auto">
-                    <span className="text-3xl font-bold text-orange-600">
-                      {teacher.users?.full_name?.charAt(0) || "T"}
-                    </span>
+              {teachers.map((teacher, index) => (
+                <div key={index} className="bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 border border-slate-100 hover:-translate-y-2 transition-transform duration-300">
+                  <div className="w-24 h-24 bg-orange-100 rounded-full flex items-center justify-center mb-6 mx-auto overflow-hidden">
+                    {teacher.image_url ? (
+                      <img src={teacher.image_url} alt={teacher.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <span className="text-3xl font-bold text-orange-600">
+                        {teacher.name?.charAt(0) || "T"}
+                      </span>
+                    )}
                   </div>
-                  <h3 className="text-2xl font-bold text-slate-900 text-center mb-2">{teacher.users?.full_name || "Teacher"}</h3>
-                  <p className="text-orange-500 font-medium text-center mb-6">Creative Educator</p>
+                  <h3 className="text-2xl font-bold text-slate-900 text-center mb-2">{teacher.name || "Teacher"}</h3>
+                  <p className="text-orange-500 font-medium text-center mb-6">{teacher.role || "Creative Educator"}</p>
                   
                   <div className="space-y-4">
                     <div className="flex items-start gap-3">

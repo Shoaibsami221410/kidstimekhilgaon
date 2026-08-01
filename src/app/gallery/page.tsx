@@ -48,8 +48,8 @@ export default function GalleryPage() {
           </div>
         )}
         <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">{hero.title}</h1>
-          <p className="text-lg text-slate-300 mb-8 whitespace-pre-line">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6" style={{ color: hero.title_color, fontFamily: hero.title_font }}>{hero.title}</h1>
+          <p className="text-lg mb-8 whitespace-pre-line" style={{ color: hero.description_color, fontFamily: hero.description_font }}>
             {hero.description}
           </p>
         </div>
