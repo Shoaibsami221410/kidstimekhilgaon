@@ -12,27 +12,12 @@ const supabase = createClient()
 
 export default function EventsPage() {
   const [events, setEvents] = useState<any[]>([])
-<<<<<<< Updated upstream
-=======
   const [content, setContent] = useState<any[]>([])
   const [rsvpCounts, setRsvpCounts] = useState<Record<string, number>>({})
->>>>>>> Stashed changes
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function fetchEvents() {
-<<<<<<< Updated upstream
-      const { data, error } = await supabase
-        .from('events')
-        .select('*')
-        .order('event_date', { ascending: true })
-      
-      if (data) {
-        setEvents(data)
-      } else if (error) {
-        console.error(error)
-      }
-=======
       const [eventsRes, contentRes, countsRes] = await Promise.all([
         supabase.from('events').select('*').order('event_date', { ascending: true }),
         supabase.from('page_content').select('*').eq('page', 'events'),
@@ -49,8 +34,6 @@ export default function EventsPage() {
         })
         setRsvpCounts(countsMap)
       }
-      
->>>>>>> Stashed changes
       setLoading(false)
     }
     

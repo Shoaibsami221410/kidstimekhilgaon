@@ -14,8 +14,6 @@ export default function ContentManagementPage() {
 
   const requiredSections = [
     {
-<<<<<<< Updated upstream
-=======
       id: 'home_hero',
       page: 'home',
       section: 'hero',
@@ -30,7 +28,6 @@ export default function ContentManagementPage() {
       }
     },
     {
->>>>>>> Stashed changes
       id: 'home_about',
       page: 'home',
       section: 'about',
