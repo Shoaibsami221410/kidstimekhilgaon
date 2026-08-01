@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { PlayCircle, CheckCircle2 } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { createClient } from "@/lib/supabase/client"
 
 const formSchema = z.object({
   parentName: z.string().min(2, "Name must be at least 2 characters"),
@@ -38,14 +39,16 @@ const demoClasses: DemoClass[] = [
 ]
 
 /**
- * Demo Class Flow Component
- * Handles the parent registration form and granting access to demo videos
+ * Trial Class Flow Component
+ * Handles the parent registration form and granting access to trial videos
  */
-export function DemoClassFlow() {
+export function TrialClassFlow() {
   const [isRegistered, setIsRegistered] = useState(false)
   const [completedClasses, setCompletedClasses] = useState<string[]>([])
   const [showEnrollPopup, setShowEnrollPopup] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
+  const supabase = createClient()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -58,9 +61,23 @@ export function DemoClassFlow() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // In a real app, save to Supabase public.demo_completions here
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsSubmitting(true)
+    const { error } = await supabase.from('trial_class_requests').insert({
+      parent_name: values.parentName,
+      parent_phone: values.parentPhone,
+      parent_email: values.parentEmail,
+      child_name: values.childName,
+      child_age: parseInt(values.childAge, 10)
+    })
+    setIsSubmitting(false)
+
+    if (error) {
+      console.error("Error submitting form:", error)
+      alert("Failed to submit request. Please try again.")
+      return
+    }
+
     setIsRegistered(true)
   }
 
@@ -81,7 +98,7 @@ export function DemoClassFlow() {
       <Card className="shadow-lg border-orange-100">
         <CardHeader className="bg-orange-50/50 border-b pb-8">
           <CardTitle className="text-2xl">Registration Required</CardTitle>
-          <CardDescription className="text-base">Please fill out this short form to access the Demo Library.</CardDescription>
+          <CardDescription className="text-base">Please fill out this short form to access the Trial Class Library.</CardDescription>
         </CardHeader>
         <CardContent className="pt-8">
           <Form {...form}>
@@ -153,8 +170,8 @@ export function DemoClassFlow() {
                   )}
                 />
               </div>
-              <Button type="submit" className="w-full bg-orange-500 hover:bg-orange-600 text-lg h-12">
-                Access Demo Library
+              <Button type="submit" disabled={isSubmitting} className="w-full bg-orange-500 hover:bg-orange-600 text-lg h-12">
+                {isSubmitting ? "Submitting..." : "Access Trial Library"}
               </Button>
             </form>
           </Form>
@@ -207,7 +224,7 @@ export function DemoClassFlow() {
             </div>
             <DialogTitle className="text-2xl mb-2 text-center">Great Job!</DialogTitle>
             <DialogDescription className="text-base text-center">
-              You've completed some of our demo classes. Would you like to enroll your child in Kids Time Khilgaon?
+              You've completed some of our trial classes. Would you like to enroll your child in Kids Time Khilgaon?
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-3 mt-6">
