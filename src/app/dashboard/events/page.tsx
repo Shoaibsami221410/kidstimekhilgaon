@@ -10,6 +10,8 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog"
 import { Trash2, Plus, Calendar as CalendarIcon, MapPin, UploadCloud, Loader2, Download, Edit, Eye } from "lucide-react"
+import { RichTextEditor } from "@/components/rich-text-editor"
+import { ImagePicker } from "@/components/image-picker"
 
 export default function EventsAdminPage() {
   const supabase = createClient()
@@ -225,12 +227,12 @@ export default function EventsAdminPage() {
                 </div>
 
                 <div className="space-y-2 col-span-2">
-                  <Label htmlFor="description">Description</Label>
-                  <Textarea id="description" value={description} onChange={e => setDescription(e.target.value)} placeholder="Brief details about the event..." className="h-24" />
+                  <Label htmlFor="description">Event Content (Blog Post)</Label>
+                  <RichTextEditor content={description} onChange={setDescription} />
                 </div>
 
                 <div className="col-span-2">
-                  <ImagePickerField value={coverImageUrl} onChange={setCoverImageUrl} />
+                  <ImagePicker value={coverImageUrl} onChange={setCoverImageUrl} label="Cover Image" />
                 </div>
               </div>
               
@@ -444,106 +446,4 @@ export default function EventsAdminPage() {
   )
 }
 
-function ImagePickerField({ value, onChange }: { value: string, onChange: (val: string) => void }) {
-  const [activeTab, setActiveTab] = useState<'upload' | 'link'>('upload')
-  const [uploading, setUploading] = useState(false)
-  const supabase = createClient()
 
-  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files || e.target.files.length === 0) return
-    const file = e.target.files[0]
-    setUploading(true)
-    try {
-      const fileExt = file.name.split('.').pop()
-      const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`
-      const filePath = `public/images/${fileName}`
-
-      const { error: uploadError } = await supabase.storage
-        .from('kidstime-assets')
-        .upload(filePath, file)
-
-      if (uploadError) throw uploadError
-
-      const { data } = supabase.storage
-        .from('kidstime-assets')
-        .getPublicUrl(filePath)
-
-      onChange(data.publicUrl)
-    } catch (err: any) {
-      alert("Error uploading image: " + err.message)
-    } finally {
-      setUploading(false)
-    }
-  }
-
-  return (
-    <div className="space-y-3 p-4 border rounded-xl bg-slate-50">
-      <Label className="font-semibold text-slate-700 block">Cover Image</Label>
-      
-      {value && (
-        <div className="relative w-full max-w-sm aspect-video rounded-xl overflow-hidden border shadow-sm bg-slate-100">
-          <img src={value} alt="Preview" className="w-full h-full object-cover" />
-          <button 
-            type="button"
-            onClick={() => onChange("")}
-            className="absolute top-2 right-2 bg-red-500 text-white p-1.5 rounded-full hover:bg-red-600 transition-colors shadow-sm"
-          >
-            <Trash2 className="w-4 h-4" />
-          </button>
-        </div>
-      )}
-
-      {!value && (
-        <>
-          <div className="flex bg-slate-200/50 rounded-lg p-1 w-fit">
-            <button 
-              type="button"
-              onClick={() => setActiveTab('upload')}
-              className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${activeTab === 'upload' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-500 hover:text-slate-700'}`}
-            >
-              Upload Image
-            </button>
-            <button 
-              type="button"
-              onClick={() => setActiveTab('link')}
-              className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${activeTab === 'link' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-500 hover:text-slate-700'}`}
-            >
-              Enter Link
-            </button>
-          </div>
-
-          {activeTab === 'link' ? (
-            <Input 
-              className="focus:ring-orange-500 rounded-lg bg-white"
-              value={value} 
-              onChange={(e) => onChange(e.target.value)} 
-              placeholder="https://..."
-            />
-          ) : (
-            <div className="border-2 border-dashed border-slate-300 bg-white rounded-xl p-6 text-center hover:bg-slate-50 transition-colors">
-              <input 
-                type="file" 
-                accept="image/*" 
-                onChange={handleUpload} 
-                disabled={uploading}
-                className="hidden" 
-                id="file-upload-event-cover" 
-              />
-              <Label htmlFor="file-upload-event-cover" className="cursor-pointer flex flex-col items-center">
-                {uploading ? (
-                  <Loader2 className="w-8 h-8 text-orange-500 animate-spin mb-2" />
-                ) : (
-                  <UploadCloud className="w-8 h-8 text-slate-400 mb-2" />
-                )}
-                <span className="text-sm font-medium text-slate-700">
-                  {uploading ? 'Uploading...' : 'Click to upload or drag and drop'}
-                </span>
-                <span className="text-xs text-slate-500 mt-1">SVG, PNG, JPG or GIF</span>
-              </Label>
-            </div>
-          )}
-        </>
-      )}
-    </div>
-  )
-}

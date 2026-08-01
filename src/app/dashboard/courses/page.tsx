@@ -15,6 +15,7 @@ export default function DashboardCoursesPage() {
   const [courses, setCourses] = useState<any[]>([])
   const [isSaving, setIsSaving] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
 
   useEffect(() => {
     fetchCourses()
@@ -32,8 +33,17 @@ export default function DashboardCoursesPage() {
     const formData = new FormData(e.currentTarget)
     const title = formData.get('title') as string
     const description = formData.get('description') as string
+    const thumbnail_url = formData.get('thumbnail_url') as string
+    const min_age = parseInt(formData.get('min_age') as string) || 4
+    const max_age = parseInt(formData.get('max_age') as string) || 12
 
-    const { error } = await supabase.from('courses').insert([{ title, description }])
+    const { error } = await supabase.from('courses').insert([{ 
+      title, 
+      description,
+      thumbnail_url,
+      min_age,
+      max_age
+    }])
 
     setIsSaving(false)
     if (!error) {
@@ -42,6 +52,18 @@ export default function DashboardCoursesPage() {
       e.currentTarget.reset()
       setTimeout(() => setShowSuccess(false), 3000)
     }
+  }
+
+  async function handleDelete(id: string) {
+    if (!confirm("Are you sure you want to delete this course?")) return
+    setDeletingId(id)
+    const { error } = await supabase.from('courses').delete().eq('id', id)
+    if (!error) {
+      fetchCourses()
+    } else {
+      alert("Error deleting course: " + error.message)
+    }
+    setDeletingId(null)
   }
 
   return (
@@ -71,6 +93,20 @@ export default function DashboardCoursesPage() {
                 <Input id="title" name="title" placeholder="e.g. Early Literacy Foundation" required />
               </div>
               <div className="space-y-2">
+                <Label htmlFor="thumbnail_url">Thumbnail URL (Image Link)</Label>
+                <Input id="thumbnail_url" name="thumbnail_url" placeholder="https://example.com/image.jpg" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="min_age">Min Age</Label>
+                  <Input id="min_age" name="min_age" type="number" placeholder="4" defaultValue={4} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="max_age">Max Age</Label>
+                  <Input id="max_age" name="max_age" type="number" placeholder="12" defaultValue={12} />
+                </div>
+              </div>
+              <div className="space-y-2">
                 <Label htmlFor="description">Description</Label>
                 <Textarea id="description" name="description" placeholder="Course overview..." rows={4} />
               </div>
@@ -98,9 +134,18 @@ export default function DashboardCoursesPage() {
                     <h3 className="font-bold text-slate-900">{course.title}</h3>
                     <p className="text-sm text-slate-500 mt-1 line-clamp-1">{course.description}</p>
                   </div>
-                  <Link href={`/dashboard/courses/${course.id}`} className={buttonVariants({ variant: "outline", size: "sm" })}>
-                    Manage Modules
-                  </Link>
+                  <div className="flex items-center gap-2">
+                    <button 
+                      onClick={() => handleDelete(course.id)}
+                      disabled={deletingId === course.id}
+                      className={buttonVariants({ variant: "destructive", size: "sm" })}
+                    >
+                      {deletingId === course.id ? "..." : "Delete"}
+                    </button>
+                    <Link href={`/dashboard/courses/${course.id}`} className={buttonVariants({ variant: "outline", size: "sm" })}>
+                      Edit Course
+                    </Link>
+                  </div>
                 </div>
               ))
             )}
