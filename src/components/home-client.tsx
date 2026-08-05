@@ -236,7 +236,7 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
                 <motion.div key={i} variants={fadeInUp} className="w-full flex flex-col items-center text-center bg-white border rounded-3xl p-6 shadow-sm hover:shadow-xl transition-shadow duration-300">
                   {/* Blob Image Mask */}
                   <div 
-                    className="w-full aspect-[4/3] mb-6 overflow-hidden relative bg-slate-100"
+                    className="w-[85%] mx-auto aspect-[4/3] mb-6 overflow-hidden relative bg-slate-100"
                     style={{ borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%' }}
                   >
                     {cImage && <Image src={cImage} alt={cTitle} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />}
