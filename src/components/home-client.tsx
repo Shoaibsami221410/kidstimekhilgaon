@@ -11,6 +11,7 @@
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
 import Link from "next/link"
+import Image from "next/image"
 import { Play, Users } from "lucide-react"
 
 export function HomeClient({ content, courses, testimonials }: { content: any, courses?: any[], testimonials?: any[] }) {
@@ -142,7 +143,7 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
                 initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}
                 className="relative rounded-[2rem] overflow-hidden shadow-2xl aspect-video group cursor-pointer"
               >
-                <img src={about.thumbnail_url} alt="About Kids Time" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <Image src={about.thumbnail_url} alt="About Kids Time" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
                 {about.video_url && (
                   <div className="absolute inset-0 flex items-center justify-center">
@@ -200,7 +201,7 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
                 initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}
                 className="relative rounded-[2rem] overflow-hidden shadow-2xl aspect-[4/3]"
               >
-                <img src={servicesMontessori.image_url} alt="Montessori" className="w-full h-full object-cover" />
+                <Image src={servicesMontessori.image_url} alt="Montessori" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
                 <div className="absolute top-4 left-4 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full">
                   LIVE
                 </div>
@@ -224,8 +225,7 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
           <div className="w-full relative">
             <motion.div 
               initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }}
-              className="flex overflow-x-auto snap-x snap-mandatory gap-8 pb-8 pt-4 px-4 w-full"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-8 pt-4 px-4 w-full max-w-7xl mx-auto"
             >
               {displayCourses?.map((course: any, i: number) => {
                 const cTitle = course.title || "";
@@ -233,13 +233,13 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
                 const cImage = course.image_url || course.thumbnail_url || "";
                 
                 return (
-                <motion.div key={i} variants={fadeInUp} className="flex-none w-full sm:w-[350px] md:w-[400px] snap-center flex flex-col items-center text-center bg-white border rounded-3xl p-6 shadow-sm hover:shadow-xl transition-shadow duration-300">
+                <motion.div key={i} variants={fadeInUp} className="group w-full flex flex-col items-center text-center bg-white border rounded-3xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-2 hover:border-red-100 transition-all duration-300 cursor-pointer">
                   {/* Blob Image Mask */}
                   <div 
-                    className="w-full aspect-[4/3] mb-6 overflow-hidden relative"
+                    className="w-[85%] mx-auto aspect-[4/3] mb-6 overflow-hidden relative bg-slate-100"
                     style={{ borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%' }}
                   >
-                    {cImage && <img src={cImage} alt={cTitle} className="w-full h-full object-cover" />}
+                    {cImage && <Image src={cImage} alt={cTitle} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-110 transition-transform duration-700" />}
                   </div>
                   
                   <h3 className="text-xl font-bold mb-3 text-slate-900">
@@ -293,7 +293,7 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
                       "{testimonial.text}"
                     </p>
                     <div className="flex items-center justify-center gap-4">
-                      <img src={testimonial.avatar_url} alt={testimonial.author} className="w-12 h-12 rounded-full shadow-md object-cover" />
+                      <Image src={testimonial.avatar_url} alt={testimonial.author} width={48} height={48} className="rounded-full shadow-md object-cover" />
                       <div className="text-left">
                         <h4 className="font-bold text-slate-900 text-sm">{testimonial.author}</h4>
                         <p className="text-slate-500 text-xs">{testimonial.role}</p>
