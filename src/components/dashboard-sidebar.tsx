@@ -12,6 +12,7 @@ export function DashboardSidebar() {
     { href: "/dashboard/trial-classes", icon: ClipboardCheck, label: "Trial Classes" },
     { href: "/dashboard/users", icon: Users, label: "User Management" },
     { href: "/dashboard/courses", icon: BookOpen, label: "LMS Courses" },
+    { href: "/dashboard/teachers", icon: GraduationCap, label: "Teachers" },
     { href: "/dashboard/events", icon: Calendar, label: "Events" },
     { href: "/dashboard/gallery", icon: ImageIcon, label: "Gallery" },
     { href: "/dashboard/content", icon: LayoutDashboard, label: "Website Content" },
