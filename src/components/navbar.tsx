@@ -178,10 +178,13 @@ export function Navbar() {
           
           {/* Mobile Navigation */}
           <div className="xl:hidden flex items-center gap-2">
+            <button 
+              className="inline-flex h-9 w-9 items-center justify-center rounded-md hover:bg-slate-100 text-slate-500"
+              onClick={() => setIsMobileMenuOpen(true)}
+            >
+              <Menu className="h-6 w-6" />
+            </button>
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-              <SheetTrigger className="inline-flex h-9 w-9 items-center justify-center rounded-md hover:bg-slate-100 text-slate-500">
-                <Menu className="h-6 w-6" />
-              </SheetTrigger>
               <SheetContent side="right" className="w-[300px] sm:w-[400px] overflow-y-auto p-6">
                 <SheetTitle className="text-left font-bold text-xl mb-6 pr-8">Kids Time <span className="text-orange-500">Khilgaon</span></SheetTitle>
                 
