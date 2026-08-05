@@ -1,35 +1,32 @@
 import { createClient } from "@/lib/supabase/server"
 import { GraduationCap, Award, BookOpen } from "lucide-react"
+import Image from "next/image"
 
 export const revalidate = 60
 
 export default async function TeachersPage() {
   const supabase = await createClient()
 
-  // Fetch page content for the hero section
-  const { data: contentData } = await supabase.from('page_content').select('*').eq('page', 'teachers')
-  
+  // Fetch all data in parallel
+  const [
+    { data: contentData },
+    { data: teachers, error }
+  ] = await Promise.all([
+    supabase.from('page_content').select('*').eq('page', 'teachers'),
+    supabase.from('teacher_profiles').select(`*, courses (title)`)
+  ])
+
   const hero = contentData?.find((c) => c.id === 'teachers_hero')?.content || {
     title: "Our Expert Teachers",
     description: "Meet the passionate educators dedicated to nurturing your child's creativity."
   }
-
-  // Fetch all teachers from the new simple profiles table
-  const { data: teachers, error } = await supabase
-    .from('teacher_profiles')
-    .select(`
-      *,
-      courses (
-        title
-      )
-    `)
 
   return (
     <div className="flex flex-col min-h-screen animate-in fade-in duration-700">
       <section className="bg-orange-50 py-20 border-b border-orange-100 relative">
         {hero.image_url && (
           <div className="absolute inset-0 z-0 opacity-20">
-            <img src={hero.image_url} alt="Teachers" className="w-full h-full object-cover" />
+            <Image src={hero.image_url} alt="Teachers" fill sizes="100vw" className="object-cover" />
           </div>
         )}
         <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
@@ -52,11 +49,11 @@ export default async function TeachersPage() {
               {teachers.map((teacher: any, index: number) => {
                 return (
                   <div key={index} className="bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 border border-slate-100 hover:-translate-y-2 transition-transform duration-300">
-                    <div className="w-32 h-32 bg-orange-100 rounded-full flex items-center justify-center mb-6 mx-auto overflow-hidden border-4 border-orange-50 shadow-sm">
+                    <div className="w-32 h-32 bg-orange-100 rounded-full flex items-center justify-center mb-6 mx-auto overflow-hidden border-4 border-orange-50 shadow-sm relative">
                       {teacher.image_url ? (
-                        <img src={teacher.image_url} alt={teacher.name} className="w-full h-full object-cover" />
+                        <Image src={teacher.image_url} alt={teacher.name} fill sizes="128px" className="object-cover" />
                       ) : (
-                        <img src={`https://ui-avatars.com/api/?name=${teacher.name}&background=random`} alt={teacher.name} className="w-full h-full object-cover" />
+                        <Image src={`https://ui-avatars.com/api/?name=${teacher.name}&background=random`} alt={teacher.name} fill sizes="128px" className="object-cover" />
                       )}
                     </div>
                     
