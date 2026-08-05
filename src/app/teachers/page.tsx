@@ -4,7 +4,7 @@ import { GraduationCap, Award, BookOpen } from "lucide-react"
 export const revalidate = 60
 
 export default async function TeachersPage() {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   // Fetch page content for the hero section
   const { data: contentData } = await supabase.from('page_content').select('*').eq('page', 'teachers')
