@@ -233,13 +233,13 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
                 const cImage = course.image_url || course.thumbnail_url || "";
                 
                 return (
-                <motion.div key={i} variants={fadeInUp} className="w-full flex flex-col items-center text-center bg-white border rounded-3xl p-6 shadow-sm hover:shadow-xl transition-shadow duration-300">
+                <motion.div key={i} variants={fadeInUp} className="group w-full flex flex-col items-center text-center bg-white border rounded-3xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-2 hover:border-red-100 transition-all duration-300 cursor-pointer">
                   {/* Blob Image Mask */}
                   <div 
                     className="w-[85%] mx-auto aspect-[4/3] mb-6 overflow-hidden relative bg-slate-100"
                     style={{ borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%' }}
                   >
-                    {cImage && <Image src={cImage} alt={cTitle} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />}
+                    {cImage && <Image src={cImage} alt={cTitle} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-110 transition-transform duration-700" />}
                   </div>
                   
                   <h3 className="text-xl font-bold mb-3 text-slate-900">
