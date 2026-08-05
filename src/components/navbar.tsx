@@ -87,11 +87,21 @@ export function Navbar() {
   ]
 
   const adminLinks = [
-    { href: "/dashboard", label: "Admin Overview" },
-    { href: "/dashboard/students", label: "Manage Students" },
-    { href: "/dashboard/parents", label: "Manage Parents" },
+    { href: "/dashboard", label: "Overview" },
+    { href: "/dashboard/admissions", label: "Admissions" },
+    { href: "/dashboard/trial-classes", label: "Trial Classes" },
+    { href: "/dashboard/attendance", label: "Attendance" },
     { href: "/dashboard/assignments", label: "Assignments" },
     { href: "/dashboard/messages", label: "Messages" },
+    { href: "/dashboard/fees", label: "Fee Management" },
+    { href: "/dashboard/users", label: "User Management" },
+    { href: "/dashboard/courses", label: "LMS Courses" },
+    { href: "/dashboard/classes", label: "Live Classes" },
+    { href: "/dashboard/events", label: "Events" },
+    { href: "/dashboard/gallery", label: "Gallery" },
+    { href: "/dashboard/finance", label: "Finance" },
+    { href: "/dashboard/content", label: "Website Content" },
+    { href: "/dashboard/testimonials", label: "Testimonials" },
   ]
 
   const isAdmin = userData?.role === 'admin' || userData?.role === 'super_admin'
