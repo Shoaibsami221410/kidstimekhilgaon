@@ -323,11 +323,10 @@ export default function ContentManagementPage() {
         address: `Block C, Road 12, House 45
 Khilgaon, Dhaka 1219
 Bangladesh`,
-        phone: `Franchisee Owner - Jiaul Haque
-+880 1685-729549
-
-Coordinator - Junaida Islam
-+880 1625-626227`,
+        phone_contacts: [
+          { role: "Franchisee Owner", name: "Jiaul Haque", phone: "+880 1685-729549" },
+          { role: "Coordinator", name: "Junaida Islam", phone: "+880 1625-626227" }
+        ],
         hours: "Friday - Saturday: 9:00 AM - 6:00 PM"
       }
     },

@@ -104,17 +104,32 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4 p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
-                  <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center shrink-0">
-                    <Phone className="w-6 h-6" />
+                {info.phone_contacts && Array.isArray(info.phone_contacts) ? (
+                  info.phone_contacts.map((contact: any, idx: number) => (
+                    <div key={idx} className="flex items-start gap-4 p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
+                      <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center shrink-0">
+                        <Phone className="w-6 h-6" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-slate-900 text-lg mb-1">{contact.name}</h3>
+                        <p className="text-sm font-medium text-blue-600 mb-1">{contact.role}</p>
+                        <p className="text-slate-600 font-medium">{contact.phone}</p>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="flex items-start gap-4 p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
+                    <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center shrink-0">
+                      <Phone className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-slate-900 text-lg mb-1">Call Us</h3>
+                      <p className="text-slate-600 whitespace-pre-line">
+                        {info.phone}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-bold text-slate-900 text-lg mb-1">Call Us</h3>
-                    <p className="text-slate-600 whitespace-pre-line">
-                      {info.phone}
-                    </p>
-                  </div>
-                </div>
+                )}
 
                 <div className="flex items-start gap-4 p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
                   <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center shrink-0">
