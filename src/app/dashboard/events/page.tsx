@@ -382,7 +382,9 @@ export default function EventsAdminPage() {
                       </TableCell>
                       <TableCell>
                         <div className="font-semibold text-slate-900">{evt.title}</div>
-                        <div className="text-xs text-slate-500 line-clamp-1 max-w-xs">{evt.description}</div>
+                        <div className="text-xs text-slate-500 line-clamp-1 max-w-xs">
+                          {evt.description ? evt.description.replace(/<[^>]*>?/gm, '') : ''}
+                        </div>
                       </TableCell>
                       <TableCell className="text-slate-600">
                         <div className="flex items-center gap-1.5 font-medium text-slate-800">
