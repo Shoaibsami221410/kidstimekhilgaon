@@ -66,14 +66,9 @@ export async function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Logo & About */}
           <div className="space-y-6">
-            <div className="flex items-center gap-3">
-              <div className="bg-red-600 text-white font-bold p-2 rounded flex items-center justify-center w-12 h-12 text-xl leading-none">
-                Kids<br/>Time
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-white leading-tight">Kids Time BD</h3>
-                <p className="text-sky-500 text-xs">A brand of Light of Hope Ltd.</p>
-              </div>
+            <div className="flex flex-col gap-2">
+              <img src="/logo.png" alt="Kids Time Logo" className="h-16 w-auto object-contain object-left" />
+              <p className="text-sky-500 text-xs">A brand of Light of Hope Ltd.</p>
             </div>
             <p className="text-sm text-slate-400 leading-relaxed max-w-sm">
               {footerData.about_text}

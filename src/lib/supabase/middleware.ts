@@ -35,7 +35,34 @@ export async function updateSession(request: NextRequest) {
 
   // RBAC routing
   const path = request.nextUrl.pathname
-  const role = user?.user_metadata?.role || 'parent' // Default to parent if unknown
+  let role = user?.user_metadata?.role
+
+  if (user && (!role || role === 'parent')) {
+    try {
+      const { data: sessionData } = await supabase.auth.getSession()
+      const token = sessionData.session?.access_token
+
+      if (token) {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/users?id=eq.${user.id}&select=role`, {
+          headers: {
+            'apikey': process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        
+        if (res.ok) {
+          const json = await res.json()
+          if (json && json.length > 0 && json[0].role) {
+            role = json[0].role
+          }
+        }
+      }
+    } catch (err) {
+      console.error("Middleware DB fetch error:", err)
+    }
+  }
+
+  role = role || 'parent' // Default to parent if unknown
 
   // Admin route protection
   if (path.startsWith('/dashboard')) {

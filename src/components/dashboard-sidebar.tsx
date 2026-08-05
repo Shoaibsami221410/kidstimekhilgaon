@@ -9,18 +9,11 @@ export function DashboardSidebar() {
 
   const navItems = [
     { href: "/dashboard", icon: LayoutDashboard, label: "Overview" },
-    { href: "/dashboard/admissions", icon: ClipboardCheck, label: "Admissions" },
     { href: "/dashboard/trial-classes", icon: ClipboardCheck, label: "Trial Classes" },
-    { href: "/dashboard/attendance", icon: Calendar, label: "Attendance" },
-    { href: "/dashboard/assignments", icon: FileText, label: "Assignments" },
-    { href: "/dashboard/messages", icon: MessageSquare, label: "Messages" },
-    { href: "/dashboard/fees", icon: Banknote, label: "Fee Management" },
     { href: "/dashboard/users", icon: Users, label: "User Management" },
     { href: "/dashboard/courses", icon: BookOpen, label: "LMS Courses" },
-    { href: "/dashboard/classes", icon: GraduationCap, label: "Live Classes" },
     { href: "/dashboard/events", icon: Calendar, label: "Events" },
     { href: "/dashboard/gallery", icon: ImageIcon, label: "Gallery" },
-    { href: "/dashboard/finance", icon: CreditCard, label: "Finance" },
     { href: "/dashboard/content", icon: LayoutDashboard, label: "Website Content" },
     { href: "/dashboard/testimonials", icon: MessageSquare, label: "Testimonials" },
   ]
@@ -28,8 +21,8 @@ export function DashboardSidebar() {
   return (
     <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col hidden md:flex min-h-screen">
       <div className="h-16 flex items-center px-6 border-b border-slate-800">
-        <Link href="/" className="text-xl font-bold text-white">
-          Kids Time <span className="text-orange-500">Admin</span>
+        <Link href="/" className="flex items-center">
+          <img src="/logo.png" alt="Kids Time Logo" className="h-10 w-auto bg-white rounded p-1" />
         </Link>
       </div>
       <nav className="flex-1 overflow-y-auto py-4">

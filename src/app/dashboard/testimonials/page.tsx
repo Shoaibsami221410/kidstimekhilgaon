@@ -99,10 +99,9 @@ export default async function TestimonialsPage() {
     redirect('/dashboard/testimonials') // Reload to reflect changes
   }
 
-  async function deleteTestimonial(formData: FormData) {
+  async function deleteTestimonial(idToDelete: string) {
     "use server"
     const supabase = await createClient()
-    const idToDelete = formData.get('delete_id') as string
     
     const { data } = await supabase.from("page_content").select("content").eq("id", "testimonials").single()
     const currentItems = data?.content?.items || []
@@ -137,7 +136,7 @@ export default async function TestimonialsPage() {
               {items.map((item, index) => (
                 <div key={item.id} className="relative p-6 border rounded-xl bg-slate-50/50 space-y-4">
                   <div className="absolute top-4 right-4">
-                    <button formAction={deleteTestimonial} name="delete_id" value={item.id} className="text-red-500 hover:text-red-700 text-sm font-medium">Delete</button>
+                    <button formAction={deleteTestimonial.bind(null, item.id)} className="text-red-500 hover:text-red-700 text-sm font-medium">Delete</button>
                   </div>
                   <input type="hidden" name="id" value={item.id} />
                   
