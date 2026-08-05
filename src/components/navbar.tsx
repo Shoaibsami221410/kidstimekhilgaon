@@ -180,8 +180,8 @@ export function Navbar() {
               <SheetTrigger className="inline-flex h-9 w-9 items-center justify-center rounded-md hover:bg-slate-100 text-slate-500">
                 <Menu className="h-6 w-6" />
               </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] sm:w-[400px] overflow-y-auto">
-                <SheetTitle className="text-left font-bold text-xl mb-6">Kids Time <span className="text-orange-500">Khilgaon</span></SheetTitle>
+              <SheetContent side="right" className="w-[300px] sm:w-[400px] overflow-y-auto p-6">
+                <SheetTitle className="text-left font-bold text-xl mb-6 pr-8">Kids Time <span className="text-orange-500">Khilgaon</span></SheetTitle>
                 
                 {user && (
                   <div className="mb-6 pb-6 border-b">
@@ -211,18 +211,22 @@ export function Navbar() {
                     </div>
                   )}
 
-                  <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-1">Menu</h4>
-                  {publicLinks.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className={`text-base font-medium transition-colors hover:text-primary ${
-                        pathname === link.href ? "text-primary" : "text-slate-600"
-                      }`}
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
+                  <div className="mb-4">
+                    <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-3">Menu</h4>
+                    <div className="flex flex-col gap-3">
+                      {publicLinks.map((link) => (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          className={`text-base font-medium transition-colors hover:text-primary ${
+                            pathname === link.href ? "text-primary" : "text-slate-600"
+                          }`}
+                        >
+                          {link.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
                   
                   <div className="flex flex-col gap-4 mt-6 border-t pt-6">
 
