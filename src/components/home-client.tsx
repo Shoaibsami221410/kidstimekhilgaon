@@ -225,8 +225,7 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
           <div className="w-full relative">
             <motion.div 
               initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }}
-              className="flex overflow-x-auto snap-x snap-mandatory gap-8 pb-8 pt-4 px-4 w-full"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-8 pt-4 px-4 w-full max-w-7xl mx-auto"
             >
               {displayCourses?.map((course: any, i: number) => {
                 const cTitle = course.title || "";
@@ -234,10 +233,10 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
                 const cImage = course.image_url || course.thumbnail_url || "";
                 
                 return (
-                <motion.div key={i} variants={fadeInUp} className="flex-none w-full sm:w-[350px] md:w-[400px] snap-center flex flex-col items-center text-center bg-white border rounded-3xl p-6 shadow-sm hover:shadow-xl transition-shadow duration-300">
+                <motion.div key={i} variants={fadeInUp} className="w-full flex flex-col items-center text-center bg-white border rounded-3xl p-6 shadow-sm hover:shadow-xl transition-shadow duration-300">
                   {/* Blob Image Mask */}
                   <div 
-                    className="w-full aspect-[4/3] mb-6 overflow-hidden relative"
+                    className="w-full aspect-[4/3] mb-6 overflow-hidden relative bg-slate-100"
                     style={{ borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%' }}
                   >
                     {cImage && <Image src={cImage} alt={cTitle} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />}
