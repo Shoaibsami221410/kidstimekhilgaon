@@ -17,6 +17,7 @@ export function Navbar() {
   const [user, setUser] = useState<any>(null)
   const [userData, setUserData] = useState<any>(null)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const supabase = createClient()
 
@@ -60,6 +61,7 @@ export function Navbar() {
   }, [])
 
   const handleLogout = async () => {
+    setIsMobileMenuOpen(false)
     await supabase.auth.signOut()
     window.location.href = '/'
   }
@@ -176,7 +178,7 @@ export function Navbar() {
           
           {/* Mobile Navigation */}
           <div className="xl:hidden flex items-center gap-2">
-            <Sheet>
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger className="inline-flex h-9 w-9 items-center justify-center rounded-md hover:bg-slate-100 text-slate-500">
                 <Menu className="h-6 w-6" />
               </SheetTrigger>
@@ -200,6 +202,7 @@ export function Navbar() {
                           <Link
                             key={link.href}
                             href={link.href}
+                            onClick={() => setIsMobileMenuOpen(false)}
                             className={`text-base font-medium transition-colors hover:text-blue-600 ${
                               pathname === link.href ? "text-blue-600" : "text-slate-600"
                             }`}
@@ -218,6 +221,7 @@ export function Navbar() {
                         <Link
                           key={link.href}
                           href={link.href}
+                          onClick={() => setIsMobileMenuOpen(false)}
                           className={`text-base font-medium transition-colors hover:text-primary ${
                             pathname === link.href ? "text-primary" : "text-slate-600"
                           }`}
@@ -236,7 +240,7 @@ export function Navbar() {
                         <LogOut className="w-4 h-4 mr-2" /> Log out
                       </Button>
                     ) : (
-                      <Link href="/programs" className="w-full">
+                      <Link href="/programs" className="w-full" onClick={() => setIsMobileMenuOpen(false)}>
                         <Button variant="outline" className="w-full justify-start border-orange-200 text-orange-600 hover:bg-orange-50">
                           Trial Class
                         </Button>
