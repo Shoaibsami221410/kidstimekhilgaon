@@ -86,7 +86,7 @@ export default function ContactPage() {
             
             {/* Contact Info */}
             <div className="space-y-12">
-              <div className="bg-orange-50 p-8 rounded-3xl h-full border border-orange-100">
+              <div className="bg-orange-50 p-8 rounded-3xl border border-orange-100">
                 <h2 className="text-3xl font-bold mb-6" style={{ color: info.title_color, fontFamily: info.title_font }}>{info.title}</h2>
                 <p className="text-lg mb-10 font-medium leading-relaxed" style={{ color: info.description_color, fontFamily: info.description_font }}>
                   {info.description}
