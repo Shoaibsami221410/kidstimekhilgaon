@@ -10,17 +10,14 @@ const supabase = createClient(
 export const revalidate = 60 // Revalidate every minute
 
 export default async function ProgramsPage() {
-  // Fetch all courses from Supabase
-  const { data: courses } = await supabase
-    .from('courses')
-    .select('*')
-    .order('created_at', { ascending: true })
+  // Fetch courses and page content in parallel to drastically improve loading speed
+  const [coursesResponse, pageDataResponse] = await Promise.all([
+    supabase.from('courses').select('*').order('created_at', { ascending: true }),
+    supabase.from('page_content').select('*').eq('page', 'programs')
+  ])
 
-  // Fetch page content
-  const { data: pageData } = await supabase
-    .from('page_content')
-    .select('*')
-    .eq('page', 'programs')
+  const courses = coursesResponse.data
+  const pageData = pageDataResponse.data
   
   const hero = pageData?.find((c) => c.id === 'programs_hero')?.content || {
     title_cyan: "Live",

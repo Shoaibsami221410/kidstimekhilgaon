@@ -9,18 +9,13 @@ export function ParentSidebar() {
 
   const navItems = [
     { href: "/parent", icon: LayoutDashboard, label: "Overview" },
-    { href: "/parent/attendance", icon: CalendarCheck, label: "Attendance Tracker" },
-    { href: "/parent/assignments", icon: BookOpen, label: "Assignments" },
-    { href: "/parent/admissions", icon: ClipboardCheck, label: "Admissions Status" },
-    { href: "/parent/fees", icon: Banknote, label: "Fees & Invoices" },
-    { href: "/parent/messages", icon: MessageSquare, label: "Messages" },
   ]
 
   return (
     <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col hidden md:flex min-h-screen">
       <div className="h-16 flex items-center px-6 border-b border-slate-800">
-        <Link href="/" className="text-xl font-bold text-white">
-          Kids Time <span className="text-blue-500">Parent</span>
+        <Link href="/" className="flex items-center">
+          <img src="/logo.png" alt="Kids Time Logo" className="h-10 w-auto bg-white rounded p-1" />
         </Link>
       </div>
       <nav className="flex-1 overflow-y-auto py-4">

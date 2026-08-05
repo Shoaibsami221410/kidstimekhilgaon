@@ -23,12 +23,43 @@ export function Navbar() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const { data } = await supabase.auth.getUser()
-      if (data.user) {
-        setUser(data.user)
-        const { data: profile } = await supabase.from('users').select('full_name, role').eq('id', data.user.id).single()
-        setUserData(profile || { full_name: data.user.user_metadata?.full_name || 'User', role: 'parent' })
-      } else {
+      try {
+        const { data, error } = await supabase.auth.getUser()
+        
+        if (error) {
+          console.error("Auth error:", error)
+          setUser(null)
+          setUserData(null)
+          return
+        }
+
+        if (data?.user) {
+          setUser(data.user)
+          // Fetch role from DB
+          const { data: dbUser } = await supabase
+            .from('users')
+            .select('role, full_name')
+            .eq('id', data.user.id)
+            .single()
+          
+          const userRole = dbUser?.role || data.user.user_metadata?.role || 'parent'
+          const fullName = dbUser?.full_name || data.user.user_metadata?.full_name || 'User'
+          
+          // FIX: If JWT metadata is out of sync with DB, update it!
+          // This ensures middleware (which relies on JWT) always has the correct role
+          if (dbUser && dbUser.role && data.user.user_metadata?.role !== dbUser.role) {
+            await supabase.auth.updateUser({
+              data: { role: dbUser.role }
+            })
+          }
+          
+          setUserData({ full_name: fullName, role: userRole })
+        } else {
+          setUser(null)
+          setUserData(null)
+        }
+      } catch (err) {
+        console.error("Failed to fetch user data:", err)
         setUser(null)
         setUserData(null)
       }
@@ -79,49 +110,38 @@ export function Navbar() {
 
   const parentLinks = [
     { href: "/parent", label: "Dashboard Overview" },
-    { href: "/parent/attendance", label: "Attendance Tracker" },
-    { href: "/parent/assignments", label: "Assignments" },
-    { href: "/parent/admissions", label: "Admissions Status" },
-    { href: "/parent/fees", label: "Fees & Invoices" },
-    { href: "/parent/messages", label: "Messages" },
   ]
 
   const adminLinks = [
     { href: "/dashboard", label: "Overview" },
-    { href: "/dashboard/admissions", label: "Admissions" },
     { href: "/dashboard/trial-classes", label: "Trial Classes" },
-    { href: "/dashboard/attendance", label: "Attendance" },
-    { href: "/dashboard/assignments", label: "Assignments" },
-    { href: "/dashboard/messages", label: "Messages" },
-    { href: "/dashboard/fees", label: "Fee Management" },
     { href: "/dashboard/users", label: "User Management" },
     { href: "/dashboard/courses", label: "LMS Courses" },
-    { href: "/dashboard/classes", label: "Live Classes" },
     { href: "/dashboard/events", label: "Events" },
     { href: "/dashboard/gallery", label: "Gallery" },
-    { href: "/dashboard/finance", label: "Finance" },
     { href: "/dashboard/content", label: "Website Content" },
     { href: "/dashboard/testimonials", label: "Testimonials" },
   ]
 
-  const isAdmin = userData?.role === 'admin' || userData?.role === 'super_admin'
+  const activeRole = userData?.role || user?.user_metadata?.role || 'parent'
+  const isAdmin = activeRole === 'admin' || activeRole === 'super_admin'
   const dashboardPath = isAdmin ? '/dashboard' : '/parent'
   const dashboardLinks = isAdmin ? adminLinks : parentLinks
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-2xl font-bold tracking-tight text-primary">Kids Time <span className="text-orange-500">Khilgaon</span></span>
+        <Link href="/" className="flex items-center">
+          <img src="/logo.png" alt="Kids Time Logo" className="h-12 md:h-14 w-auto object-contain" />
         </Link>
         
-        <nav className="hidden xl:flex gap-6">
+        <nav className="hidden xl:flex gap-8">
           {publicLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`text-sm font-medium transition-colors hover:text-primary ${
-                pathname === link.href ? "text-primary" : "text-muted-foreground"
+              className={`text-base font-bold transition-colors hover:text-red-500 ${
+                pathname === link.href ? "text-red-600" : "text-slate-600"
               }`}
             >
               {link.label}
@@ -134,13 +154,7 @@ export function Navbar() {
 
           {user ? (
             <>
-              <button className="hidden sm:flex items-center justify-center p-2 text-slate-500 hover:bg-slate-100 rounded-full">
-                <Search className="w-5 h-5" />
-              </button>
-              <button className="relative hidden sm:flex p-2 text-slate-500 hover:bg-slate-100 rounded-full">
-                <Bell className="w-5 h-5" />
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
-              </button>
+
 
               <div className="relative hidden sm:block" ref={dropdownRef}>
                 <button 
@@ -180,7 +194,7 @@ export function Navbar() {
             </>
           ) : (
             <Link href="/programs" className="hidden sm:block">
-              <Button variant="outline" className="flex items-center gap-2 border-orange-200 text-orange-600 hover:bg-orange-50">
+              <Button className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white rounded-full font-bold px-6 border-none shadow-md">
                 Trial Class
               </Button>
             </Link>
@@ -196,18 +210,20 @@ export function Navbar() {
             </button>
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetContent side="right" className="w-[300px] sm:w-[400px] overflow-y-auto p-6">
-                <SheetTitle className="text-left font-bold text-xl mb-6 pr-8">Kids Time <span className="text-orange-500">Khilgaon</span></SheetTitle>
+                <SheetTitle className="text-left font-bold text-xl mb-6 pr-8">
+                  <img src="/logo.png" alt="Kids Time Logo" className="h-10 w-auto" />
+                </SheetTitle>
                 
-                {user && (
+                {userData && (
                   <div className="mb-6 pb-6 border-b">
                     <p className="text-sm text-slate-500 mb-2">Welcome back,</p>
-                    <p className="font-bold text-lg text-slate-900">{userData?.full_name}</p>
+                    <p className="font-bold text-lg text-slate-900">{userData.full_name}</p>
                   </div>
                 )}
 
                 <nav className="flex flex-col gap-4">
                   {/* Dashboard Links for Mobile (Shown if logged in) */}
-                  {user && (
+                  {userData && (
                     <div className="mb-4">
                       <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-3">Dashboard</h4>
                       <div className="flex flex-col gap-3">

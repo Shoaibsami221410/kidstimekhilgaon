@@ -293,37 +293,8 @@ export default function ContentManagementPage() {
         description_font: "Inter"
       }
     },
-    {
-      id: 'teachers_hero',
-      page: 'teachers',
-      section: 'hero',
-      content: {
-        title: "Our Expert Teachers",
-        title_color: "#0f172a",
-        title_font: "Inter",
-        description: "Meet the passionate educators dedicated to nurturing your child's creativity.",
-        description_color: "#475569",
-        description_font: "Inter",
-        image_url: ""
-      }
-    },
-    {
-      id: 'teachers_list',
-      page: 'teachers',
-      section: 'list',
-      content: {
-        teachers: [
-          {
-            name: "John Doe",
-            role: "Creative Educator",
-            qualifications: "B.Ed, M.Sc in Mathematics",
-            experience: "5 Years",
-            certifications: "Certified Early Childhood Educator",
-            image_url: ""
-          }
-        ]
-      }
-    },
+
+
     {
       id: 'contact_hero',
       page: 'contact',

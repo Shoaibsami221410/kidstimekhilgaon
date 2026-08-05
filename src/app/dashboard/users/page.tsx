@@ -7,6 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { UserCog, PlusCircle, RefreshCcw } from "lucide-react"
+import Link from "next/link"
 
 export default function UserManagementPage() {
   const supabase = createClient()
@@ -106,9 +107,11 @@ export default function UserManagementPage() {
                       {getRoleBadge(user.role)}
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700 hover:bg-blue-50">
-                        Edit
-                      </Button>
+                      <Link href={`/dashboard/users/${user.id}`}>
+                        <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700 hover:bg-blue-50">
+                          Edit
+                        </Button>
+                      </Link>
                     </TableCell>
                   </TableRow>
                 ))

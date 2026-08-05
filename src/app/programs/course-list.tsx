@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useState } from "react"
 import { PlayCircle, UserPlus, X } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
@@ -117,14 +118,14 @@ export default function CourseList({ courses }: { courses: any[] }) {
               </p>
 
               <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 relative">
-                <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-3.5 px-8 rounded-full shadow-lg transition-transform hover:-translate-y-1 w-full sm:w-auto text-lg z-0">
+                <Link href={`/programs/${course.id}`} className="bg-red-500 hover:bg-red-600 text-white font-bold py-3.5 px-8 rounded-full shadow-lg transition-transform hover:-translate-y-1 w-full sm:w-auto text-lg z-0 text-center">
                   Learn More
-                </button>
+                </Link>
                 
                 <div className="w-12 h-12 rounded-full bg-white border-2 border-slate-100 shadow-md flex items-center justify-center text-slate-500 font-medium z-10 -my-3 sm:-my-0 sm:-mx-6 shrink-0 relative">
                   Or
-                </div>
-                
+                </div> 
+
                 <button 
                   onClick={() => openTrialModal(course)}
                   className="bg-[#00b4ff] hover:bg-blue-500 text-white font-bold py-3.5 px-8 rounded-full shadow-lg transition-transform hover:-translate-y-1 flex items-center justify-center gap-2 w-full sm:w-auto text-lg z-0"

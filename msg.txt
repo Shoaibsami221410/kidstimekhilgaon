@@ -1,0 +1,3 @@
+Suppress RLS seed error popup and add SQL fix script
+
+Co-authored-by: Farhan <farhan@kidstime.com>

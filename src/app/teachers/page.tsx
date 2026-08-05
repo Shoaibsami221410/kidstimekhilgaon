@@ -1,35 +1,28 @@
-"use client"
-
-import { useEffect, useState } from "react"
-import { createClient } from "@/lib/supabase/client"
+import { createClient } from "@/lib/supabase/server"
 import { GraduationCap, Award, BookOpen } from "lucide-react"
 
-const supabase = createClient()
+export const revalidate = 60
 
-export default function TeachersPage() {
-  const [teachers, setTeachers] = useState<any[]>([])
-  const [content, setContent] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
+export default async function TeachersPage() {
+  const supabase = await createClient()
 
-  useEffect(() => {
-    async function fetchTeachers() {
-      const { data } = await supabase.from('page_content').select('*').eq('page', 'teachers')
-      
-      if (data) {
-        setContent(data)
-        const teachersListData = data.find((c: any) => c.id === 'teachers_list')?.content?.teachers || []
-        setTeachers(teachersListData)
-      }
-      setLoading(false)
-    }
-    
-    fetchTeachers()
-  }, [])
-
-  const hero = content?.find((c) => c.id === 'teachers_hero')?.content || {
+  // Fetch page content for the hero section
+  const { data: contentData } = await supabase.from('page_content').select('*').eq('page', 'teachers')
+  
+  const hero = contentData?.find((c) => c.id === 'teachers_hero')?.content || {
     title: "Our Expert Teachers",
     description: "Meet the passionate educators dedicated to nurturing your child's creativity."
   }
+
+  // Fetch all teachers from the new simple profiles table
+  const { data: teachers, error } = await supabase
+    .from('teacher_profiles')
+    .select(`
+      *,
+      courses (
+        title
+      )
+    `)
 
   return (
     <div className="flex flex-col min-h-screen animate-in fade-in duration-700">
@@ -49,58 +42,56 @@ export default function TeachersPage() {
 
       <section className="py-20 bg-white min-h-[50vh]">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          {loading ? (
-            <div className="flex justify-center items-center h-64">
-              <div className="w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
-            </div>
-          ) : teachers.length === 0 ? (
+          {!teachers || teachers.length === 0 ? (
              <div className="text-center text-slate-500 py-12">
                <GraduationCap className="w-16 h-16 mx-auto text-slate-300 mb-4" />
                <p className="text-xl">Teacher profiles are being updated. Check back soon!</p>
              </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {teachers.map((teacher, index) => (
-                <div key={index} className="bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 border border-slate-100 hover:-translate-y-2 transition-transform duration-300">
-                  <div className="w-24 h-24 bg-orange-100 rounded-full flex items-center justify-center mb-6 mx-auto overflow-hidden">
-                    {teacher.image_url ? (
-                      <img src={teacher.image_url} alt={teacher.name} className="w-full h-full object-cover" />
+              {teachers.map((teacher: any, index: number) => {
+                return (
+                  <div key={index} className="bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 border border-slate-100 hover:-translate-y-2 transition-transform duration-300">
+                    <div className="w-32 h-32 bg-orange-100 rounded-full flex items-center justify-center mb-6 mx-auto overflow-hidden border-4 border-orange-50 shadow-sm">
+                      {teacher.image_url ? (
+                        <img src={teacher.image_url} alt={teacher.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <img src={`https://ui-avatars.com/api/?name=${teacher.name}&background=random`} alt={teacher.name} className="w-full h-full object-cover" />
+                      )}
+                    </div>
+                    
+                    <h3 className="text-2xl font-bold text-slate-900 text-center mb-2">{teacher.name}</h3>
+                    
+                    {teacher.courses ? (
+                      <p className="text-orange-500 font-bold text-center mb-6 text-lg">{teacher.courses.title} Teacher</p>
                     ) : (
-                      <span className="text-3xl font-bold text-orange-600">
-                        {teacher.name?.charAt(0) || "T"}
-                      </span>
+                      <p className="text-orange-400 font-medium text-center mb-6 text-lg">{teacher.role || "Creative Educator"}</p>
                     )}
-                  </div>
-                  <h3 className="text-2xl font-bold text-slate-900 text-center mb-2">{teacher.name || "Teacher"}</h3>
-                  <p className="text-orange-500 font-medium text-center mb-6">{teacher.role || "Creative Educator"}</p>
-                  
-                  <div className="space-y-4">
-                    <div className="flex items-start gap-3">
-                      <GraduationCap className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" />
-                      <div>
-                        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Qualifications</p>
-                        <p className="text-sm text-slate-700">{teacher.qualifications || "Not specified"}</p>
-                      </div>
-                    </div>
                     
-                    <div className="flex items-start gap-3">
-                      <BookOpen className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" />
-                      <div>
-                        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Experience</p>
-                        <p className="text-sm text-slate-700">{teacher.experience || "Not specified"}</p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-start gap-3">
-                      <Award className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" />
-                      <div>
-                        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Certifications</p>
-                        <p className="text-sm text-slate-700">{teacher.certifications || "Not specified"}</p>
-                      </div>
+                    <div className="space-y-4">
+                      {teacher.qualifications && (
+                        <div className="flex items-start gap-3">
+                          <GraduationCap className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" />
+                          <div>
+                            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Qualifications</p>
+                            <p className="text-sm text-slate-700 leading-relaxed">{teacher.qualifications}</p>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {teacher.experience && (
+                        <div className="flex items-start gap-3">
+                          <BookOpen className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" />
+                          <div>
+                            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Experience</p>
+                            <p className="text-sm text-slate-700 leading-relaxed">{teacher.experience}</p>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
           )}
         </div>

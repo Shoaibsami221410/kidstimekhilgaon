@@ -45,44 +45,83 @@ export default async function AboutPage() {
   return (
     <div className="flex flex-col min-h-screen animate-in fade-in duration-700">
       {/* Hero Section */}
-      <section className="relative py-24 bg-slate-900 text-white overflow-hidden">
-        <div className="absolute inset-0 z-0 opacity-20">
-          <img 
-            src={hero.image_url || "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022&auto=format&fit=crop"}
-            alt="Kids learning"
-            className="w-full h-full object-cover"
-          />
-        </div>
-        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6" style={{ color: hero.title_color, fontFamily: hero.title_font }}>
-            {hero.title}
-          </h1>
-          <p className="text-lg md:text-xl max-w-3xl mx-auto font-medium" style={{ color: hero.description_color, fontFamily: hero.description_font }}>
-            {hero.description}
-          </p>
+      <section className="relative py-28 bg-gradient-to-br from-amber-50 via-rose-50 to-orange-50 overflow-hidden">
+        {/* Decorative Elements */}
+        <div className="absolute top-10 left-10 w-32 h-32 bg-yellow-400 rounded-full mix-blend-multiply filter blur-2xl opacity-50 animate-blob"></div>
+        <div className="absolute top-10 right-10 w-32 h-32 bg-pink-400 rounded-full mix-blend-multiply filter blur-2xl opacity-50 animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-8 left-20 w-32 h-32 bg-blue-400 rounded-full mix-blend-multiply filter blur-2xl opacity-50 animate-blob animation-delay-4000"></div>
+        
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="text-center lg:text-left space-y-8">
+              <div className="inline-block px-4 py-1.5 bg-white rounded-full shadow-sm text-sm font-bold text-orange-500 uppercase tracking-wider mb-2 border border-orange-100">
+                About Kids Time
+              </div>
+              <h1 
+                className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] drop-shadow-sm" 
+                style={{ color: hero.title_color || '#1e293b', fontFamily: hero.title_font || 'inherit' }}
+              >
+                {hero.title}
+              </h1>
+              <p 
+                className="text-xl md:text-2xl max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium" 
+                style={{ color: hero.description_color || '#475569', fontFamily: hero.description_font || 'inherit' }}
+              >
+                {hero.description}
+              </p>
+            </div>
+            
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-tr from-orange-400 to-rose-400 rounded-[60px] transform rotate-3 scale-105 opacity-20"></div>
+              <div className="relative rounded-[40px] md:rounded-[60px] overflow-hidden border-8 border-white shadow-2xl aspect-[4/3]">
+                <img 
+                  src={hero.image_url || "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022&auto=format&fit=crop"}
+                  alt="Kids learning"
+                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl font-bold mb-6" style={{ color: missionVision.mission_title_color, fontFamily: missionVision.mission_title_font }}>{missionVision.mission_title}</h2>
-              <p className="text-lg leading-relaxed mb-8 font-medium" style={{ color: missionVision.mission_desc_color, fontFamily: missionVision.mission_desc_font }}>
-                {missionVision.mission_desc}
-              </p>
+      <section className="py-24 bg-white relative">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-rose-50 rounded-bl-full -z-10"></div>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="space-y-12">
+              <div className="bg-orange-50 p-8 rounded-3xl border-l-8 border-orange-500 relative">
+                <div className="absolute -top-6 -left-6 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg text-2xl">
+                  🎯
+                </div>
+                <h2 className="text-3xl lg:text-4xl font-extrabold mb-4" style={{ color: missionVision.mission_title_color || '#f97316', fontFamily: missionVision.mission_title_font }}>
+                  {missionVision.mission_title}
+                </h2>
+                <p className="text-lg leading-relaxed text-slate-700" style={{ color: missionVision.mission_desc_color, fontFamily: missionVision.mission_desc_font }}>
+                  {missionVision.mission_desc}
+                </p>
+              </div>
               
-              <h2 className="text-3xl font-bold mb-6" style={{ color: missionVision.vision_title_color, fontFamily: missionVision.vision_title_font }}>{missionVision.vision_title}</h2>
-              <p className="text-lg leading-relaxed font-medium" style={{ color: missionVision.vision_desc_color, fontFamily: missionVision.vision_desc_font }}>
-                {missionVision.vision_desc}
-              </p>
+              <div className="bg-blue-50 p-8 rounded-3xl border-l-8 border-blue-500 relative">
+                <div className="absolute -top-6 -left-6 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg text-2xl">
+                  🌟
+                </div>
+                <h2 className="text-3xl lg:text-4xl font-extrabold mb-4" style={{ color: missionVision.vision_title_color || '#3b82f6', fontFamily: missionVision.vision_title_font }}>
+                  {missionVision.vision_title}
+                </h2>
+                <p className="text-lg leading-relaxed text-slate-700" style={{ color: missionVision.vision_desc_color, fontFamily: missionVision.vision_desc_font }}>
+                  {missionVision.vision_desc}
+                </p>
+              </div>
             </div>
-            <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-2xl">
+            
+            <div className="relative h-[500px] w-full lg:h-[600px] rounded-[40px] overflow-hidden shadow-2xl group">
+              <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors duration-500 z-10"></div>
               <img 
                 src={missionVision.image_url || "https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=2040&auto=format&fit=crop"}
                 alt="Children painting"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
             </div>
           </div>
