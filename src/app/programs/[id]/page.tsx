@@ -18,13 +18,13 @@ export default async function CourseDetailsPage({ params }: { params: Promise<{ 
     .from("courses")
     .select(`
       *,
-      teachers (
+      teacher_profiles (
         id,
+        name,
+        image_url,
         qualifications,
         experience,
-        users (
-          full_name
-        )
+        role
       )
     `)
     .eq("id", id)
@@ -45,8 +45,8 @@ export default async function CourseDetailsPage({ params }: { params: Promise<{ 
     }
   }
 
-  // Since teachers have course_id, course.teachers will be an array
-  const assignedTeachers = Array.isArray(course.teachers) ? course.teachers : (course.teachers ? [course.teachers] : [])
+  // Since teacher_profiles have course_id, course.teacher_profiles will be an array
+  const assignedTeachers = Array.isArray(course.teacher_profiles) ? course.teacher_profiles : (course.teacher_profiles ? [course.teacher_profiles] : [])
 
   return (
     <div className="min-h-screen bg-slate-50 pb-20">
@@ -145,20 +145,17 @@ export default async function CourseDetailsPage({ params }: { params: Promise<{ 
               {assignedTeachers.length > 0 ? (
                 <div className="space-y-8">
                   {assignedTeachers.map((teacher: any, idx: number) => {
-                    const teacherUser = teacher.users
-                    if (!teacherUser) return null
-                    
                     return (
                       <div key={idx} className="text-center pb-8 border-b border-blue-100/50 last:border-0 last:pb-0">
                         <div className="w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-white shadow-lg mb-4 bg-white">
                           <img 
-                            src={teacherUser.avatar_url || `https://ui-avatars.com/api/?name=${teacherUser.full_name}&background=random`} 
-                            alt={teacherUser.full_name} 
+                            src={teacher.image_url || `https://ui-avatars.com/api/?name=${teacher.name}&background=random`} 
+                            alt={teacher.name} 
                             className="w-full h-full object-cover"
                           />
                         </div>
-                        <h3 className="text-xl font-bold text-slate-900">{teacherUser.full_name}</h3>
-                        <p className="text-[#00b4ff] font-medium mb-4">Instructor</p>
+                        <h3 className="text-xl font-bold text-slate-900">{teacher.name}</h3>
+                        <p className="text-[#00b4ff] font-medium mb-4">{teacher.role || "Instructor"}</p>
                         
                         <div className="text-left space-y-3 mt-6">
                           {teacher.qualifications && (

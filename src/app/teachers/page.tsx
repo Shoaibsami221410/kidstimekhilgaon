@@ -14,15 +14,11 @@ export default async function TeachersPage() {
     description: "Meet the passionate educators dedicated to nurturing your child's creativity."
   }
 
-  // Fetch all teachers with their assigned courses and user details
+  // Fetch all teachers from the new simple profiles table
   const { data: teachers, error } = await supabase
-    .from('teachers')
+    .from('teacher_profiles')
     .select(`
       *,
-      users (
-        full_name,
-        avatar_url
-      ),
       courses (
         title
       )
@@ -54,25 +50,22 @@ export default async function TeachersPage() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {teachers.map((teacher: any, index: number) => {
-                const user = teacher.users
-                if (!user) return null
-
                 return (
                   <div key={index} className="bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 border border-slate-100 hover:-translate-y-2 transition-transform duration-300">
                     <div className="w-32 h-32 bg-orange-100 rounded-full flex items-center justify-center mb-6 mx-auto overflow-hidden border-4 border-orange-50 shadow-sm">
-                      {user.avatar_url ? (
-                        <img src={user.avatar_url} alt={user.full_name} className="w-full h-full object-cover" />
+                      {teacher.image_url ? (
+                        <img src={teacher.image_url} alt={teacher.name} className="w-full h-full object-cover" />
                       ) : (
-                        <img src={`https://ui-avatars.com/api/?name=${user.full_name}&background=random`} alt={user.full_name} className="w-full h-full object-cover" />
+                        <img src={`https://ui-avatars.com/api/?name=${teacher.name}&background=random`} alt={teacher.name} className="w-full h-full object-cover" />
                       )}
                     </div>
                     
-                    <h3 className="text-2xl font-bold text-slate-900 text-center mb-2">{user.full_name}</h3>
+                    <h3 className="text-2xl font-bold text-slate-900 text-center mb-2">{teacher.name}</h3>
                     
                     {teacher.courses ? (
                       <p className="text-orange-500 font-bold text-center mb-6 text-lg">{teacher.courses.title} Teacher</p>
                     ) : (
-                      <p className="text-orange-400 font-medium text-center mb-6 text-lg">Creative Educator</p>
+                      <p className="text-orange-400 font-medium text-center mb-6 text-lg">{teacher.role || "Creative Educator"}</p>
                     )}
                     
                     <div className="space-y-4">
