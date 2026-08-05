@@ -192,7 +192,7 @@ export default function EditUserPage() {
               <CardContent className="pt-6 space-y-4">
                 <div className="space-y-2">
                   <Label>Assigned Course</Label>
-                  <Select value={courseId} onValueChange={setCourseId}>
+                  <Select value={courseId} onValueChange={(val) => setCourseId(val || '')}>
                     <SelectTrigger className="bg-white">
                       <SelectValue placeholder="Select a course" />
                     </SelectTrigger>

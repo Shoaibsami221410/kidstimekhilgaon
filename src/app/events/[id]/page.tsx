@@ -153,7 +153,7 @@ export default function SingleEventPage({ params }: { params: Promise<{ id: stri
 
             {/* Rich Text Content */}
             <div 
-              className="prose prose-lg prose-slate max-w-none prose-headings:font-bold prose-a:text-orange-600 hover:prose-a:text-orange-500 prose-img:rounded-xl"
+              className="prose prose-lg prose-slate max-w-none break-words prose-headings:font-bold prose-a:text-orange-600 hover:prose-a:text-orange-500 prose-img:rounded-xl"
               dangerouslySetInnerHTML={{ __html: event.description || "<p>No description provided.</p>" }}
             />
           </div>

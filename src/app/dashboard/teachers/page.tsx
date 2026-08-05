@@ -187,7 +187,7 @@ export default function TeachersAdminPage() {
                 <Label className="flex items-center gap-2 font-semibold text-blue-600">
                   <BookOpen className="w-4 h-4" /> Assign to Course Page
                 </Label>
-                <Select value={courseId} onValueChange={setCourseId}>
+                <Select value={courseId} onValueChange={(val) => setCourseId(val || 'none')}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select a course" />
                   </SelectTrigger>

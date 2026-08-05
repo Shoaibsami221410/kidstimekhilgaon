@@ -86,7 +86,7 @@ export default function ContactPage() {
             
             {/* Contact Info */}
             <div className="space-y-12">
-              <div className="bg-orange-50 p-8 rounded-3xl h-full border border-orange-100">
+              <div className="bg-orange-50 p-8 rounded-3xl border border-orange-100">
                 <h2 className="text-3xl font-bold mb-6" style={{ color: info.title_color, fontFamily: info.title_font }}>{info.title}</h2>
                 <p className="text-lg mb-10 font-medium leading-relaxed" style={{ color: info.description_color, fontFamily: info.description_font }}>
                   {info.description}
@@ -104,17 +104,32 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4 p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
-                  <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center shrink-0">
-                    <Phone className="w-6 h-6" />
+                {info.phone_contacts && Array.isArray(info.phone_contacts) ? (
+                  info.phone_contacts.map((contact: any, idx: number) => (
+                    <div key={idx} className="flex items-start gap-4 p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
+                      <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center shrink-0">
+                        <Phone className="w-6 h-6" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-slate-900 text-lg mb-1">{contact.name}</h3>
+                        <p className="text-sm font-medium text-blue-600 mb-1">{contact.role}</p>
+                        <p className="text-slate-600 font-medium">{contact.phone}</p>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="flex items-start gap-4 p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
+                    <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center shrink-0">
+                      <Phone className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-slate-900 text-lg mb-1">Call Us</h3>
+                      <p className="text-slate-600 whitespace-pre-line">
+                        {info.phone}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-bold text-slate-900 text-lg mb-1">Call Us</h3>
-                    <p className="text-slate-600 whitespace-pre-line">
-                      {info.phone}
-                    </p>
-                  </div>
-                </div>
+                )}
 
                 <div className="flex items-start gap-4 p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
                   <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center shrink-0">

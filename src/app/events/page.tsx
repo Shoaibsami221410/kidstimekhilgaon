@@ -154,7 +154,7 @@ function EventCard({ event, month, day, time, currentRsvps }: { event: any, mont
       <div className="p-6 flex-1 flex flex-col">
         <h3 className="text-2xl font-bold text-slate-900 mb-3">{event.title}</h3>
         <p className="text-slate-600 line-clamp-2 mb-6 flex-1">
-          {event.description || "No description provided."}
+          {event.description ? event.description.replace(/<[^>]*>?/gm, '') : "No description provided."}
         </p>
         
         <div className="space-y-3 mb-6 pt-4 border-t border-slate-100">
