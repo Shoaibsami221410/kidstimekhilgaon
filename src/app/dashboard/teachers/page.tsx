@@ -149,12 +149,10 @@ export default function TeachersAdminPage() {
         </h1>
         
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="h-9 bg-orange-500 hover:bg-orange-600 flex items-center gap-2">
-              <PlusCircle className="w-4 h-4" />
-              Add Teacher
-            </Button>
-          </DialogTrigger>
+          <Button onClick={() => setIsDialogOpen(true)} className="h-9 bg-orange-500 hover:bg-orange-600 flex items-center gap-2">
+            <PlusCircle className="w-4 h-4" />
+            Add Teacher
+          </Button>
           <DialogContent className="sm:max-w-[500px]">
             <DialogHeader>
               <DialogTitle>Add New Teacher</DialogTitle>
