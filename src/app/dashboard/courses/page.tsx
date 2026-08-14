@@ -57,7 +57,16 @@ export default function DashboardCoursesPage() {
   async function handleDelete(id: string) {
     if (!confirm("Are you sure you want to delete this course?")) return
     setDeletingId(id)
+    
+    // Manually cascade delete dependencies due to FK constraints
+    await supabase.from('modules').delete().eq('course_id', id)
+    await supabase.from('assignments').delete().eq('course_id', id)
+    await supabase.from('enrollments').delete().eq('course_id', id)
+    await supabase.from('trial_requests').delete().eq('course_id', id)
+    await supabase.from('teacher_profiles').update({ course_id: null }).eq('course_id', id)
+
     const { error } = await supabase.from('courses').delete().eq('id', id)
+    
     if (!error) {
       fetchCourses()
     } else {
