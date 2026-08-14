@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { CheckCircle2, BookOpen, Plus } from "lucide-react"
 import Link from "next/link"
+import { ImagePicker } from "@/components/image-picker"
 
 export default function DashboardCoursesPage() {
   const supabase = createClient()
@@ -16,6 +17,7 @@ export default function DashboardCoursesPage() {
   const [isSaving, setIsSaving] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
   const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [thumbnailUrl, setThumbnailUrl] = useState("")
 
   useEffect(() => {
     fetchCourses()
@@ -34,7 +36,7 @@ export default function DashboardCoursesPage() {
     const formData = new FormData(form)
     const title = formData.get('title') as string
     const description = formData.get('description') as string
-    const thumbnail_url = formData.get('thumbnail_url') as string
+    const thumbnail_url = thumbnailUrl
     const min_age = parseInt(formData.get('min_age') as string) || 4
     const max_age = parseInt(formData.get('max_age') as string) || 12
 
@@ -51,6 +53,7 @@ export default function DashboardCoursesPage() {
       setShowSuccess(true)
       fetchCourses()
       form.reset()
+      setThumbnailUrl("")
       setTimeout(() => setShowSuccess(false), 3000)
     } else {
       console.error("Insertion error:", error)
@@ -105,10 +108,13 @@ export default function DashboardCoursesPage() {
                 <Label htmlFor="title">Course Title</Label>
                 <Input id="title" name="title" placeholder="e.g. Early Literacy Foundation" required />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="thumbnail_url">Thumbnail URL (Image Link)</Label>
-                <Input id="thumbnail_url" name="thumbnail_url" placeholder="https://example.com/image.jpg" />
-              </div>
+              
+              <ImagePicker 
+                value={thumbnailUrl} 
+                onChange={setThumbnailUrl} 
+                label="Thumbnail URL (Image Upload / Link)" 
+              />
+              
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="min_age">Min Age</Label>
