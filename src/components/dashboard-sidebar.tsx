@@ -51,12 +51,6 @@ export function DashboardSidebar() {
       <div className="p-4 border-t border-slate-800">
         <ul className="space-y-1">
           <li>
-            <Link href="/dashboard/settings" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition-colors">
-              <Settings className="w-5 h-5" />
-              Settings
-            </Link>
-          </li>
-          <li>
             <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition-colors text-left">
               <LogOut className="w-5 h-5" />
               Logout
