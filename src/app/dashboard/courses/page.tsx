@@ -30,7 +30,8 @@ export default function DashboardCoursesPage() {
     e.preventDefault()
     setIsSaving(true)
     
-    const formData = new FormData(e.currentTarget)
+    const form = e.currentTarget
+    const formData = new FormData(form)
     const title = formData.get('title') as string
     const description = formData.get('description') as string
     const thumbnail_url = formData.get('thumbnail_url') as string
@@ -49,7 +50,7 @@ export default function DashboardCoursesPage() {
     if (!error) {
       setShowSuccess(true)
       fetchCourses()
-      e.currentTarget.reset()
+      form.reset()
       setTimeout(() => setShowSuccess(false), 3000)
     } else {
       console.error("Insertion error:", error)
