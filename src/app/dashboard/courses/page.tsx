@@ -51,6 +51,9 @@ export default function DashboardCoursesPage() {
       fetchCourses()
       e.currentTarget.reset()
       setTimeout(() => setShowSuccess(false), 3000)
+    } else {
+      console.error("Insertion error:", error)
+      alert("Error creating course: " + error.message)
     }
   }
 
@@ -62,7 +65,7 @@ export default function DashboardCoursesPage() {
     await supabase.from('modules').delete().eq('course_id', id)
     await supabase.from('assignments').delete().eq('course_id', id)
     await supabase.from('enrollments').delete().eq('course_id', id)
-    await supabase.from('trial_requests').delete().eq('course_id', id)
+    await supabase.from('trial_class_requests').delete().eq('course_id', id)
     await supabase.from('teacher_profiles').update({ course_id: null }).eq('course_id', id)
 
     const { error } = await supabase.from('courses').delete().eq('id', id)

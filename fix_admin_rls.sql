@@ -24,9 +24,9 @@ DROP POLICY IF EXISTS "Authenticated can manage enrollments" ON public.enrollmen
 CREATE POLICY "Authenticated can manage enrollments" ON public.enrollments FOR ALL TO authenticated USING (true) WITH CHECK (true);
 
 -- 5. TRIAL REQUESTS
-ALTER TABLE public.trial_requests ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS "Authenticated can manage trial_requests" ON public.trial_requests;
-CREATE POLICY "Authenticated can manage trial_requests" ON public.trial_requests FOR ALL TO authenticated USING (true) WITH CHECK (true);
+ALTER TABLE public.trial_class_requests ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Authenticated can manage trial_class_requests" ON public.trial_class_requests;
+CREATE POLICY "Authenticated can manage trial_class_requests" ON public.trial_class_requests FOR ALL TO authenticated USING (true) WITH CHECK (true);
 
 -- 6. TEACHER PROFILES
 ALTER TABLE public.teacher_profiles ENABLE ROW LEVEL SECURITY;
