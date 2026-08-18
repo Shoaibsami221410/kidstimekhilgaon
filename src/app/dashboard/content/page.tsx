@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { ImagePicker } from "@/components/image-picker"
 import { RichTextEditor } from "@/components/rich-text-editor"
+import { clearSiteCache } from "@/app/actions"
 
 export default function ContentManagementPage() {
   const [loading, setLoading] = useState(true)
@@ -129,6 +130,7 @@ export default function ContentManagementPage() {
         description: 'Parents are regularly sharing their thoughts in the Facebook community group.',
         description_color: "#475569",
         description_font: "Inter",
+        platform: "Facebook",
         btn_text: 'Explore',
         btn_link: 'https://facebook.com/groups/kidstime',
         btn_bg_color: "#dc2626",
@@ -414,6 +416,7 @@ Bangladesh`,
         .eq("id", id)
 
       if (error) throw error
+      await clearSiteCache()
       alert("Content saved successfully!")
     } catch (error: any) {
       alert("Error saving content: " + error.message)
@@ -533,6 +536,26 @@ function DynamicField({ fieldKey, value, onChange }: { fieldKey: string, value: 
             <option value="serif" />
             <option value="monospace" />
           </datalist>
+        </div>
+      )
+    }
+    if (fieldKey === "platform") {
+      return (
+        <div className="space-y-1">
+          <Label>{label}</Label>
+          <select 
+            value={value} 
+            onChange={e => onChange(e.target.value)} 
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          >
+            <option value="Facebook">Facebook</option>
+            <option value="WhatsApp">WhatsApp</option>
+            <option value="Instagram">Instagram</option>
+            <option value="Telegram">Telegram</option>
+            <option value="Youtube">Youtube</option>
+            <option value="X">X (Twitter)</option>
+            <option value="Other">Other...</option>
+          </select>
         </div>
       )
     }

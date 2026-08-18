@@ -9,6 +9,7 @@
  */
 
 import { Button } from "@/components/ui/button"
+import { getPlatformIcon } from "@/components/social-icons"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import Image from "next/image"
@@ -366,15 +367,15 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
               initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}
               className="flex flex-col items-center text-center lg:pl-16 lg:border-l lg:border-slate-200"
             >
-              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm mb-6 border">
-                <Users className="w-8 h-8 text-slate-700" />
+              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm mb-6 border text-slate-700">
+                {community.platform ? getPlatformIcon(community.platform, "w-8 h-8") : <Users className="w-8 h-8 text-slate-700" />}
               </div>
               <h3 className="text-2xl font-bold mb-4" style={{ color: community.title_color, fontFamily: community.title_font }}>{community.title}</h3>
               <p className="leading-relaxed font-medium mb-8 max-w-md" style={{ color: community.description_color, fontFamily: community.description_font }}>
                 {community.description}
               </p>
               {community.btn_text && (
-                <Link href={community.btn_link || "#"}>
+                <Link href={community.btn_link || "#"} target="_blank" rel="noopener noreferrer">
                   <Button size="lg" className="h-12 px-10 text-lg rounded-full shadow-lg"
                     style={{ backgroundColor: community.btn_bg_color, color: community.btn_text_color, fontFamily: community.btn_font }}
                   >
