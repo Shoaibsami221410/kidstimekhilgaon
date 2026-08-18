@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Save, Plus, Trash2, Link as LinkIcon } from "lucide-react"
+import { clearSiteCache } from "@/app/actions"
 
 export default function SocialLinksPage() {
   const [links, setLinks] = useState<{ platform: string; url: string }[]>([])
@@ -37,6 +38,9 @@ export default function SocialLinksPage() {
     const { error } = await supabase.from('page_content').update({ 
       content: { ...existingContent, social_links: links } 
     }).eq('id', 'global_footer')
+    
+    // Clear Next.js Cache so the footer updates instantly
+    await clearSiteCache()
     
     setSaving(false)
     if (!error) {
