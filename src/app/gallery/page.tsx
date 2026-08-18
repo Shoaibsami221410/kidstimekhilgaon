@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { ImageIcon } from "lucide-react"
+import Image from "next/image"
 
 const supabase = createClient()
 
@@ -88,10 +89,12 @@ export default function GalleryPage() {
             <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
               {filteredImages.map((img) => (
                 <div key={img.id} className="break-inside-avoid relative group rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
-                  <img 
+                  <Image 
                     src={img.image_url} 
                     alt={img.title || "Gallery image"}
-                    className="w-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+                    width={800}
+                    height={800}
+                    className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">

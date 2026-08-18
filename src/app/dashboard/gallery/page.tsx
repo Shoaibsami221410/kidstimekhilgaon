@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ImageIcon, Trash2, Plus, Loader2 } from "lucide-react"
 import { ImagePicker } from "@/components/image-picker"
+import Image from "next/image"
 
 export default function GalleryAdminPage() {
   const supabase = createClient()
@@ -145,7 +146,7 @@ export default function GalleryAdminPage() {
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {images.map(img => (
                   <div key={img.id} className="group relative border rounded-xl overflow-hidden bg-slate-100 aspect-square">
-                    <img src={img.image_url} alt={img.title || "Gallery"} className="w-full h-full object-cover" />
+                    <Image src={img.image_url} alt={img.title || "Gallery"} width={400} height={400} className="w-full h-full object-cover" />
                     
                     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-4 text-center">
                       <p className="text-white font-medium mb-1 line-clamp-1">{img.title || "No Title"}</p>
