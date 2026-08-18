@@ -14,9 +14,9 @@ export default function SocialLinksPage() {
 
   useEffect(() => {
     async function loadData() {
-      const { data } = await supabase.from('page_content').select('*').eq('id', 'social_links').single()
-      if (data && data.content && data.content.links) {
-        setLinks(data.content.links)
+      const { data } = await supabase.from('page_content').select('*').eq('id', 'global_footer').single()
+      if (data && data.content && data.content.social_links) {
+        setLinks(data.content.social_links)
       } else {
         // Fallback default
         setLinks([
@@ -31,11 +31,13 @@ export default function SocialLinksPage() {
 
   const handleSave = async () => {
     setSaving(true)
-    const { error } = await supabase.from('page_content').upsert({ 
-      id: 'social_links', 
-      page: 'global', 
-      content: { links } 
-    })
+    const { data } = await supabase.from('page_content').select('content').eq('id', 'global_footer').single()
+    const existingContent = data?.content || {}
+    
+    const { error } = await supabase.from('page_content').update({ 
+      content: { ...existingContent, social_links: links } 
+    }).eq('id', 'global_footer')
+    
     setSaving(false)
     if (!error) {
       alert('Social Links saved successfully!')

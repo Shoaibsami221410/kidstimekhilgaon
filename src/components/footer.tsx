@@ -47,10 +47,7 @@ const getPlatformIcon = (name: string, className?: string) => {
 
 export async function Footer() {
   const supabase = await createClient()
-  const [ { data: footerRaw }, { data: socialRaw } ] = await Promise.all([
-    supabase.from("page_content").select("content").eq("id", "global_footer").single(),
-    supabase.from("page_content").select("content").eq("id", "social_links").single()
-  ])
+  const { data: footerRaw } = await supabase.from("page_content").select("content").eq("id", "global_footer").single()
   
   const footerData = footerRaw?.content || {
     about_text: 'Bangladesh\'s largest creative school — building confident, creative, and future-ready children since 2017.',
@@ -70,7 +67,8 @@ export async function Footer() {
         name: 'Khilgaon Branch',
         address: 'Academia School, Holding 891, Block C, Malibagh Chowdhurypara Road, Khilgaon, Dhaka-1219'
       }
-    ]
+    ],
+    social_links: []
   }
 
   return (
@@ -93,13 +91,13 @@ export async function Footer() {
               {footerData.about_text}
             </p>
             <div className="flex gap-4 flex-wrap">
-              {socialRaw?.content?.links?.map((link: any, i: number) => (
+              {footerData.social_links?.map((link: any, i: number) => (
                 <Link key={i} href={link.url || "#"} target="_blank" rel="noopener noreferrer" title={link.platform} className="w-10 h-10 bg-slate-700 hover:bg-red-600 transition-colors flex items-center justify-center rounded text-white">
                   {getPlatformIcon(link.platform, "w-5 h-5")}
                 </Link>
               ))}
               {/* Fallback if no links in DB */}
-              {(!socialRaw?.content?.links || socialRaw.content.links.length === 0) && (
+              {(!footerData.social_links || footerData.social_links.length === 0) && (
                 <>
                   <Link href="https://facebook.com/kidstime" target="_blank" className="w-10 h-10 bg-slate-700 hover:bg-red-600 transition-colors flex items-center justify-center rounded text-white">
                     <FacebookIcon className="w-5 h-5" />
