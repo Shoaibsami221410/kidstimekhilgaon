@@ -21,7 +21,7 @@ export function DashboardSidebar() {
   ]
 
   return (
-    <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col hidden md:flex min-h-screen">
+    <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col hidden md:flex sticky top-16 h-[calc(100vh-64px)]">
       <div className="h-16 flex items-center px-6 border-b border-slate-800">
         <Link href="/" className="flex items-center">
           <img src="/logo.png" alt="Kids Time Logo" className="h-10 w-auto bg-white rounded p-1" />
