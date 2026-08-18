@@ -9,10 +9,11 @@
  */
 
 import { Button } from "@/components/ui/button"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import Image from "next/image"
-import { Play, Users } from "lucide-react"
+import { Play, Users, ChevronLeft, ChevronRight } from "lucide-react"
+import { useState, useEffect, useCallback } from "react"
 
 export function HomeClient({ content, courses, testimonials }: { content: any, courses?: any[], testimonials?: any[] }) {
   const fadeInUp = {
@@ -76,6 +77,25 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
 
   // Hero Background (fallback if no image provided)
   const heroBg = hero.image_url || 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2020&auto=format&fit=crop'
+
+  // Testimonial Carousel State & Logic
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  const nextTestimonial = useCallback(() => {
+    setCurrentIndex((prev) => (prev + 1) % displayTestimonials.length)
+  }, [displayTestimonials.length])
+
+  const prevTestimonial = useCallback(() => {
+    setCurrentIndex((prev) => (prev - 1 + displayTestimonials.length) % displayTestimonials.length)
+  }, [displayTestimonials.length])
+
+  useEffect(() => {
+    if (displayTestimonials.length <= 1) return
+    const timer = setInterval(() => {
+      nextTestimonial()
+    }, 5000) // 5 seconds autoplay
+    return () => clearInterval(timer)
+  }, [nextTestimonial, displayTestimonials.length])
 
   return (
     <div className="flex flex-col w-full selection:bg-rose-200 selection:text-rose-900 bg-white">
@@ -283,28 +303,60 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
               initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}
               className="w-full overflow-hidden"
             >
-              <div 
-                className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-4 w-full"
-                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-              >
-                {displayTestimonials.map((testimonial: any, i: number) => (
-                  <div key={i} className="flex-none w-full snap-center text-center p-4">
+              <div className="relative h-[250px] w-full flex items-center justify-center">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentIndex}
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -50 }}
+                    transition={{ duration: 0.3 }}
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={1}
+                    onDragEnd={(e, { offset, velocity }) => {
+                      const swipe = offset.x;
+                      if (swipe < -50) {
+                        nextTestimonial();
+                      } else if (swipe > 50) {
+                        prevTestimonial();
+                      }
+                    }}
+                    className="absolute inset-0 flex flex-col items-center justify-center text-center px-10 md:px-14 cursor-grab active:cursor-grabbing w-full"
+                  >
                     <p className="text-xl text-slate-800 font-medium leading-relaxed italic mb-8">
-                      "{testimonial.text}"
+                      "{displayTestimonials[currentIndex]?.text}"
                     </p>
                     <div className="flex items-center justify-center gap-4">
-                      <Image src={testimonial.avatar_url} alt={testimonial.author} width={48} height={48} className="rounded-full shadow-md object-cover" />
+                      {displayTestimonials[currentIndex]?.avatar_url && (
+                        <Image src={displayTestimonials[currentIndex].avatar_url} alt={displayTestimonials[currentIndex]?.author || "User"} width={48} height={48} className="rounded-full shadow-md object-cover" />
+                      )}
                       <div className="text-left">
-                        <h4 className="font-bold text-slate-900 text-sm">{testimonial.author}</h4>
-                        <p className="text-slate-500 text-xs">{testimonial.role}</p>
+                        <h4 className="font-bold text-slate-900 text-sm">{displayTestimonials[currentIndex]?.author}</h4>
+                        <p className="text-slate-500 text-xs">{displayTestimonials[currentIndex]?.role}</p>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  </motion.div>
+                </AnimatePresence>
+
+                {displayTestimonials.length > 1 && (
+                  <>
+                    <button onClick={prevTestimonial} className="absolute left-0 p-2 rounded-full bg-white shadow-md text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition z-10 hidden md:block">
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+                    <button onClick={nextTestimonial} className="absolute right-0 p-2 rounded-full bg-white shadow-md text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition z-10 hidden md:block">
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+                  </>
+                )}
               </div>
-              <div className="flex justify-center gap-2 mt-4 opacity-50">
+              <div className="flex justify-center gap-2 mt-6">
                 {displayTestimonials.length > 1 && displayTestimonials.map((_, i) => (
-                  <div key={i} className="w-2 h-2 rounded-full bg-slate-400" />
+                  <button 
+                    key={i} 
+                    onClick={() => setCurrentIndex(i)}
+                    className={`h-2 rounded-full transition-all duration-300 ${i === currentIndex ? 'w-6 bg-red-500' : 'w-2 bg-slate-300 hover:bg-slate-400'}`} 
+                  />
                 ))}
               </div>
             </motion.div>
