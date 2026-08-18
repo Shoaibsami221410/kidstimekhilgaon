@@ -153,9 +153,7 @@ export default function DashboardPage() {
                       </p>
                     </div>
                     <div className="text-right">
-                      <span className={`text-xs px-2 py-1 rounded-full font-medium ${trial.status === 'pending' ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-700'}`}>
-                        {trial.status}
-                      </span>
+
                       <p className="text-xs text-slate-400 mt-1 flex items-center gap-1 justify-end">
                         <Clock className="w-3 h-3" />
                         {formatDistanceToNow(new Date(trial.created_at), { addSuffix: true })}

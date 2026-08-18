@@ -1,18 +1,12 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { MapPin, Phone, Mail, Clock, Send, Loader2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
+import { MapPin, Phone, Clock, Loader2 } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 
 const supabase = createClient()
 
 export default function ContactPage() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
   const [content, setContent] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -42,19 +36,6 @@ export default function ContactPage() {
     hours: "Friday - Saturday: 9:00 AM - 6:00 PM"
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false)
-      setIsSuccess(true)
-      setTimeout(() => setIsSuccess(false), 5000)
-      const form = e.target as HTMLFormElement
-      form.reset()
-    }, 1500)
-  }
-
   return (
     <div className="flex flex-col min-h-screen animate-in fade-in duration-700">
       {loading ? (
@@ -82,19 +63,19 @@ export default function ContactPage() {
 
       <section className="py-20 bg-slate-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          <div className="max-w-3xl mx-auto">
             
             {/* Contact Info */}
             <div className="space-y-12">
-              <div className="bg-orange-50 p-8 rounded-3xl border border-orange-100">
+              <div className="bg-orange-50 p-8 rounded-3xl border border-orange-100 text-center">
                 <h2 className="text-3xl font-bold mb-6" style={{ color: info.title_color, fontFamily: info.title_font }}>{info.title}</h2>
                 <p className="text-lg mb-10 font-medium leading-relaxed" style={{ color: info.description_color, fontFamily: info.description_font }}>
                   {info.description}
                 </p>
               </div>
 
-              <div className="space-y-6">
-                <div className="flex items-start gap-4 p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="flex items-start gap-4 p-6 bg-white rounded-2xl shadow-sm border border-slate-100 md:col-span-2">
                   <div className="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center shrink-0">
                     <MapPin className="w-6 h-6" />
                   </div>
@@ -131,7 +112,7 @@ export default function ContactPage() {
                   </div>
                 )}
 
-                <div className="flex items-start gap-4 p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
+                <div className="flex items-start gap-4 p-6 bg-white rounded-2xl shadow-sm border border-slate-100 md:col-span-2 lg:col-span-1">
                   <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center shrink-0">
                     <Clock className="w-6 h-6" />
                   </div>
@@ -141,62 +122,6 @@ export default function ContactPage() {
                   </div>
                 </div>
               </div>
-            </div>
-
-            {/* Contact Form */}
-            <div className="bg-white p-8 md:p-10 rounded-3xl shadow-xl border border-slate-100 relative">
-              <h2 className="text-2xl font-bold text-slate-900 mb-6">Send us a Message</h2>
-              
-              {isSuccess ? (
-                <div className="absolute inset-0 bg-white/95 rounded-3xl z-10 flex flex-col items-center justify-center text-center p-8">
-                  <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-4">
-                    <Send className="w-8 h-8" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-slate-900 mb-2">Message Sent!</h3>
-                  <p className="text-slate-600">Thank you for reaching out. Our team will get back to you within 24 hours.</p>
-                </div>
-              ) : null}
-
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="firstName">First Name</Label>
-                    <Input id="firstName" placeholder="John" required />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="lastName">Last Name</Label>
-                    <Input id="lastName" placeholder="Doe" required />
-                  </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email Address</Label>
-                  <Input id="email" type="email" placeholder="john@example.com" required />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="phone">Phone Number</Label>
-                  <Input id="phone" type="tel" placeholder="+880 17XX XXXXXX" />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="message">Your Message</Label>
-                  <Textarea 
-                    id="message" 
-                    placeholder="How can we help you?" 
-                    className="h-32 resize-none" 
-                    required 
-                  />
-                </div>
-
-                <Button 
-                  type="submit" 
-                  className="w-full bg-orange-500 hover:bg-orange-600 text-white h-12 text-lg"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? "Sending..." : "Send Message"}
-                </Button>
-              </form>
             </div>
 
           </div>
