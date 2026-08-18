@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, Users, BookOpen, Settings, LogOut, ClipboardCheck, Calendar, GraduationCap, FileText, MessageSquare, Banknote, CreditCard, Image as ImageIcon } from "lucide-react"
+import { LayoutDashboard, Users, BookOpen, Settings, LogOut, ClipboardCheck, Calendar, GraduationCap, FileText, MessageSquare, Banknote, CreditCard, Image as ImageIcon, Link as LinkIcon } from "lucide-react"
 
 export function DashboardSidebar() {
   const pathname = usePathname()
@@ -17,6 +17,7 @@ export function DashboardSidebar() {
     { href: "/dashboard/gallery", icon: ImageIcon, label: "Gallery" },
     { href: "/dashboard/content", icon: LayoutDashboard, label: "Website Content" },
     { href: "/dashboard/testimonials", icon: MessageSquare, label: "Testimonials" },
+    { href: "/dashboard/social-links", icon: LinkIcon, label: "Social Links" },
   ]
 
   return (
