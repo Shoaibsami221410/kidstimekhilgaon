@@ -1,5 +1,8 @@
 import { AdmissionForm } from "@/components/admission-form"
 import { createClient } from "@/lib/supabase/server"
+import Image from "next/image"
+
+export const revalidate = 3600
 
 export const metadata = {
   title: "Admissions | Kids Time Khilgaon",
@@ -23,7 +26,7 @@ export default async function AdmissionsPage() {
     <div className="container mx-auto py-12 px-4 md:px-6 relative">
       {hero.image_url && (
         <div className="absolute inset-0 z-0 opacity-10">
-          <img src={hero.image_url} alt="Admissions" className="w-full h-full object-cover" />
+          <Image src={hero.image_url} alt="Admissions" fill priority sizes="100vw" className="object-cover" />
         </div>
       )}
       <div className="max-w-3xl mx-auto relative z-10">

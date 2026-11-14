@@ -1,5 +1,8 @@
 import { TrialClassFlow } from "@/components/trial-class-flow"
 import { createClient } from "@/lib/supabase/server"
+import Image from "next/image"
+
+export const revalidate = 3600
 
 export const metadata = {
   title: "Trial Classes | Kids Time Khilgaon",
@@ -23,7 +26,7 @@ export default async function TrialClassesPage() {
     <div className="container mx-auto py-12 px-4 md:px-6 relative">
       {hero.image_url && (
         <div className="absolute inset-0 z-0 opacity-10">
-          <img src={hero.image_url} alt="Trial Classes" className="w-full h-full object-cover" />
+          <Image src={hero.image_url} alt="Trial Classes" fill priority sizes="100vw" className="object-cover" />
         </div>
       )}
       <div className="max-w-4xl mx-auto relative z-10">

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
+import Image from "next/image"
 import { notFound } from "next/navigation"
 
 const supabase = createClient()
@@ -143,10 +144,10 @@ export default function SingleEventPage({ params }: { params: Promise<{ id: stri
 
             {event.cover_image_url && (
               <div className="rounded-3xl overflow-hidden bg-slate-100 shadow-sm border border-slate-200 aspect-video relative">
-                <img 
+                <Image fill sizes="(max-width: 1024px) 100vw, 800px" 
                   src={event.cover_image_url} 
                   alt={event.title}
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="object-cover"
                 />
               </div>
             )}

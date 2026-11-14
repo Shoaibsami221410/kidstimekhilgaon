@@ -148,7 +148,7 @@ export function TrialClassFlow() {
                   name="childName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Child's Name</FormLabel>
+                      <FormLabel>Child&apos;s Name</FormLabel>
                       <FormControl>
                         <Input placeholder="Jane Doe" {...field} />
                       </FormControl>
@@ -161,7 +161,7 @@ export function TrialClassFlow() {
                   name="childAge"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Child's Age</FormLabel>
+                      <FormLabel>Child&apos;s Age</FormLabel>
                       <FormControl>
                         <Input placeholder="4" type="number" {...field} />
                       </FormControl>
@@ -224,7 +224,7 @@ export function TrialClassFlow() {
             </div>
             <DialogTitle className="text-2xl mb-2 text-center">Great Job!</DialogTitle>
             <DialogDescription className="text-base text-center">
-              You've completed some of our trial classes. Would you like to enroll your child in Kids Time Khilgaon?
+              You&apos;ve completed some of our trial classes. Would you like to enroll your child in Kids Time Khilgaon?
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-3 mt-6">

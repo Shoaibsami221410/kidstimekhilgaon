@@ -45,7 +45,7 @@ export default function GalleryPage() {
       <section className="bg-slate-900 text-white py-20 relative">
         {hero.image_url && (
           <div className="absolute inset-0 z-0 opacity-30">
-            <img src={hero.image_url} alt="Gallery" className="w-full h-full object-cover" />
+            <Image src={hero.image_url} alt="Gallery" fill priority sizes="100vw" className="object-cover" />
           </div>
         )}
         <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
@@ -94,6 +94,7 @@ export default function GalleryPage() {
                     alt={img.title || "Gallery image"}
                     width={800}
                     height={800}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

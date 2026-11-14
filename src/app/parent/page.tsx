@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { createClient } from "@/lib/supabase/client"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { CalendarCheck, BookOpen, Clock, AlertCircle, Banknote, PlayCircle, Sparkles, ArrowRight } from "lucide-react"
@@ -18,7 +19,7 @@ export default function ParentOverviewPage() {
     <div key={`available-${course.id}`} className="group flex flex-col bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
       <div className="relative aspect-video w-full bg-slate-100 overflow-hidden">
         {course.thumbnail_url ? (
-          <img src={course.thumbnail_url} alt={course.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          <Image src={course.thumbnail_url} alt={course.title} fill sizes="(max-width: 768px) 100vw, 350px" className="object-cover transition-transform duration-500 group-hover:scale-105" />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-orange-100 to-rose-100 text-orange-400">
             <PlayCircle className="w-16 h-16 opacity-50" />
@@ -175,7 +176,7 @@ export default function ParentOverviewPage() {
                 <div key={`enrolled-${course.id}-${index}`} className="group relative overflow-hidden rounded-xl border bg-white shadow-sm hover:shadow-md transition-all">
                   <div className="aspect-video w-full bg-slate-100 overflow-hidden relative">
                     {course.thumbnail_url ? (
-                      <img src={course.thumbnail_url} alt={course.title} className="w-full h-full object-cover" />
+                      <Image src={course.thumbnail_url} alt={course.title} fill sizes="(max-width: 768px) 100vw, 350px" className="object-cover" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-blue-50 text-blue-200">
                         <PlayCircle className="w-12 h-12" />

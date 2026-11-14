@@ -1,5 +1,6 @@
 import { CheckCircle2 } from "lucide-react"
 import { createClient } from "@/lib/supabase/server"
+import Image from "next/image"
 
 export const revalidate = 3600
 
@@ -74,10 +75,13 @@ export default async function AboutPage() {
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-tr from-orange-400 to-rose-400 rounded-[60px] transform rotate-3 scale-105 opacity-20"></div>
               <div className="relative rounded-[40px] md:rounded-[60px] overflow-hidden border-8 border-white shadow-2xl aspect-[4/3]">
-                <img 
+                <Image 
                   src={hero.image_url || "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022&auto=format&fit=crop"}
                   alt="Kids learning"
-                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover transition-transform duration-700 hover:scale-105"
                 />
               </div>
             </div>
@@ -118,10 +122,12 @@ export default async function AboutPage() {
             
             <div className="relative h-[500px] w-full lg:h-[600px] rounded-[40px] overflow-hidden shadow-2xl group">
               <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors duration-500 z-10"></div>
-              <img 
+              <Image 
                 src={missionVision.image_url || "https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=2040&auto=format&fit=crop"}
                 alt="Children painting"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
             </div>
           </div>

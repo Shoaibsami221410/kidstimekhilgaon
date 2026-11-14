@@ -1,5 +1,6 @@
 import { ShieldCheck, MonitorPlay, Brush, Coffee, Star, Heart, CheckCircle } from "lucide-react"
 import { createClient } from "@/lib/supabase/server"
+import Image from "next/image"
 
 // Map string names from DB to actual lucide-react components
 const iconMap: Record<string, any> = {
@@ -64,10 +65,13 @@ export default async function FacilitiesPage() {
       <section className="relative py-24 bg-slate-900 text-white overflow-hidden">
         {facilitiesHero.image_url && (
           <div className="absolute inset-0 z-0 opacity-30">
-            <img 
+            <Image 
               src={facilitiesHero.image_url}
               alt="Facilities"
-              className="w-full h-full object-cover"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
             />
           </div>
         )}
@@ -91,14 +95,16 @@ export default async function FacilitiesPage() {
               <div key={index} className="flex flex-col group">
                 <div className="relative h-64 sm:h-80 w-full rounded-3xl overflow-hidden shadow-lg mb-8 bg-slate-100">
                   {facility.image && (
-                    <img 
+                    <Image 
                       src={facility.image} 
                       alt={facility.title}
-                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
-                  <div className="absolute bottom-6 left-6 flex items-center gap-4">
+                  <div className="absolute bottom-6 left-6 flex items-center gap-4 z-10">
                     <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white shadow-xl">
                       <Icon className="w-6 h-6" />
                     </div>

@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js"
+import Image from "next/image"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import { ArrowLeft, BookOpen, Clock, User as UserIcon, Calendar, GraduationCap, Briefcase } from "lucide-react"
@@ -54,7 +55,7 @@ export default async function CourseDetailsPage({ params }: { params: Promise<{ 
       <section className="bg-white border-b relative">
         {course.thumbnail_url && (
           <div className="absolute inset-0 z-0 opacity-5">
-            <img src={course.thumbnail_url} alt={course.title} className="w-full h-full object-cover" />
+            <Image src={course.thumbnail_url} alt={course.title} fill priority sizes="100vw" className="object-cover" />
           </div>
         )}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl relative z-10 pt-24 pb-16">
@@ -90,8 +91,8 @@ export default async function CourseDetailsPage({ params }: { params: Promise<{ 
             </div>
             
             {course.thumbnail_url && (
-              <div className="w-full md:w-1/3 aspect-video md:aspect-square rounded-2xl overflow-hidden shadow-xl border-4 border-white">
-                <img src={course.thumbnail_url} alt={course.title} className="w-full h-full object-cover" />
+              <div className="w-full md:w-1/3 aspect-video md:aspect-square rounded-2xl overflow-hidden shadow-xl border-4 border-white relative">
+                <Image src={course.thumbnail_url} alt={course.title} fill sizes="(max-width: 768px) 100vw, 350px" className="object-cover" />
               </div>
             )}
           </div>
@@ -147,11 +148,11 @@ export default async function CourseDetailsPage({ params }: { params: Promise<{ 
                   {assignedTeachers.map((teacher: any, idx: number) => {
                     return (
                       <div key={idx} className="text-center pb-8 border-b border-blue-100/50 last:border-0 last:pb-0">
-                        <div className="w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-white shadow-lg mb-4 bg-white">
-                          <img 
+                        <div className="w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-white shadow-lg mb-4 bg-white relative">
+                          <Image fill sizes="128px" 
                             src={teacher.image_url || `https://ui-avatars.com/api/?name=${teacher.name}&background=random`} 
                             alt={teacher.name} 
-                            className="w-full h-full object-cover"
+                            className="object-cover"
                           />
                         </div>
                         <h3 className="text-xl font-bold text-slate-900">{teacher.name}</h3>

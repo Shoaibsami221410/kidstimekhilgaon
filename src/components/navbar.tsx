@@ -18,10 +18,22 @@ export function Navbar() {
   const [userData, setUserData] = useState<any>(null)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [siteLogo, setSiteLogo] = useState<string>("/logo.png")
   const dropdownRef = useRef<HTMLDivElement>(null)
   const supabase = createClient()
 
   useEffect(() => {
+    async function loadLogo() {
+      const { data } = await supabase.from('page_content').select('content').eq('id', 'global_footer').single()
+      if (data?.content?.site_logo) {
+        setSiteLogo(data.content.site_logo)
+      }
+    }
+    loadLogo()
+  }, [])
+
+  useEffect(() => {
+
     const fetchUser = async () => {
       try {
         const { data, error } = await supabase.auth.getUser()
@@ -82,6 +94,17 @@ export function Navbar() {
 
   // Close dropdown when clicking outside
   useEffect(() => {
+    async function loadLogo() {
+      const { data } = await supabase.from('page_content').select('content').eq('id', 'global_footer').single()
+      if (data?.content?.site_logo) {
+        setSiteLogo(data.content.site_logo)
+      }
+    }
+    loadLogo()
+  }, [])
+
+  useEffect(() => {
+
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsDropdownOpen(false)
@@ -132,7 +155,7 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center">
-          <img src="/logo.png" alt="Kids Time Logo" className="h-12 md:h-14 w-auto object-contain" />
+          <img src={siteLogo || "/logo.png"} alt="Kids Time Logo" className="h-12 md:h-14 w-auto object-contain" />
         </Link>
         
         <nav className="hidden xl:flex gap-8">
@@ -211,7 +234,7 @@ export function Navbar() {
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetContent side="right" className="w-[300px] sm:w-[400px] overflow-y-auto p-6">
                 <SheetTitle className="text-left font-bold text-xl mb-6 pr-8">
-                  <img src="/logo.png" alt="Kids Time Logo" className="h-10 w-auto" />
+                  <img src={siteLogo || "/logo.png"} alt="Kids Time Logo" className="h-10 w-auto" />
                 </SheetTitle>
                 
                 {userData && (

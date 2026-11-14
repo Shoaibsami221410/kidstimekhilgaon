@@ -135,15 +135,7 @@ export default function ContentManagementPage() {
         btn_link: 'https://facebook.com/groups/kidstime',
         btn_bg_color: "#dc2626",
         btn_text_color: "#ffffff",
-        btn_font: "Inter",
-        testimonial: {
-          text: 'Kids Time কে অনেক ধন্যবাদ অনলাইন ক্লাসের এই উদ্যোগের জন্য।',
-          text_color: "#334155",
-          text_font: "Inter",
-          author: 'Kazi Iffat Ara',
-          role: 'Parent',
-          avatar_url: 'https://ui-avatars.com/api/?name=Kazi+Iffat+Ara&background=random'
-        }
+        btn_font: "Inter"
       }
     },
     {
@@ -337,6 +329,7 @@ Bangladesh`,
       page: 'global',
       section: 'footer',
       content: {
+        site_logo: "/logo.png",
         about_text: 'Bangladesh\'s largest creative school — building confident, creative, and future-ready children since 2017.',
         about_text_color: "#cbd5e1",
         about_text_font: "Inter",
@@ -484,11 +477,24 @@ Bangladesh`,
   )
 }
 
+const SITE_PAGES = [
+  { path: "/", label: "Home Page" },
+  { path: "/about", label: "About Us" },
+  { path: "/programs", label: "Programs & Courses" },
+  { path: "/facilities", label: "Campus Facilities" },
+  { path: "/teachers", label: "Teachers & Faculty" },
+  { path: "/gallery", label: "Moments & Gallery" },
+  { path: "/contact", label: "Contact Us" },
+  { path: "/admissions", label: "Admissions Form" },
+  { path: "/trial-classes", label: "Trial Classes" },
+  { path: "/events", label: "Events & Workshops" },
+]
+
 function DynamicField({ fieldKey, value, onChange }: { fieldKey: string, value: any, onChange: (val: any) => void }) {
   const label = fieldKey.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase())
 
   if (typeof value === "string") {
-    if (fieldKey.includes("image") || fieldKey.includes("thumbnail") || fieldKey.includes("avatar")) {
+    if (fieldKey.includes("image") || fieldKey.includes("thumbnail") || fieldKey.includes("avatar") || fieldKey.includes("logo")) {
       return (
         <div className="space-y-1">
           <ImagePicker value={value} onChange={onChange} label={label} />
@@ -556,6 +562,48 @@ function DynamicField({ fieldKey, value, onChange }: { fieldKey: string, value: 
             <option value="X">X (Twitter)</option>
             <option value="Other">Other...</option>
           </select>
+        </div>
+      )
+    }
+    if (fieldKey === "link" || fieldKey.endsWith("_link") || fieldKey === "url") {
+      return (
+        <div className="space-y-1.5">
+          <div className="flex items-center justify-between">
+            <Label>{label}</Label>
+            <span className="text-xs text-orange-600 font-medium">Quick Select Page or Type URL</span>
+          </div>
+          <div className="flex gap-2">
+            <Input 
+              list="site-pages-list"
+              value={value || ""} 
+              onChange={e => onChange(e.target.value)} 
+              placeholder="e.g. /gallery or https://..."
+              className="flex-1 font-mono text-sm bg-white"
+            />
+            <select
+              value={SITE_PAGES.some(p => p.path === value) ? value : ""}
+              onChange={(e) => {
+                if (e.target.value) {
+                  onChange(e.target.value)
+                }
+              }}
+              className="px-3 py-2 text-xs font-semibold border border-input rounded-md bg-slate-50 text-slate-700 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-orange-500 cursor-pointer"
+            >
+              <option value="">Quick Select Page...</option>
+              {SITE_PAGES.map(page => (
+                <option key={page.path} value={page.path}>
+                  {page.label} ({page.path})
+                </option>
+              ))}
+            </select>
+          </div>
+          <datalist id="site-pages-list">
+            {SITE_PAGES.map(page => (
+              <option key={page.path} value={page.path}>
+                {page.label}
+              </option>
+            ))}
+          </datalist>
         </div>
       )
     }
@@ -659,8 +707,8 @@ function ContentEditorCard({ item, onSave, saving }: { item: any, onSave: any, s
   return (
     <Card>
       <CardHeader className="bg-slate-50 border-b pb-4">
-        <CardTitle className="capitalize text-xl">{item.section} Section</CardTitle>
-        <CardDescription>ID: {item.id}</CardDescription>
+        <CardTitle className="capitalize text-xl">{item.id === 'global_footer' ? 'Website Logo & Global Settings' : `${item.section} Section`}</CardTitle>
+        <CardDescription>{item.id === 'global_footer' ? 'Upload and manage your website logo, company description, and branch details.' : `ID: ${item.id}`}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6 pt-6">
         

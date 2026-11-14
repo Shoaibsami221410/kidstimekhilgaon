@@ -47,7 +47,7 @@ export async function Footer() {
           {/* Logo & About */}
           <div className="space-y-6">
             <div className="flex flex-col gap-2">
-              <img src="/logo.png" alt="Kids Time Logo" className="h-16 w-auto object-contain object-left" />
+              <img src={footerData.site_logo || "/logo.png"} alt="Kids Time Logo" className="h-16 w-auto object-contain object-left" />
               <p className="text-sky-500 text-xs">A brand of Light of Hope Ltd.</p>
             </div>
             <p className="text-sm text-slate-400 leading-relaxed max-w-sm">

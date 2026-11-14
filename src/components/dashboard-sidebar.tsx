@@ -1,11 +1,25 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { LayoutDashboard, Users, BookOpen, Settings, LogOut, ClipboardCheck, Calendar, GraduationCap, FileText, MessageSquare, Banknote, CreditCard, Image as ImageIcon, Link as LinkIcon } from "lucide-react"
+import { createClient } from "@/lib/supabase/client"
 
 export function DashboardSidebar() {
   const pathname = usePathname()
+  const [siteLogo, setSiteLogo] = useState<string>("/logo.png")
+
+  useEffect(() => {
+    async function loadLogo() {
+      const supabase = createClient()
+      const { data } = await supabase.from('page_content').select('content').eq('id', 'global_footer').single()
+      if (data?.content?.site_logo) {
+        setSiteLogo(data.content.site_logo)
+      }
+    }
+    loadLogo()
+  }, [])
 
   const navItems = [
     { href: "/dashboard", icon: LayoutDashboard, label: "Overview" },
@@ -24,7 +38,7 @@ export function DashboardSidebar() {
     <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col hidden md:flex sticky top-16 h-[calc(100vh-64px)]">
       <div className="h-16 flex items-center px-6 border-b border-slate-800">
         <Link href="/" className="flex items-center">
-          <img src="/logo.png" alt="Kids Time Logo" className="h-10 w-auto bg-white rounded p-1" />
+          <img src={siteLogo || "/logo.png"} alt="Kids Time Logo" className="h-10 w-auto bg-white rounded p-1 object-contain" />
         </Link>
       </div>
       <nav className="flex-1 overflow-y-auto py-4">

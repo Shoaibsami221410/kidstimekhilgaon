@@ -1,27 +1,15 @@
-"use client"
+import { MapPin, Phone, Clock } from "lucide-react"
+import { createClient } from "@/lib/supabase/server"
+import Image from "next/image"
 
-import { useState, useEffect } from "react"
-import { MapPin, Phone, Clock, Loader2 } from "lucide-react"
-import { createClient } from "@/lib/supabase/client"
+export const revalidate = 3600
 
-const supabase = createClient()
-
-export default function ContactPage() {
-  const [content, setContent] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    async function fetchContent() {
-      const { data, error } = await supabase
-        .from('page_content')
-        .select('*')
-        .eq('page', 'contact')
-      
-      if (data) setContent(data)
-      setLoading(false)
-    }
-    fetchContent()
-  }, [])
+export default async function ContactPage() {
+  const supabase = await createClient()
+  const { data: content } = await supabase
+    .from('page_content')
+    .select('*')
+    .eq('page', 'contact')
 
   const hero = content?.find((c) => c.id === 'contact_hero')?.content || {
     title: "Get in Touch",
@@ -38,17 +26,11 @@ export default function ContactPage() {
 
   return (
     <div className="flex flex-col min-h-screen animate-in fade-in duration-700">
-      {loading ? (
-        <div className="flex-1 flex justify-center items-center h-[50vh]">
-          <Loader2 className="w-12 h-12 animate-spin text-orange-500" />
-        </div>
-      ) : (
-        <>
       {/* Hero */}
       <section className="bg-slate-900 text-white py-20 relative">
         {hero.image_url && (
           <div className="absolute inset-0 z-0 opacity-30">
-            <img src={hero.image_url} alt="Contact" className="w-full h-full object-cover" />
+            <Image src={hero.image_url} alt="Contact" fill priority sizes="100vw" className="object-cover" />
           </div>
         )}
         <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
@@ -64,7 +46,6 @@ export default function ContactPage() {
       <section className="py-20 bg-slate-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto">
-            
             {/* Contact Info */}
             <div className="space-y-12">
               <div className="bg-orange-50 p-8 rounded-3xl border border-orange-100 text-center">
@@ -123,12 +104,9 @@ export default function ContactPage() {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </section>
-      </>
-      )}
     </div>
   )
 }

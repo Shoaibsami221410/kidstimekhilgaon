@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js"
+import Image from "next/image"
 import CourseList from "./course-list"
 
 // Initialize Supabase admin client for Server Component
@@ -32,7 +33,7 @@ export default async function ProgramsPage() {
       <section className="bg-white pt-20 pb-12 border-b relative overflow-hidden">
         {hero.image_url && (
           <div className="absolute inset-0 z-0 opacity-10">
-            <img src={hero.image_url} alt="Programs" className="w-full h-full object-cover" />
+            <Image src={hero.image_url} alt="Programs" fill priority sizes="100vw" className="object-cover" />
           </div>
         )}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10">

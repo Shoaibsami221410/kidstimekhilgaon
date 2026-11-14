@@ -65,16 +65,8 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
     btn_link: 'https://facebook.com/groups/kidstime',
   }
   
-  // Fallback testimonial if none provided in DB
-  const displayTestimonials = testimonials && testimonials.length > 0 ? testimonials : [
-    {
-      id: "fallback1",
-      text: 'Kids Time কে অনেক ধন্যবাদ অনলাইন ক্লাসের এই উদ্যোগের জন্য। ক্লাসগুলো করার পর থেকে ফারহানের ইলেক্ট্রিক ডিভাইসের প্রতি আগ্রহ একদমই নেই! ফারহান এখন প্রতি সপ্তাহে অপেক্ষা করে Kids Time এর ক্লাসগুলোর জন্য!',
-      author: 'Kazi Iffat Ara',
-      role: 'Parent',
-      avatar_url: 'https://ui-avatars.com/api/?name=Kazi+Iffat+Ara&background=random'
-    }
-  ]
+  // Testimonials loaded dynamically from database
+  const displayTestimonials = testimonials || []
 
   // Hero Background (fallback if no image provided)
   const heroBg = hero.image_url || 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2020&auto=format&fit=crop'
@@ -83,10 +75,12 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
   const [currentIndex, setCurrentIndex] = useState(0)
 
   const nextTestimonial = useCallback(() => {
+    if (displayTestimonials.length === 0) return
     setCurrentIndex((prev) => (prev + 1) % displayTestimonials.length)
   }, [displayTestimonials.length])
 
   const prevTestimonial = useCallback(() => {
+    if (displayTestimonials.length === 0) return
     setCurrentIndex((prev) => (prev - 1 + displayTestimonials.length) % displayTestimonials.length)
   }, [displayTestimonials.length])
 
@@ -298,8 +292,9 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
             <p className="text-sky-500 font-bold text-sm tracking-wide">See what other parents are saying about us...</p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
+          <div className={`grid grid-cols-1 ${displayTestimonials.length > 0 ? 'lg:grid-cols-2 gap-16' : 'max-w-xl'} items-center max-w-6xl mx-auto`}>
             {/* Testimonials Slider Side */}
+            {displayTestimonials.length > 0 && (
             <motion.div 
               initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}
               className="w-full overflow-hidden"
@@ -361,11 +356,12 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
                 ))}
               </div>
             </motion.div>
+            )}
 
             {/* Community Side */}
             <motion.div 
               initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}
-              className="flex flex-col items-center text-center lg:pl-16 lg:border-l lg:border-slate-200"
+              className={`flex flex-col items-center text-center ${displayTestimonials.length > 0 ? 'lg:pl-16 lg:border-l lg:border-slate-200' : ''}`}
             >
               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm mb-6 border text-slate-700">
                 {community.platform ? getPlatformIcon(community.platform, "w-8 h-8") : <Users className="w-8 h-8 text-slate-700" />}

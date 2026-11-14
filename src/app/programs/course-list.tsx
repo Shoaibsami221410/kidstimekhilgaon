@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { useState } from "react"
 import { PlayCircle, UserPlus, X } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
@@ -89,10 +90,10 @@ export default function CourseList({ courses }: { courses: any[] }) {
               
               <div className="relative aspect-[4/3] w-full max-w-md bg-slate-100 rounded-[50px] md:rounded-[80px] overflow-hidden border-[6px] border-white shadow-xl z-10">
                 {course.thumbnail_url ? (
-                  <img 
+                  <Image fill sizes="(max-width: 768px) 100vw, 450px" 
                     src={course.thumbnail_url} 
                     alt={course.title}
-                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
+                    className="object-cover hover:scale-110 transition-transform duration-700"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-orange-50 text-orange-200">
