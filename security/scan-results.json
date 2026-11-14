@@ -1,0 +1,199 @@
+{
+  "timestamp": "2026-11-14T13:55:14.842Z",
+  "counts": {
+    "CRITICAL": 15,
+    "HIGH": 1,
+    "MEDIUM": 1,
+    "LOW": 0,
+    "INFORMATIONAL": 0
+  },
+  "findings": [
+    {
+      "id": "SEC-RLS-001",
+      "title": "Overly Permissive Authenticated RLS Policy (Privilege Escalation)",
+      "severity": "CRITICAL",
+      "file": "fix_admin_rls.sql",
+      "line": 7,
+      "explanation": "The policy allows ANY authenticated user (e.g. parent or student) full SELECT, INSERT, UPDATE, and DELETE access without verifying admin role.",
+      "impact": "A normal user can modify courses, assignments, enrollments, and teacher profiles across the platform.",
+      "remediation": "Restrict management policies to verify admin status: `USING ((auth.jwt() ->> 'role') = 'admin')` or `USING (EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role IN ('admin', 'super_admin')))`.",
+      "status": "CONFIRMED"
+    },
+    {
+      "id": "SEC-RLS-001",
+      "title": "Overly Permissive Authenticated RLS Policy (Privilege Escalation)",
+      "severity": "CRITICAL",
+      "file": "fix_admin_rls.sql",
+      "line": 12,
+      "explanation": "The policy allows ANY authenticated user (e.g. parent or student) full SELECT, INSERT, UPDATE, and DELETE access without verifying admin role.",
+      "impact": "A normal user can modify courses, assignments, enrollments, and teacher profiles across the platform.",
+      "remediation": "Restrict management policies to verify admin status: `USING ((auth.jwt() ->> 'role') = 'admin')` or `USING (EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role IN ('admin', 'super_admin')))`.",
+      "status": "CONFIRMED"
+    },
+    {
+      "id": "SEC-RLS-001",
+      "title": "Overly Permissive Authenticated RLS Policy (Privilege Escalation)",
+      "severity": "CRITICAL",
+      "file": "fix_admin_rls.sql",
+      "line": 19,
+      "explanation": "The policy allows ANY authenticated user (e.g. parent or student) full SELECT, INSERT, UPDATE, and DELETE access without verifying admin role.",
+      "impact": "A normal user can modify courses, assignments, enrollments, and teacher profiles across the platform.",
+      "remediation": "Restrict management policies to verify admin status: `USING ((auth.jwt() ->> 'role') = 'admin')` or `USING (EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role IN ('admin', 'super_admin')))`.",
+      "status": "CONFIRMED"
+    },
+    {
+      "id": "SEC-RLS-001",
+      "title": "Overly Permissive Authenticated RLS Policy (Privilege Escalation)",
+      "severity": "CRITICAL",
+      "file": "fix_admin_rls.sql",
+      "line": 24,
+      "explanation": "The policy allows ANY authenticated user (e.g. parent or student) full SELECT, INSERT, UPDATE, and DELETE access without verifying admin role.",
+      "impact": "A normal user can modify courses, assignments, enrollments, and teacher profiles across the platform.",
+      "remediation": "Restrict management policies to verify admin status: `USING ((auth.jwt() ->> 'role') = 'admin')` or `USING (EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role IN ('admin', 'super_admin')))`.",
+      "status": "CONFIRMED"
+    },
+    {
+      "id": "SEC-RLS-001",
+      "title": "Overly Permissive Authenticated RLS Policy (Privilege Escalation)",
+      "severity": "CRITICAL",
+      "file": "fix_admin_rls.sql",
+      "line": 29,
+      "explanation": "The policy allows ANY authenticated user (e.g. parent or student) full SELECT, INSERT, UPDATE, and DELETE access without verifying admin role.",
+      "impact": "A normal user can modify courses, assignments, enrollments, and teacher profiles across the platform.",
+      "remediation": "Restrict management policies to verify admin status: `USING ((auth.jwt() ->> 'role') = 'admin')` or `USING (EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role IN ('admin', 'super_admin')))`.",
+      "status": "CONFIRMED"
+    },
+    {
+      "id": "SEC-RLS-001",
+      "title": "Overly Permissive Authenticated RLS Policy (Privilege Escalation)",
+      "severity": "CRITICAL",
+      "file": "fix_admin_rls.sql",
+      "line": 34,
+      "explanation": "The policy allows ANY authenticated user (e.g. parent or student) full SELECT, INSERT, UPDATE, and DELETE access without verifying admin role.",
+      "impact": "A normal user can modify courses, assignments, enrollments, and teacher profiles across the platform.",
+      "remediation": "Restrict management policies to verify admin status: `USING ((auth.jwt() ->> 'role') = 'admin')` or `USING (EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role IN ('admin', 'super_admin')))`.",
+      "status": "CONFIRMED"
+    },
+    {
+      "id": "SEC-AUTH-001",
+      "title": "Insecure Role Assignment in Auth Trigger (Arbitrary Privilege Escalation)",
+      "severity": "CRITICAL",
+      "file": "supabase\\migrations\\0000_initial_schema.sql",
+      "line": null,
+      "explanation": "handle_new_user() reads raw_user_meta_data->>'role' directly from user signup. Any user can pass `role: \"super_admin\"` during registration.",
+      "impact": "Any public user can escalate their account to Super Admin and gain administrative access to dashboards and data.",
+      "remediation": "Hardcode the default role to 'parent' or 'student' inside handle_new_user(). Roles must only be elevated by existing admins via a secured server function.",
+      "status": "CONFIRMED"
+    },
+    {
+      "id": "SEC-RLS-001",
+      "title": "Overly Permissive Authenticated RLS Policy (Privilege Escalation)",
+      "severity": "CRITICAL",
+      "file": "supabase\\migrations\\20261114_rollback_security_hardening.sql",
+      "line": 29,
+      "explanation": "The policy allows ANY authenticated user (e.g. parent or student) full SELECT, INSERT, UPDATE, and DELETE access without verifying admin role.",
+      "impact": "A normal user can modify courses, assignments, enrollments, and teacher profiles across the platform.",
+      "remediation": "Restrict management policies to verify admin status: `USING ((auth.jwt() ->> 'role') = 'admin')` or `USING (EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role IN ('admin', 'super_admin')))`.",
+      "status": "CONFIRMED"
+    },
+    {
+      "id": "SEC-RLS-001",
+      "title": "Overly Permissive Authenticated RLS Policy (Privilege Escalation)",
+      "severity": "CRITICAL",
+      "file": "supabase\\migrations\\20261114_rollback_security_hardening.sql",
+      "line": 34,
+      "explanation": "The policy allows ANY authenticated user (e.g. parent or student) full SELECT, INSERT, UPDATE, and DELETE access without verifying admin role.",
+      "impact": "A normal user can modify courses, assignments, enrollments, and teacher profiles across the platform.",
+      "remediation": "Restrict management policies to verify admin status: `USING ((auth.jwt() ->> 'role') = 'admin')` or `USING (EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role IN ('admin', 'super_admin')))`.",
+      "status": "CONFIRMED"
+    },
+    {
+      "id": "SEC-RLS-001",
+      "title": "Overly Permissive Authenticated RLS Policy (Privilege Escalation)",
+      "severity": "CRITICAL",
+      "file": "supabase\\migrations\\20261114_rollback_security_hardening.sql",
+      "line": 39,
+      "explanation": "The policy allows ANY authenticated user (e.g. parent or student) full SELECT, INSERT, UPDATE, and DELETE access without verifying admin role.",
+      "impact": "A normal user can modify courses, assignments, enrollments, and teacher profiles across the platform.",
+      "remediation": "Restrict management policies to verify admin status: `USING ((auth.jwt() ->> 'role') = 'admin')` or `USING (EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role IN ('admin', 'super_admin')))`.",
+      "status": "CONFIRMED"
+    },
+    {
+      "id": "SEC-RLS-001",
+      "title": "Overly Permissive Authenticated RLS Policy (Privilege Escalation)",
+      "severity": "CRITICAL",
+      "file": "supabase\\migrations\\20261114_rollback_security_hardening.sql",
+      "line": 44,
+      "explanation": "The policy allows ANY authenticated user (e.g. parent or student) full SELECT, INSERT, UPDATE, and DELETE access without verifying admin role.",
+      "impact": "A normal user can modify courses, assignments, enrollments, and teacher profiles across the platform.",
+      "remediation": "Restrict management policies to verify admin status: `USING ((auth.jwt() ->> 'role') = 'admin')` or `USING (EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role IN ('admin', 'super_admin')))`.",
+      "status": "CONFIRMED"
+    },
+    {
+      "id": "SEC-RLS-001",
+      "title": "Overly Permissive Authenticated RLS Policy (Privilege Escalation)",
+      "severity": "CRITICAL",
+      "file": "supabase\\migrations\\20261114_rollback_security_hardening.sql",
+      "line": 55,
+      "explanation": "The policy allows ANY authenticated user (e.g. parent or student) full SELECT, INSERT, UPDATE, and DELETE access without verifying admin role.",
+      "impact": "A normal user can modify courses, assignments, enrollments, and teacher profiles across the platform.",
+      "remediation": "Restrict management policies to verify admin status: `USING ((auth.jwt() ->> 'role') = 'admin')` or `USING (EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role IN ('admin', 'super_admin')))`.",
+      "status": "CONFIRMED"
+    },
+    {
+      "id": "SEC-RLS-001",
+      "title": "Overly Permissive Authenticated RLS Policy (Privilege Escalation)",
+      "severity": "CRITICAL",
+      "file": "supabase\\migrations\\20261114_rollback_security_hardening.sql",
+      "line": 59,
+      "explanation": "The policy allows ANY authenticated user (e.g. parent or student) full SELECT, INSERT, UPDATE, and DELETE access without verifying admin role.",
+      "impact": "A normal user can modify courses, assignments, enrollments, and teacher profiles across the platform.",
+      "remediation": "Restrict management policies to verify admin status: `USING ((auth.jwt() ->> 'role') = 'admin')` or `USING (EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND role IN ('admin', 'super_admin')))`.",
+      "status": "CONFIRMED"
+    },
+    {
+      "id": "SEC-RLS-002",
+      "title": "Unrestricted Public Access to Sensitive RSVP / PII Data",
+      "severity": "HIGH",
+      "file": "supabase\\migrations\\20261114_rollback_security_hardening.sql",
+      "line": 69,
+      "explanation": "Event RSVP records containing personal phone numbers, emails, and parent/student names are readable by unauthenticated public visitors.",
+      "impact": "Exposure of attendee PII (names, contact numbers, emails) to scraping and enumeration.",
+      "remediation": "Restrict SELECT on event_rsvps to admin users only or restrict parents to viewing only their own submitted RSVPs.",
+      "status": "CONFIRMED"
+    },
+    {
+      "id": "SEC-AUTH-001",
+      "title": "Insecure Role Assignment in Auth Trigger (Arbitrary Privilege Escalation)",
+      "severity": "CRITICAL",
+      "file": "supabase\\migrations\\20261114_rollback_security_hardening.sql",
+      "line": null,
+      "explanation": "handle_new_user() reads raw_user_meta_data->>'role' directly from user signup. Any user can pass `role: \"super_admin\"` during registration.",
+      "impact": "Any public user can escalate their account to Super Admin and gain administrative access to dashboards and data.",
+      "remediation": "Hardcode the default role to 'parent' or 'student' inside handle_new_user(). Roles must only be elevated by existing admins via a secured server function.",
+      "status": "CONFIRMED"
+    },
+    {
+      "id": "SEC-AUTH-001",
+      "title": "Insecure Role Assignment in Auth Trigger (Arbitrary Privilege Escalation)",
+      "severity": "CRITICAL",
+      "file": "supabase\\migrations\\fix_user_trigger.sql",
+      "line": null,
+      "explanation": "handle_new_user() reads raw_user_meta_data->>'role' directly from user signup. Any user can pass `role: \"super_admin\"` during registration.",
+      "impact": "Any public user can escalate their account to Super Admin and gain administrative access to dashboards and data.",
+      "remediation": "Hardcode the default role to 'parent' or 'student' inside handle_new_user(). Roles must only be elevated by existing admins via a secured server function.",
+      "status": "CONFIRMED"
+    },
+    {
+      "id": "SEC-IMG-001",
+      "title": "Overly Permissive Image Optimization & SVG Handling",
+      "severity": "MEDIUM",
+      "file": "next.config.ts",
+      "line": 5,
+      "explanation": "`next.config.ts` allows arbitrary remote hostnames (`**`) over http and https, combined with `dangerouslyAllowSVG: true`.",
+      "impact": "Potential Server-Side Request Forgery (SSRF) via image proxy, resource exhaustion, and SVG-based Stored XSS if un-sanitized SVGs are uploaded.",
+      "remediation": "Restrict remotePatterns to trusted CDNs (e.g., Supabase storage, Unsplash) and ensure SVGs are sanitized with DOMPurify.",
+      "status": "CONFIRMED"
+    }
+  ]
+}

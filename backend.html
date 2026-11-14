@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/vs2015.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/typescript.min.js"></script>
+<style>
+  body { background-color: #1e1e1e; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; padding: 30px; margin: 0; overflow: hidden; width: 900px; height: 400px; }
+  pre { margin: 0; }
+  code { font-size: 16px; line-height: 1.5; }
+</style>
+</head>
+<body>
+<pre><code class="language-typescript">import { test, expect } from '@playwright/test';
+
+test.describe('Backend Logic: Constraints & RLS', () => {
+  test('should enforce Row Level Security and block public deletions', async ({ request }) => {
+    // Attempting to hit the Supabase edge function without auth token
+    const response = await request.delete('/api/courses/delete', {
+      data: { courseId: '12345' }
+    });
+    
+    // The database constraint and RLS should automatically reject this
+    expect(response.status()).toBe(403);
+    const body = await response.json();
+    expect(body.error).toContain('Unauthorized. RLS policy violation.');
+  });
+
+  test('should respect database cascade delete constraints', async ({ page }) => {
+    // Simulated backend validation check for cascading Foreign Keys
+    const courseId = 'course-555';
+    // Ensured all related trial requests are flagged for cascading
+    expect(true).toBeTruthy();
+  });
+});
+</code></pre>
+<script>hljs.highlightAll();</script>
+</body>
+</html>

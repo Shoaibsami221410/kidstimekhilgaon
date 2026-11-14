@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: white;
+    padding: 20px;
+    margin: 0;
+    width: 1000px;
+    height: 440px; /* Reduced height to fit perfectly */
+    overflow: hidden;
+  }
+  .gantt-wrapper {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+  }
+  .row {
+    display: flex;
+    border-bottom: 1px solid #f0f0f0;
+    height: 50px;
+  }
+  .row:last-child {
+    border-bottom: none;
+  }
+  .header {
+    background: #f8f9fc;
+    border-bottom: 2px solid #e0e0e0;
+  }
+  .task-col {
+    width: 180px;
+    min-width: 180px;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    color: #333;
+    border-right: 2px solid #e0e0e0;
+    font-size: 14px;
+    background: #fff;
+    z-index: 10;
+  }
+  .header .task-col {
+    background: #f8f9fc;
+    font-size: 15px;
+  }
+  .timeline {
+    flex: 1;
+    display: flex;
+    position: relative;
+  }
+  .col {
+    flex: 1;
+    border-right: 1px dashed #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #555;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .header .col {
+    border-right: 1px solid #f0f0f0;
+  }
+  
+  .bar {
+    position: absolute;
+    height: 34px;
+    top: 8px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
+  /* Colors */
+  .bg-blue { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+  .bg-orange { background: linear-gradient(135deg, #f97316, #ea580c); }
+  .bg-yellow { background: linear-gradient(135deg, #eab308, #ca8a04); }
+  .bg-green { background: linear-gradient(135deg, #22c55e, #16a34a); }
+  .bg-teal { background: linear-gradient(135deg, #14b8a6, #0d9488); }
+  .bg-red { background: linear-gradient(135deg, #ef4444, #dc2626); }
+  .bg-purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+
+</style>
+</head>
+<body>
+
+<div class="gantt-wrapper">
+  <!-- Header -->
+  <div class="row header">
+    <div class="task-col">TASK</div>
+    <div class="timeline">
+      <div class="col">01</div><div class="col">02</div><div class="col">03</div>
+      <div class="col">04</div><div class="col">05</div><div class="col">06</div>
+      <div class="col">07</div><div class="col">08</div><div class="col">09</div>
+      <div class="col">10</div><div class="col">11</div><div class="col">12</div>
+      <div class="col">13</div><div class="col">14</div><div class="col">15</div>
+    </div>
+  </div>
+
+  <!-- Rows -->
+  <div class="row">
+    <div class="task-col">Planning & Design</div>
+    <div class="timeline">
+      <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+      <div class="bar bg-blue" style="left: 0%; width: 20%;">Planning & Design</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="task-col">Backend & Auth</div>
+    <div class="timeline">
+      <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+      <div class="bar bg-orange" style="left: 20%; width: 20%;">Backend & Auth</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="task-col">Frontend Dev</div>
+    <div class="timeline">
+      <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+      <div class="bar bg-yellow" style="left: 20%; width: 33.33%;">Frontend Dev</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="task-col">Integration</div>
+    <div class="timeline">
+      <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+      <div class="bar bg-green" style="left: 53.33%; width: 26.66%;">Integration</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="task-col">Testing & QA</div>
+    <div class="timeline">
+      <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+      <div class="bar bg-teal" style="left: 80%; width: 13.33%;">Testing & QA</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="task-col">Bug Fixing</div>
+    <div class="timeline">
+      <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+      <div class="bar bg-red" style="left: 86.66%; width: 13.33%;">Bug Fixing</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="task-col">Demo & Deploy</div>
+    <div class="timeline">
+      <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+      <div class="bar bg-purple" style="left: 93.33%; width: 6.66%;">Deploy</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

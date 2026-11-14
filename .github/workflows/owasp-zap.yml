@@ -1,0 +1,32 @@
+name: OWASP ZAP Baseline DAST Scan
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_url:
+        description: 'Target URL to scan (Staging or Authorized Environment)'
+        required: true
+        default: 'https://staging.kidstimekhilgaon.com'
+  schedule:
+    # Run weekly on Sunday at midnight UTC
+    - cron: '0 0 * * 0'
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  zap-baseline-scan:
+    name: OWASP ZAP Dynamic Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run OWASP ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.14.0
+        with:
+          target: ${{ github.event.inputs.target_url || 'https://staging.kidstimekhilgaon.com' }}
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a'
+          allow_issue_writing: false

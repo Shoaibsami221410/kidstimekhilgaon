@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/vs2015.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/typescript.min.js"></script>
+<style>
+  body { background-color: #1e1e1e; color: #d4d4d4; font-family: Consolas, 'Courier New', monospace; padding: 30px; margin: 0; overflow: hidden; width: 900px; height: 450px; }
+  pre { margin: 0; }
+  code { font-size: 16px; line-height: 1.5; }
+</style>
+</head>
+<body>
+<pre><code class="language-typescript">import React from 'react';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { describe, it, expect } from 'vitest';
+import { AdmissionForm } from '@/components/admission-form';
+
+describe('Frontend Coverage: Routing & Form States', () => {
+  it('correctly disables submit button and shows loading state', async () => {
+    render(&lt;AdmissionForm /&gt;);
+    
+    const submitBtn = screen.getByRole('button', { name: /submit/i });
+    expect(submitBtn).not.toBeDisabled();
+    
+    // Simulate user submission
+    await userEvent.click(submitBtn);
+    
+    // Verifying form state prevents double-submission
+    expect(submitBtn).toBeDisabled();
+    expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
+  });
+
+  it('displays fallback placeholder if course lacks a thumbnail', () => {
+    render(&lt;CourseCard course={{ title: 'Math Logic', image: null }} /&gt;);
+    
+    const img = screen.getByRole('img');
+    expect(img).toHaveAttribute('src', '/fallback-placeholder.png');
+  });
+});
+</code></pre>
+<script>hljs.highlightAll();</script>
+</body>
+</html>
