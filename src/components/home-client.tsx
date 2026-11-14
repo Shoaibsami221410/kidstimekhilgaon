@@ -288,8 +288,12 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
         
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-extrabold text-red-600 mb-2">Why Kids Time?</h2>
-            <p className="text-sky-500 font-bold text-sm tracking-wide">See what other parents are saying about us...</p>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-red-600 mb-2">
+              {displayTestimonials.length > 0 ? "Why Kids Time?" : community.title}
+            </h2>
+            <p className="text-sky-500 font-bold text-sm tracking-wide">
+              {displayTestimonials.length > 0 ? "See what other parents are saying about us..." : "Join our vibrant parent community"}
+            </p>
           </div>
 
           <div className={`grid grid-cols-1 ${displayTestimonials.length > 0 ? 'lg:grid-cols-2 gap-16' : 'max-w-xl'} items-center max-w-6xl mx-auto`}>
@@ -386,4 +390,5 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
     </div>
   )
 }
+
 

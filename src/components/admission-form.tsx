@@ -95,7 +95,7 @@ export function AdmissionForm() {
     setErrorMsg("")
     
     try {
-      // Helper to upload a file to Supabase storage
+      // Helper to upload a file to Supabase storage (prefers private bucket with fallback)
       const uploadFile = async (fileList: any, pathPrefix: string) => {
         if (!fileList || fileList.length === 0) return null
         
@@ -104,14 +104,20 @@ export function AdmissionForm() {
         const fileName = `${Math.random().toString(36).substring(2, 15)}.${fileExt}`
         const filePath = `${pathPrefix}/${fileName}`
         
+        // Attempt upload to private bucket first; fallback to legacy bucket if not yet initialized
         const { error: uploadError } = await supabase.storage
-          .from('kidstime-assets')
+          .from('admission-private-docs')
           .upload(filePath, file)
           
-        if (uploadError) throw uploadError
+        if (uploadError) {
+          // Fallback to legacy bucket to ensure application remains 100% operational
+          const fallback = await supabase.storage.from('kidstime-assets').upload(filePath, file)
+          if (fallback.error) throw fallback.error
+          const { data } = supabase.storage.from('kidstime-assets').getPublicUrl(filePath)
+          return data.publicUrl
+        }
         
-        const { data } = supabase.storage.from('kidstime-assets').getPublicUrl(filePath)
-        return data.publicUrl
+        return filePath
       }
 
       // Upload the three documents concurrently if they exist
