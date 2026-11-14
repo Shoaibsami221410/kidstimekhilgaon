@@ -78,13 +78,7 @@ const newSections = [
       title: 'Kids Time Parent Community',
       description: 'Parents are regularly sharing their thoughts, child\'s activity, their creative task etc. in the Facebook community group.',
       btn_text: 'Explore',
-      btn_link: 'https://facebook.com/groups/kidstime',
-      testimonial: {
-        text: 'Kids Time কে অনেক ধন্যবাদ অনলাইন ক্লাসের এই উদ্যোগের জন্য। ক্লাসগুলো করার পর থেকে ফারহানের ইলেক্ট্রিক ডিভাইসের প্রতি আগ্রহ একদমই নেই! ফারহান এখন প্রতি সপ্তাহে অপেক্ষা করে Kids Time এর ক্লাসগুলোর জন্য!',
-        author: 'Kazi Iffat Ara',
-        role: 'Parent',
-        avatar_url: 'https://ui-avatars.com/api/?name=Kazi+Iffat+Ara&background=random'
-      }
+      btn_link: 'https://facebook.com/groups/kidstime'
     }
   },
   {
