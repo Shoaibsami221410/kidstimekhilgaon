@@ -95,26 +95,38 @@ export function AdmissionForm() {
     setErrorMsg("")
     
     try {
-      // Helper to upload a file to Supabase storage (prefers private bucket with fallback)
-      const uploadFile = async (fileList: any, pathPrefix: string) => {
+      // Helper to upload a file strictly to private Supabase storage (FAIL-CLOSED)
+      const uploadFile = async (fileList: any, pathPrefix: string, docLabel: string) => {
         if (!fileList || fileList.length === 0) return null
         
         const file = fileList[0]
-        const fileExt = file.name.split('.').pop()
-        const fileName = `${Math.random().toString(36).substring(2, 15)}.${fileExt}`
+
+        // Validate file size limit (5MB)
+        const MAX_FILE_SIZE = 5 * 1024 * 1024
+        if (file.size > MAX_FILE_SIZE) {
+          throw new Error(`${docLabel} exceeds the 5MB file size limit. Please upload a smaller file.`)
+        }
+
+        // Validate allowed file extensions
+        const fileExt = file.name.split('.').pop()?.toLowerCase()
+        const allowedExtensions = ['jpg', 'jpeg', 'png', 'webp', 'pdf']
+        if (!fileExt || !allowedExtensions.includes(fileExt)) {
+          throw new Error(`${docLabel} has an invalid format (.${fileExt || 'unknown'}). Allowed formats: JPG, PNG, WebP, PDF.`)
+        }
+
+        const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`
         const filePath = `${pathPrefix}/${fileName}`
         
-        // Attempt upload to private bucket first; fallback to legacy bucket if not yet initialized
+        // Strictly upload to private bucket ONLY — No fallback to public storage
         const { error: uploadError } = await supabase.storage
           .from('admission-private-docs')
-          .upload(filePath, file)
+          .upload(filePath, file, {
+            contentType: file.type || 'application/octet-stream',
+            upsert: false
+          })
           
         if (uploadError) {
-          // Fallback to legacy bucket to ensure application remains 100% operational
-          const fallback = await supabase.storage.from('kidstime-assets').upload(filePath, file)
-          if (fallback.error) throw fallback.error
-          const { data } = supabase.storage.from('kidstime-assets').getPublicUrl(filePath)
-          return data.publicUrl
+          throw new Error(`Failed to securely upload ${docLabel}: ${uploadError.message}. Please retry.`)
         }
         
         return filePath
@@ -122,9 +134,9 @@ export function AdmissionForm() {
 
       // Upload the three documents concurrently if they exist
       const [birthCertUrl, photoUrl, nidUrl] = await Promise.all([
-        uploadFile(values.birthCertificate, 'admissions/birth_certs'),
-        uploadFile(values.studentPhoto, 'admissions/photos'),
-        uploadFile(values.guardianNid, 'admissions/nids')
+        uploadFile(values.birthCertificate, 'admissions/birth_certs', 'Birth Certificate'),
+        uploadFile(values.studentPhoto, 'admissions/photos', 'Student Photo'),
+        uploadFile(values.guardianNid, 'admissions/nids', 'Guardian National ID')
       ])
 
       // Insert data into Supabase
