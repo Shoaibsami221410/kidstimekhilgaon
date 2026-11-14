@@ -15,7 +15,7 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.getAll()
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
+          cookiesToSet.forEach(({ name, value, options: _options }) => request.cookies.set(name, value))
           supabaseResponse = NextResponse.next({
             request,
           })
@@ -33,11 +33,11 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // RBAC routing
+  // RBAC routing: Authoritative server check. Never trust user_metadata for admin claims.
   const path = request.nextUrl.pathname
-  let role = user?.user_metadata?.role
+  let role = 'parent' // Default to parent for ordinary authenticated accounts
 
-  if (user && (!role || role === 'parent')) {
+  if (user) {
     try {
       const { data: sessionData } = await supabase.auth.getSession()
       const token = sessionData.session?.access_token
@@ -61,8 +61,6 @@ export async function updateSession(request: NextRequest) {
       console.error("Middleware DB fetch error:", err)
     }
   }
-
-  role = role || 'parent' // Default to parent if unknown
 
   // Admin route protection
   if (path.startsWith('/dashboard')) {

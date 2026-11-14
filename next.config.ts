@@ -1,34 +1,62 @@
 import type { NextConfig } from "next";
 
+const securityHeaders = [
+  {
+    key: 'X-DNS-Prefetch-Control',
+    value: 'on'
+  },
+  {
+    key: 'Strict-Transport-Security',
+    value: 'max-age=63072000; includeSubDomains; preload'
+  },
+  {
+    key: 'X-Frame-Options',
+    value: 'DENY'
+  },
+  {
+    key: 'X-Content-Type-Options',
+    value: 'nosniff'
+  },
+  {
+    key: 'Referrer-Policy',
+    value: 'strict-origin-when-cross-origin'
+  },
+  {
+    key: 'Permissions-Policy',
+    value: 'camera=(), microphone=(), geolocation=()'
+  },
+  {
+    key: 'Content-Security-Policy',
+    value: [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "font-src 'self' https://fonts.gstatic.com data:",
+      "img-src 'self' data: blob: https:",
+      "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://images.unsplash.com https://cdn.corenexis.com",
+      "frame-ancestors 'none'"
+    ].join('; ')
+  }
+];
+
 const nextConfig: NextConfig = {
-  compress: true,
-  poweredByHeader: false,
   images: {
     dangerouslyAllowSVG: true,
-    formats: ['image/avif', 'image/webp'],
-    minimumCacheTTL: 60 * 60 * 24 * 7, // 7 days cache
     remotePatterns: [
       {
         protocol: 'https',
         hostname: '**',
-      },
-      {
-        protocol: 'http',
-        hostname: '**',
       }
     ]
   },
-  experimental: {
-    optimizePackageImports: [
-      'lucide-react',
-      'framer-motion',
-      '@radix-ui/react-icons',
-      '@radix-ui/react-dialog',
-      '@radix-ui/react-slot',
-      '@radix-ui/react-label',
-      '@radix-ui/react-select'
-    ]
-  }
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: securityHeaders,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

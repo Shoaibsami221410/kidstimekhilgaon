@@ -337,10 +337,10 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
 
                 {displayTestimonials.length > 1 && (
                   <>
-                    <button onClick={prevTestimonial} className="absolute left-0 p-2 rounded-full bg-white shadow-md text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition z-10 hidden md:block">
+                    <button onClick={prevTestimonial} className="absolute -left-2 sm:left-0 p-2 rounded-full bg-white shadow-md text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition z-10 flex items-center justify-center">
                       <ChevronLeft className="w-5 h-5" />
                     </button>
-                    <button onClick={nextTestimonial} className="absolute right-0 p-2 rounded-full bg-white shadow-md text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition z-10 hidden md:block">
+                    <button onClick={nextTestimonial} className="absolute -right-2 sm:right-0 p-2 rounded-full bg-white shadow-md text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition z-10 flex items-center justify-center">
                       <ChevronRight className="w-5 h-5" />
                     </button>
                   </>
@@ -386,3 +386,4 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
     </div>
   )
 }
+

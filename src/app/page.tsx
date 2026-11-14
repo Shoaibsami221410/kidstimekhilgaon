@@ -2,7 +2,8 @@ import { HomeClient } from "@/components/home-client"
 import { createClient } from "@/lib/supabase/server"
 
 // Revalidate every hour, or you can leave it out for dynamic rendering
-export const revalidate = 3600
+export const revalidate = 0
+export const dynamic = 'force-dynamic'
 
 export default async function Home() {
   const supabase = await createClient()
@@ -22,3 +23,4 @@ export default async function Home() {
 
   return <HomeClient content={content || []} courses={courses || []} testimonials={testimonials} />
 }
+

@@ -5,6 +5,20 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
   try {
+    // Guard: Prevent unauthenticated mutation of courses and assignments
+    const seedSecret = process.env.INTERNAL_SEED_SECRET;
+    const authHeader = request.headers.get('authorization');
+    const url = new URL(request.url);
+    const queryKey = url.searchParams.get('key');
+
+    if (seedSecret) {
+      if (authHeader !== `Bearer ${seedSecret}` && queryKey !== seedSecret) {
+        return NextResponse.json({ error: 'Unauthorized: Missing or invalid seed secret' }, { status: 401 });
+      }
+    } else if (process.env.NODE_ENV === 'production') {
+      return NextResponse.json({ error: 'Database seeding disabled in production' }, { status: 403 });
+    }
+
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
     
@@ -39,7 +53,7 @@ export async function GET(request: Request) {
     const { error: assignmentError } = await supabase.from('assignments').upsert(demoAssignments);
     if (assignmentError) throw assignmentError;
 
-    return NextResponse.json({ success: true, message: 'Demo data seeded successfully! You can now visit the Parent Dashboard to see the new Discover Courses section.' });
+    return NextResponse.json({ success: true, message: 'Demo data seeded successfully!' });
 
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
