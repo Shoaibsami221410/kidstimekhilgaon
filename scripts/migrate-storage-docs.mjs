@@ -113,6 +113,9 @@ async function main() {
       // Check if already migrated to a relative path
       if (!url.startsWith('http://') && !url.startsWith('https://')) {
         alreadyMigrated++;
+        if (IS_CLEANUP) {
+          migratedFilesList.push({ relativePath: url, recordId: adm.id, field: key });
+        }
         continue;
       }
 
