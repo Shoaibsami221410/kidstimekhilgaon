@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, Users, BookOpen, Settings, LogOut, ClipboardCheck, Calendar, GraduationCap, FileText, MessageSquare, Banknote, CreditCard, Image as ImageIcon, Link as LinkIcon } from "lucide-react"
+import { LayoutDashboard, Users, BookOpen, Settings, LogOut, ClipboardCheck, Calendar, GraduationCap, FileText, MessageSquare, Banknote, CreditCard, Image as ImageIcon, Link as LinkIcon, Sparkles } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 
 export function DashboardSidebar() {
@@ -30,6 +30,7 @@ export function DashboardSidebar() {
     { href: "/dashboard/events", icon: Calendar, label: "Events" },
     { href: "/dashboard/gallery", icon: ImageIcon, label: "Gallery" },
     { href: "/dashboard/content", icon: LayoutDashboard, label: "Website Content" },
+    { href: "/dashboard/logo", icon: Sparkles, label: "Website Logo" },
     { href: "/dashboard/testimonials", icon: MessageSquare, label: "Testimonials" },
     { href: "/dashboard/social-links", icon: LinkIcon, label: "Social Links" },
   ]

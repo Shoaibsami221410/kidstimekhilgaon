@@ -143,6 +143,7 @@ export function Navbar() {
     { href: "/dashboard/events", label: "Events" },
     { href: "/dashboard/gallery", label: "Gallery" },
     { href: "/dashboard/content", label: "Website Content" },
+    { href: "/dashboard/logo", label: "Website Logo" },
     { href: "/dashboard/testimonials", label: "Testimonials" },
   ]
 
