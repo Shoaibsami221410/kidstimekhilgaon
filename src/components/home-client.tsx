@@ -44,7 +44,7 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
     btn1_link: '/about',
     btn2_text: 'WhatsApp',
     btn2_link: 'https://wa.me/123456789',
-    image_url: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2020&auto=format&fit=crop'
+    image_url: 'https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=2020&auto=format&fit=crop'
   }
   const servicesAfterSchool = content.find((c: any) => c.id === 'home_services_afterschool')?.content || {
     subtitle: 'Our Services',
@@ -69,7 +69,7 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
   const displayTestimonials = testimonials || []
 
   // Hero Background (fallback if no image provided)
-  const heroBg = hero.image_url || 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2020&auto=format&fit=crop'
+  const heroBg = hero.image_url || 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2020&auto=format&fit=crop'
 
   // Testimonial Carousel State & Logic
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -249,7 +249,7 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
                 const cImage = (rawImage && !rawImage.includes('cdn.corenexis.com'))
                   ? rawImage
                   : (cTitle.toLowerCase().includes('craft')
-                      ? 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1000&auto=format&fit=crop'
+                      ? 'https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?q=80&w=1000&auto=format&fit=crop'
                       : cTitle.toLowerCase().includes('art')
                         ? 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=1000&auto=format&fit=crop'
                         : 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1000&auto=format&fit=crop');
