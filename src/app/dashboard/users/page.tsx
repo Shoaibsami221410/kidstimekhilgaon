@@ -55,10 +55,12 @@ export default function UserManagementPage() {
           <Button onClick={fetchUsers} variant="outline" className="h-9 px-3">
             <RefreshCcw className="w-4 h-4" />
           </Button>
-          <Button className="h-9 bg-orange-500 hover:bg-orange-600 flex items-center gap-2">
-            <PlusCircle className="w-4 h-4" />
-            Add User
-          </Button>
+          <Link href="/signup">
+            <Button className="h-9 bg-orange-500 hover:bg-orange-600 flex items-center gap-2">
+              <PlusCircle className="w-4 h-4" />
+              Add User
+            </Button>
+          </Link>
         </div>
       </div>
 

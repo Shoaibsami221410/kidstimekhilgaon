@@ -75,7 +75,7 @@ export default async function ContactPage() {
                       <div>
                         <h3 className="font-bold text-slate-900 text-lg mb-1">{contact.name}</h3>
                         <p className="text-sm font-medium text-blue-600 mb-1">{contact.role}</p>
-                        <p className="text-slate-600 font-medium">{contact.phone}</p>
+                        <a href={`tel:${contact.phone.replace(/[^0-9+]/g, '')}`} className="text-slate-600 font-medium hover:text-blue-600 transition-colors block">{contact.phone}</a>
                       </div>
                     </div>
                   ))

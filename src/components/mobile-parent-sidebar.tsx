@@ -2,21 +2,25 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, LayoutDashboard, BookOpen, ClipboardCheck, MessageSquare, Banknote, LogOut, CalendarCheck } from "lucide-react"
+import { Menu, LayoutDashboard, BookOpen, ClipboardCheck, CalendarCheck, LogOut } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet"
-import { Button } from "@/components/ui/button"
+import { createClient } from "@/lib/supabase/client"
 
 export function MobileParentSidebar() {
   const pathname = usePathname()
 
   const navItems = [
     { href: "/parent", icon: LayoutDashboard, label: "Overview" },
-    { href: "/parent/attendance", icon: CalendarCheck, label: "Attendance Tracker" },
-    { href: "/parent/assignments", icon: BookOpen, label: "Assignments" },
-    { href: "/parent/admissions", icon: ClipboardCheck, label: "Admissions Status" },
-    { href: "/parent/fees", icon: Banknote, label: "Fees & Invoices" },
-    { href: "/parent/messages", icon: MessageSquare, label: "Messages" },
+    { href: "/admissions", icon: ClipboardCheck, label: "Apply for Admission" },
+    { href: "/programs", icon: BookOpen, label: "Available Programs" },
+    { href: "/trial-classes", icon: CalendarCheck, label: "Trial Classes" },
   ]
+
+  const handleLogout = async () => {
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    window.location.href = "/"
+  }
 
   return (
     <Sheet>
@@ -53,7 +57,10 @@ export function MobileParentSidebar() {
           </ul>
         </nav>
         <div className="p-4 border-t border-slate-800 shrink-0">
-          <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition-colors text-left">
+          <button 
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition-colors text-left"
+          >
             <LogOut className="w-5 h-5" />
             Logout
           </button>

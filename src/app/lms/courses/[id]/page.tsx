@@ -1,12 +1,15 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useParams } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { PlayCircle, FileText, CheckCircle2, Lock, ChevronDown, Loader2, BookOpen } from "lucide-react"
 
-export default function LMSCoursePage({ params }: { params: { id: string } }) {
+export default function LMSCoursePage() {
+  const params = useParams()
+  const courseId = params?.id as string
   const supabase = createClient()
   const [course, setCourse] = useState<any>(null)
   const [modules, setModules] = useState<any[]>([])
@@ -15,17 +18,19 @@ export default function LMSCoursePage({ params }: { params: { id: string } }) {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    fetchCourseData()
-  }, [])
+    if (courseId) {
+      fetchCourseData()
+    }
+  }, [courseId])
 
   async function fetchCourseData() {
     setIsLoading(true)
     // 1. Fetch Course
-    const { data: courseData } = await supabase.from('courses').select('*').eq('id', params.id).single()
+    const { data: courseData } = await supabase.from('courses').select('*').eq('id', courseId).single()
     if (courseData) setCourse(courseData)
 
     // 2. Fetch Modules
-    const { data: modulesData } = await supabase.from('modules').select('*').eq('course_id', params.id).order('order_index', { ascending: true })
+    const { data: modulesData } = await supabase.from('modules').select('*').eq('course_id', courseId).order('order_index', { ascending: true })
     
     if (modulesData && modulesData.length > 0) {
       // 3. Fetch Lessons for these modules

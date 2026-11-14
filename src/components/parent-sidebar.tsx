@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, BookOpen, ClipboardCheck, MessageSquare, Banknote, LogOut, CalendarCheck } from "lucide-react"
+import { LayoutDashboard, LogOut } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 
 export function ParentSidebar() {
@@ -24,6 +24,12 @@ export function ParentSidebar() {
   const navItems = [
     { href: "/parent", icon: LayoutDashboard, label: "Overview" },
   ]
+
+  const handleLogout = async () => {
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    window.location.href = "/"
+  }
 
   return (
     <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col hidden md:flex min-h-screen">
@@ -57,7 +63,10 @@ export function ParentSidebar() {
       <div className="p-4 border-t border-slate-800">
         <ul className="space-y-1">
           <li>
-            <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition-colors text-left">
+            <button 
+              onClick={handleLogout}
+              className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition-colors text-left"
+            >
               <LogOut className="w-5 h-5" />
               Logout
             </button>

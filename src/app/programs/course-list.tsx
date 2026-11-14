@@ -91,7 +91,7 @@ export default function CourseList({ courses }: { courses: any[] }) {
               <div className="relative aspect-[4/3] w-full max-w-md bg-slate-100 rounded-[50px] md:rounded-[80px] overflow-hidden border-[6px] border-white shadow-xl z-10">
                 {course.thumbnail_url ? (
                   <Image fill sizes="(max-width: 768px) 100vw, 450px" 
-                    src={course.thumbnail_url} 
+                    src={(course.thumbnail_url && !course.thumbnail_url.includes('cdn.corenexis.com')) ? course.thumbnail_url : 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1000&auto=format&fit=crop'} 
                     alt={course.title}
                     className="object-cover hover:scale-110 transition-transform duration-700"
                   />

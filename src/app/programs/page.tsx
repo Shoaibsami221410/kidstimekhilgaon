@@ -28,7 +28,7 @@ export default async function ProgramsPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-white overflow-x-hidden">
       {/* Hero Section */}
       <section className="bg-white pt-20 pb-12 border-b relative overflow-hidden">
         {hero.image_url && (
@@ -60,7 +60,7 @@ export default async function ProgramsPage() {
       </section>
 
       {/* Courses List Section */}
-      <section className="py-20 bg-slate-50">
+      <section className="py-20 bg-slate-50 overflow-hidden">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
           {courses && courses.length > 0 ? (
             <CourseList courses={courses} />

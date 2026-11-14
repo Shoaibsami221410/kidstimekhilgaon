@@ -18,8 +18,7 @@ export async function Footer() {
       { title: 'About Us', link: '/about' },
       { title: 'Contact Us', link: '/contact' },
       { title: 'Our Teachers', link: '/teachers' },
-      { title: 'Gallery', link: '/gallery' },
-      { title: 'Articles', link: '/articles' }
+      { title: 'Gallery', link: '/gallery' }
     ],
     branches: [
       {

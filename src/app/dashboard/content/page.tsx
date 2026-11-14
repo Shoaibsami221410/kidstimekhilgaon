@@ -355,50 +355,49 @@ Bangladesh`,
   ]
 
   useEffect(() => {
-    fetchContent()
-  }, [])
-
-  const fetchContent = async () => {
-    const { data, error } = await supabase.from("page_content").select("*")
-    const mergedContent = requiredSections.map(req => {
-      const existing = data?.find(d => d.id === req.id)
-      if (existing) {
-        // Deep merge existing content with required defaults
-        return {
-          ...existing,
-          content: { ...req.content, ...existing.content }
+    async function loadContent() {
+      const { data, error } = await supabase.from("page_content").select("*")
+      const mergedContent = requiredSections.map(req => {
+        const existing = data?.find(d => d.id === req.id)
+        if (existing) {
+          // Deep merge existing content with required defaults
+          return {
+            ...existing,
+            content: { ...req.content, ...existing.content }
+          }
         }
-      }
-      return req
-    })
+        return req
+      })
 
-    if (!error && data) {
-      const existingIds = data.map(d => d.id)
-      const missingSections = requiredSections.filter(s => !existingIds.includes(s.id))
-      
-      if (missingSections.length > 0) {
-        console.log("Seeding missing sections:", missingSections.map(s => s.id))
-        const { error: insertError } = await supabase.from("page_content").insert(missingSections)
-        if (!insertError) {
-          // Re-fetch after seeding
-          const { data: newData } = await supabase.from("page_content").select("*")
-          if (newData) {
-            const finalMerged = requiredSections.map(req => {
-              const existing = newData.find(d => d.id === req.id)
-              return existing ? { ...existing, content: { ...req.content, ...existing.content } } : req
-            })
-            setContent(finalMerged)
+      if (!error && data) {
+        const existingIds = data.map(d => d.id)
+        const missingSections = requiredSections.filter(s => !existingIds.includes(s.id))
+        
+        if (missingSections.length > 0) {
+          console.log("Seeding missing sections:", missingSections.map(s => s.id))
+          const { error: insertError } = await supabase.from("page_content").insert(missingSections)
+          if (!insertError) {
+            // Re-fetch after seeding
+            const { data: newData } = await supabase.from("page_content").select("*")
+            if (newData) {
+              const finalMerged = requiredSections.map(req => {
+                const existing = newData.find(d => d.id === req.id)
+                return existing ? { ...existing, content: { ...req.content, ...existing.content } } : req
+              })
+              setContent(finalMerged)
+            }
+          } else {
+            console.warn("Could not auto-seed database. RLS policies might be blocking insert:", insertError)
+            setContent(mergedContent)
           }
         } else {
-          console.warn("Could not auto-seed database. RLS policies might be blocking insert:", insertError)
           setContent(mergedContent)
         }
-      } else {
-        setContent(mergedContent)
       }
+      setLoading(false)
     }
-    setLoading(false)
-  }
+    loadContent()
+  }, [])
 
   const handleSave = async (id: string, updatedContentObj: any) => {
     setSaving(true)

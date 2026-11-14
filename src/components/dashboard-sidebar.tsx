@@ -35,6 +35,12 @@ export function DashboardSidebar() {
     { href: "/dashboard/social-links", icon: LinkIcon, label: "Social Links" },
   ]
 
+  const handleLogout = async () => {
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    window.location.href = "/"
+  }
+
   return (
     <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col hidden md:flex sticky top-16 h-[calc(100vh-64px)]">
       <div className="h-16 flex items-center px-6 border-b border-slate-800">
@@ -67,7 +73,10 @@ export function DashboardSidebar() {
       <div className="p-4 border-t border-slate-800">
         <ul className="space-y-1">
           <li>
-            <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition-colors text-left">
+            <button 
+              onClick={handleLogout}
+              className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition-colors text-left"
+            >
               <LogOut className="w-5 h-5" />
               Logout
             </button>

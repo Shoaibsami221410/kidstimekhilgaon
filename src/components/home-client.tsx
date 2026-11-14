@@ -41,7 +41,7 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
     title: 'Kids Time Montessori Pre-School',
     description: 'At Kids Time, we believe in nurturing young minds and fostering creativity and leadership among children. Kids Time is pioneering the Montessori method in Bangladesh\'s pre-school with its first campus in Dhanmondi. Our Montessori-inspired curriculum is designed to spark curiosity, ignite creativity, and empower children to become confident, independent learners.',
     btn1_text: 'Learn More',
-    btn1_link: '/montessori',
+    btn1_link: '/about',
     btn2_text: 'WhatsApp',
     btn2_link: 'https://wa.me/123456789',
     image_url: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2020&auto=format&fit=crop'
@@ -190,7 +190,7 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
               
               <div className="flex flex-col sm:flex-row gap-4 w-full justify-center lg:justify-start">
                 {servicesMontessori.btn1_text && (
-                  <Link href={servicesMontessori.btn1_link || "#"}>
+                  <Link href={servicesMontessori.btn1_link === '/montessori' ? '/about' : (servicesMontessori.btn1_link || '/about')}>
                     <Button size="lg" className="w-full sm:w-auto h-14 px-8 text-lg rounded-full shadow-xl"
                       style={{ backgroundColor: servicesMontessori.btn1_bg_color, color: servicesMontessori.btn1_text_color, fontFamily: servicesMontessori.btn1_font }}
                     >
@@ -245,10 +245,18 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
               {displayCourses?.map((course: any, i: number) => {
                 const cTitle = course.title || "";
                 const cDesc = course.desc || course.description || "";
-                const cImage = course.image_url || course.thumbnail_url || "";
+                const rawImage = course.image_url || course.thumbnail_url || "";
+                const cImage = (rawImage && !rawImage.includes('cdn.corenexis.com'))
+                  ? rawImage
+                  : (cTitle.toLowerCase().includes('craft')
+                      ? 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1000&auto=format&fit=crop'
+                      : cTitle.toLowerCase().includes('art')
+                        ? 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=1000&auto=format&fit=crop'
+                        : 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1000&auto=format&fit=crop');
                 
                 return (
-                <motion.div key={i} variants={fadeInUp} className="group w-full flex flex-col items-center text-center bg-white border rounded-3xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-2 hover:border-red-100 transition-all duration-300 cursor-pointer">
+                <Link key={i} href={course.id ? `/programs/${course.id}` : "/programs"} className="block w-full">
+                <motion.div variants={fadeInUp} className="group w-full h-full flex flex-col items-center text-center bg-white border rounded-3xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-2 hover:border-red-100 transition-all duration-300 cursor-pointer">
                   {/* Blob Image Mask */}
                   <div 
                     className="w-[85%] mx-auto aspect-[4/3] mb-6 overflow-hidden relative bg-slate-100"
@@ -263,6 +271,7 @@ export function HomeClient({ content, courses, testimonials }: { content: any, c
                   <p className="text-slate-500 font-medium text-sm leading-relaxed mb-4 line-clamp-3">{cDesc}</p>
                   <div className="w-12 h-1 bg-sky-500 rounded-full mx-auto mt-auto" />
                 </motion.div>
+                </Link>
               )})}
             </motion.div>
           </div>

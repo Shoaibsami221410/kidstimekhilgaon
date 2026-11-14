@@ -39,7 +39,9 @@ export function Navbar() {
         const { data, error } = await supabase.auth.getUser()
         
         if (error) {
-          console.error("Auth error:", error)
+          if (error.name !== 'AuthSessionMissingError') {
+            console.error("Auth error:", error)
+          }
           setUser(null)
           setUserData(null)
           return

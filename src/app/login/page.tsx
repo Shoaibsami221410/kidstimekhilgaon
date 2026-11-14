@@ -43,6 +43,8 @@ export default function LoginPage() {
 
     if (userRecord?.role === 'admin' || userRecord?.role === 'super_admin') {
       router.push('/dashboard')
+    } else if (userRecord?.role === 'parent') {
+      router.push('/parent')
     } else {
       // Default to homepage or student portal
       router.push('/')
